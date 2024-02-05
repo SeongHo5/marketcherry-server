@@ -2,15 +2,19 @@
 <configuration scan="true" scanPeriod="30 seconds">
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/myapp.log</file>
+        <file>logs/App.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/myapp.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/App.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%date %highlight(%level) [%thread] %logger{36} [%file:%line] %X{mdcKey} %msg%n</pattern>
-            <immediateFlush>true</immediateFlush>
         </encoder>
+    </appender>
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="FILE"/>
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -20,7 +24,7 @@
     </appender>
 
     <logger name="FILE_LOGGER" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="ASYNC_FILE"/>
     </logger>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
