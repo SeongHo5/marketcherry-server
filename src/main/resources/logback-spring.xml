@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
 
-<!--    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">-->
-<!--        <queueSize>128</queueSize>-->
-<!--        <appender-ref ref="FILE" />-->
-<!--    </appender>-->
-
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/myapp.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -14,6 +9,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>%date %highlight(%level) [%thread] %logger{36} [%file:%line] %X{mdcKey} %msg%n</pattern>
+            <immediateFlush>true</immediateFlush>
         </encoder>
     </appender>
 
@@ -23,10 +19,11 @@
         </encoder>
     </appender>
 
-    <!--  INFO LEVEL까지만 로그 기록  -->
+    <logger name="FILE_LOGGER" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
     <root level="INFO">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
     </root>
 
 
