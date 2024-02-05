@@ -2,15 +2,13 @@ package com.cherrydev.cherrymarketbe.server.application.goods.controller;
 
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsService;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
-import jdk.jfr.ContentType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RestController
@@ -26,6 +24,7 @@ public class GoodsController {
     }
 
     @DeleteMapping("/{goods_id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable("goods_id") final Long goodsId) {
         goodsService.deleteById(goodsId);
         return ResponseEntity.ok().build();

@@ -42,12 +42,12 @@ public class AuthController {
     /**
      * 로그아웃
      */
-    @PostMapping("/logout")
+    @DeleteMapping("/{access_token}")
     @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_SELLER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> signOut(
-            @RequestBody final RequestJwt requestJwt
+            @PathVariable("access_token") final String accessToken
     ) {
-        authService.signOut(requestJwt);
+        authService.signOut(accessToken);
         return ResponseEntity.ok().build();
     }
 

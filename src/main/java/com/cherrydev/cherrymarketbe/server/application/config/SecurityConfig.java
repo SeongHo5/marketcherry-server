@@ -2,13 +2,15 @@ package com.cherrydev.cherrymarketbe.server.application.config;
 
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
-import com.cherrydev.cherrymarketbe.server.application.security.JwtAuthFilter;
 import com.cherrydev.cherrymarketbe.server.application.security.CustomAccessDeniedHandler;
 import com.cherrydev.cherrymarketbe.server.application.security.CustomAuthEntryPoint;
+import com.cherrydev.cherrymarketbe.server.application.security.JwtAuthFilter;
 import com.cherrydev.cherrymarketbe.server.application.security.RateLimitFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,11 +19,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 
 
 @Configuration
@@ -32,6 +34,12 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
+
+    AuthorizationManager<RequestAuthorizationContext> localHostOnly = (auth, context) -> {
+        String ip = context.getRequest().getRemoteAddr();
+        boolean isLocalHost = ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1");
+        return new AuthorizationDecision(isLocalHost);
+    };
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -44,10 +52,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(("/api/**")).permitAll()
+                        .requestMatchers("/prometheus").access(localHostOnly)
                         .anyRequest().denyAll()
                 )
                 .addFilterBefore(new JwtAuthFilter(jwtProvider, redisService),
@@ -77,5 +86,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
 
 }

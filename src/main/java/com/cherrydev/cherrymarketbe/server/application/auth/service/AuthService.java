@@ -62,16 +62,16 @@ public class AuthService {
     /**
      * 로그아웃 처리를 위해 사용자 인증 수단(토큰)을 검증하고, 무효화한다.
      *
-     * @param requestJwt 인증 수단(토큰)
+     * @param accessToken 인증 수단(토큰)
      */
     @Transactional
-    public void signOut(final RequestJwt requestJwt) {
-        jwtProvider.validateToken(requestJwt.accessToken());
+    public void signOut(final String accessToken) {
+        jwtProvider.validateToken(accessToken);
 
-        Claims claims = jwtProvider.getInfoFromToken(requestJwt.accessToken());
+        Claims claims = jwtProvider.getInfoFromToken(accessToken);
         String email = claims.getSubject();
 
-        invalidateToken(email, requestJwt.accessToken());
+        invalidateToken(email, accessToken);
     }
 
     /**

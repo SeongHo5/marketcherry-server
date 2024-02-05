@@ -117,7 +117,7 @@ public class JwtProvider {
             if (redisService.hasKey("JWT:BLACK_LIST:" + token)) {
                 throw new AuthException(BLACKLISTED_TOKEN);
             }
-        } catch (SecurityException | MalformedJwtException e) {
+        } catch (MalformedJwtException e) {
             log.info("유효하지 않은 JWT 서명");
             throw new AuthException(INVALID_AUTH_ERROR);
         } catch (UnsupportedJwtException e) {
