@@ -22,6 +22,7 @@ public class OrderEventListener {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleOrderPlacedEvent(OrderPlacedEvent event) {
+        log.info("OrderPlacedEvent received: {}", event);
         cartService.clearCartItems(event.getCartIds());
     }
 

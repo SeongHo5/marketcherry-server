@@ -49,7 +49,7 @@ public class OrderController {
         );
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Void> createOrder(
             @AuthenticationPrincipal final AccountDetails accountDetails,
             @RequestBody @Valid final RequestCreateOrder request

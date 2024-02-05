@@ -1,6 +1,5 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.entity;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.InsufficientStockException;
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.RequestAddGoods;
@@ -12,8 +11,6 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INSUFFICIENT_STOCK;
 
 @Entity
 @Getter
@@ -123,10 +120,7 @@ public class Goods extends BaseEntity {
     }
 
     public void updateInventory(int requestedQuantity) {
-        if (inventory < requestedQuantity) {
-            throw new InsufficientStockException(INSUFFICIENT_STOCK, this.getCode());
-        }
-        inventory -= requestedQuantity;
+        this.inventory -= requestedQuantity;
     }
 
 }

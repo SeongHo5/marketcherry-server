@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.stream.Collectors;
 
@@ -51,12 +52,11 @@ public class GlobalExceptionHandler {
     }
 
     protected ResponseEntity<ErrorResponse> handleInsufficientStockExceptionInternal(InsufficientStockException ex) {
-        String message = String.format(ex.getMessage(), ex.getGoodsCode());
+        String message = ex.getMessage() + (ex.getGoodsName() != null ? " : " + ex.getGoodsName() : "");
         return ResponseEntity
                 .status(ex.getStatusCode())
                 .body(new ErrorResponse(ex.getStatusCode(), message));
     }
-
 
     /**
      * Parameter Validation 실패 시
@@ -74,6 +74,13 @@ public class GlobalExceptionHandler {
                         %s - %s.
                         """.formatted(fieldError.getField(), fieldError.getDefaultMessage()))
                 .collect(Collectors.joining());
+    }
+
+    @ExceptionHandler({NoResourceFoundException.class})
+    protected ResponseEntity<ErrorResponse> noResourceFoundException(NoResourceFoundException ex) {
+        return ResponseEntity.
+                status(BAD_REQUEST).
+                body(new ErrorResponse(BAD_REQUEST.value(), ex.getMessage()));
     }
 
 }
