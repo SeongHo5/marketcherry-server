@@ -21,7 +21,7 @@ public class ExecutionTimeLoggingAspect {
             long endTime = System.currentTimeMillis();
             long executionTime = endTime - startTime;
             log.info("{}.{} executed in {} ms",
-                    joinPoint.getSignature().getDeclaringTypeName(),
+                    joinPoint.getSignature().getDeclaringType().getSimpleName(),
                     joinPoint.getSignature().getName(),
                     executionTime
             );
