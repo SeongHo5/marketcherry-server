@@ -16,7 +16,7 @@ public class RequestLoggingAspect {
     @Before("execution(* com..*.controller.*.*(..))")
     public void logBeforeRequest() {
         HttpServletRequest request = getCurrentHttpRequest();
-        log.info("Incoming Request: {} {} From {}",
+        log.info("-------- Incoming Request: {} {} From {} --------",
                 request.getMethod(),
                 request.getRequestURI(),
                 request.getRemoteAddr()
