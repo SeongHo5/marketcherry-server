@@ -1,7 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.account.service;
 
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +18,6 @@ public class AccountDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountQueryService.fetchAccountEntity(username);
-        return new AccountDetails(account);
+        return new AccountDetails(accountQueryService.fetchAccountEntity(username));
     }
 }

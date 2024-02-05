@@ -69,32 +69,27 @@ public class JwtProvider {
      */
     public JwtResponse createJwtToken(String email) {
         Authentication authentication = createAuthentication(email);
-
-        String accessToken = createAccessToken(authentication);
-        String refreshToken = createRefreshToken();
-
         return JwtResponse.builder()
                 .grantType(BEARER_PREFIX)
-                .accessToken(accessToken)
+                .accessToken(createAccessToken(authentication))
                 .accessTokenExpiresIn(ACCESS_TOKEN_EXPIRE_TIME.toMillis())
-                .refreshToken(refreshToken)
+                .refreshToken(createRefreshToken())
                 .build();
     }
 
     public String createAccessToken(Authentication authentication) {
-        String authorities = extractAuthorities(authentication);
-        long now = (new Date()).getTime();
+        long now = System.currentTimeMillis();
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME.toMillis());
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(AUTHORIZATION_KEY, authorities)
+                .claim(AUTHORIZATION_KEY, extractAuthorities(authentication))
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, signatureAlgorithm)
                 .compact();
     }
     public String createRefreshToken() {
-        long now = (new Date()).getTime();
+        long now = System.currentTimeMillis();
         Date refreshTokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME.toMillis());
 
         return Jwts.builder()
@@ -131,18 +126,6 @@ public class JwtProvider {
             throw new AuthException(EXPIRED_TOKEN);
         }
     }
-    public Long getExpiration(String token) {
-        long expiration = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration().getTime();
-        LocalDateTime origin = LocalDateTime.of(1970, 1, 1, 0, 0);
-        long now = origin.until(LocalDateTime.now(), ChronoUnit.MILLIS);
-        return now - expiration;
-    }
-
     /**
      * 토큰을 parsing하여 사용자 정보를 반환한다.
      * @param token 액세스 토큰
@@ -168,7 +151,8 @@ public class JwtProvider {
 
     // =============== PRIVATE METHODS =============== //
     private String extractAuthorities(Authentication authentication) {
-        return authentication.getAuthorities().stream()
+        return authentication.getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
     }

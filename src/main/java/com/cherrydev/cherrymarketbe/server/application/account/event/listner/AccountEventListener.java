@@ -7,7 +7,10 @@ import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAd
 import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -22,6 +25,8 @@ public class AccountEventListener {
     private final RewardService rewardService;
     private final CouponManagementService couponManagementService;
 
+    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onAccountRegistration(AccountRegistrationEvent event) {
 

@@ -48,11 +48,10 @@ public class AuthService {
             final RequestSignIn requestSignIn
     ) {
         String email = requestSignIn.email();
-        String requestedPassword = requestSignIn.password();
         Account account = accountQueryService.fetchAccountEntity(email);
 
         authValidator.checkUserStatusByEmail(account);
-        authValidator.checkPasswordIsCorrect(requestedPassword, account);
+        authValidator.checkPasswordIsCorrect(requestSignIn.password(), account.getPassword());
 
         JwtResponse jwtResponse = jwtProvider.createJwtToken(email);
         redisService.setDataExpire(email, jwtResponse.refreshToken(), REFRESH_TOKEN_EXPIRE_TIME);

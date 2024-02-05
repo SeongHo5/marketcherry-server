@@ -46,8 +46,8 @@ public class AuthValidator {
     /**
      * 요청된 비밀번호와 계정의 비밀번호가 일치하는지 검증한다.
      */
-    protected void checkPasswordIsCorrect(String requestedPassword, Account account) {
-        if (!passwordEncoder.matches(requestedPassword, account.getPassword())) {
+    protected void checkPasswordIsCorrect(String requestedPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(requestedPassword, encodedPassword)) {
             throw new AuthException(INVALID_ID_OR_PW);
         }
     }
