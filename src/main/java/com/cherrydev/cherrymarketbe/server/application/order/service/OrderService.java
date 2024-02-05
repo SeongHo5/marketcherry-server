@@ -87,12 +87,11 @@ public class OrderService {
                 .toList();
 
         boolean isAllGoodsAvailable = validCartItems.size() == cartItems.size();
-
         if (isAllGoodsAvailable) {
             Orders orders = Orders.of(accountDetails.getAccount(), request.orderName());
             goodsService.updateGoodsInventory(validCartItems);
             orders.setDeliveryDetail(DeliveryDetail.of(orders, request));
-            orders.setOrderDetails(cartItems.stream().map(cart -> OrderDetail.of(orders, cart)).toList());
+            orders.setOrderDetails(validCartItems.stream().map(cart -> OrderDetail.of(orders, cart)).toList());
             return orders;
         } else {
             throw new ServiceFailedException(GOODS_NOT_AVAILABLE);
