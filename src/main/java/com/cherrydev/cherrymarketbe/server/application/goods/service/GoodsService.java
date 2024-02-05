@@ -3,8 +3,10 @@ package com.cherrydev.cherrymarketbe.server.application.goods.service;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.InsufficientStockException;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
+import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsSearchConditions;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
+import com.cherrydev.cherrymarketbe.server.infrastructure.repository.goods.CustomGoodsRepository;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.goods.GoodsRepository;
 import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +26,16 @@ import static com.cherrydev.cherrymarketbe.server.application.aop.exception.Exce
 import static com.cherrydev.cherrymarketbe.server.domain.goods.enums.SalesStatus.ON_SALE;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class GoodsService {
 
     private final GoodsRepository goodsRepository;
+    private final CustomGoodsRepository customGoodsRepository;
     private final GoodsValidator goodsValidator;
 
-    public Page<GoodsInfo> findAll(final Pageable pageable) {
-        List<GoodsInfo> goodsList = goodsRepository.findAll()
+    @Transactional(readOnly = true)
+    public Page<GoodsInfo> fetchGoodsByConditions(Pageable pageable, GoodsSearchConditions conditions) {
+        List<GoodsInfo> goodsList = customGoodsRepository.findByConditions(pageable, conditions)
                 .stream()
                 .map(goods -> GoodsInfo.of(goods, goods.getDiscount()))
                 .toList();

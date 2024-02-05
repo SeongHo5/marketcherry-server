@@ -11,6 +11,7 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.SQLSelect;
 
 @Entity
 @Getter
@@ -21,6 +22,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "GOODS", uniqueConstraints = {
         @UniqueConstraint(name = "GOODS_CODE_UNIQUE", columnNames = {"GOODS_CODE"})
 })
+@SQLSelect(sql = "SELECT * FROM GOODS WHERE GOODS_SEL_STTUS = 'ON_SALE'")
 public class Goods extends BaseEntity {
 
     @Id
