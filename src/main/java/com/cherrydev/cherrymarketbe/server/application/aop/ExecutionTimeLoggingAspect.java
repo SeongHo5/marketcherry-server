@@ -5,26 +5,26 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 
 @Aspect
 @Slf4j(topic = "executionTimeLogger")
 @Component
 public class ExecutionTimeLoggingAspect {
 
-    @Around("execution(* com..controller.*.*(..))")
+    @Around("execution(* com.cherrydev.cherrymarketbe..service..*.*(..)) " +
+            "|| execution(* com.cherrydev.cherrymarketbe..controller..*.*(..))")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        StopWatch stopWatch = new StopWatch();
-        String methodSignature = joinPoint.getSignature().getName();
+        long startTime = System.currentTimeMillis();
         try {
-            stopWatch.start();
             return joinPoint.proceed();
-        } catch (Throwable throwable) {
-            log.error("Exception occurred while measuring execution time of method: {}", methodSignature);
-            throw throwable;
         } finally {
-            stopWatch.stop();
-            log.info("{} 실행 시간 : {} ms", methodSignature, stopWatch.getTotalTimeMillis());
+            long endTime = System.currentTimeMillis();
+            long executionTime = endTime - startTime;
+            log.info("{}.{} executed in {} ms",
+                    joinPoint.getSignature().getDeclaringTypeName(),
+                    joinPoint.getSignature().getName(),
+                    executionTime
+            );
         }
     }
 }
