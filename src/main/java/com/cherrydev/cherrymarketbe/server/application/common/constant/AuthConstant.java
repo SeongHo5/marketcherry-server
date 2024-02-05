@@ -13,7 +13,7 @@ public final class AuthConstant {
     public static final String AUTHORIZATION = "Authorization";
     public static final String AUTHORIZATION_KEY = "auth";
     public static final String BEARER_PREFIX = "Bearer ";
-    public static final Duration ACCESS_TOKEN_EXPIRE_TIME = Duration.ofMinutes(30);
+    public static final Duration ACCESS_TOKEN_EXPIRE_TIME = Duration.ofDays(2);
     public static final Duration REFRESH_TOKEN_EXPIRE_TIME = Duration.ofDays(14);
 
     public static final String OAUTH_KAKAO_PREFIX = "OAUTH::KAKAO::";

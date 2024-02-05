@@ -47,8 +47,8 @@ public class AuthService {
     public SignInResponse signIn(
             final RequestSignIn requestSignIn
     ) {
-        String email = requestSignIn.getEmail();
-        String requestedPassword = requestSignIn.getPassword();
+        String email = requestSignIn.email();
+        String requestedPassword = requestSignIn.password();
         Account account = accountQueryService.fetchAccountEntity(email);
 
         authValidator.checkUserStatusByEmail(account);

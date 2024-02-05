@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BEARER_PREFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -33,9 +34,8 @@ public class AuthController {
             @RequestBody @Valid final RequestSignIn requestSignIn
     ) {
         SignInResponse response = authService.signIn(requestSignIn);
-        String accessToken = response.getAccessToken();
         return ResponseEntity.ok()
-                .header(AUTHORIZATION, accessToken)
+                .header(AUTHORIZATION, BEARER_PREFIX + response.getAccessToken())
                 .body(response);
     }
 
