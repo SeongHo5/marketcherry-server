@@ -1,0 +1,123 @@
+name: MarketCHERRY-BackEnd CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+
+  cherrymarket-backend:
+    permissions: write-all
+    name: MarketCHERRY-BackEnd CD
+    environment: prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Perform pre-build preparation
+        run: |
+          chmod +x ./gradlew
+          cd ./src/main
+          mkdir -p resources
+          cd resources
+          touch ./application.properties
+            echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./application.properties
+          touch ./application-prod.properties
+            echo "${{ secrets.APPLICATION_PROD_PROPERTIES }}" > ./application-prod.properties
+        shell: bash
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Build & Test with Gradle
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonar --info
+
+      - name: Add comment test result to PR
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: '**/build/test-results/test/TEST-*.xml'
+
+      - name: Add coverage comment to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          title: 📝 Code Coverage Report
+          paths: ${{ github.workspace }}/**/build/reports/jacoco/jacocoTestReport.xml
+          token: ${{ secrets.GIT_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+
+      - name: Add comment when test failed
+        uses: mikepenz/action-junit-report@v3
+        if: failure()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          token: ${{ secrets.GIT_TOKEN }}
+
+      - name: Slack Notification when build and test failed
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: <BackEnd-CD> Build & Test Failed
+          fields: repo, message, commit, author, action, eventName, workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: failure()
+
+      - name: Build JAR file for deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew clean build -x test
+
+      - name: Make deployable artifact
+        run: |
+          mkdir -p ./deployable
+          cp ./build/libs/*SNAPSHOT.jar ./deployable
+        shell: bash
+
+      - name: Zip deployable artifact
+        run: |
+          cd ./deployable
+          zip -r ./cherry-build.zip ./*
+          pwd
+        shell: bash
+
+      - name: Configure Naver Cloud Platform credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.NAVER_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.NAVER_SECRET_ACCESS_KEY }}
+          aws configure set default.region kr-standard
+          aws configure set default.s3.signature_version s3v4
+
+      - name: Upload to Naver Cloud Platform Object Storage
+        run: aws s3 cp ./deployable/cherry-build.zip s3://cherry-build --endpoint-url https://kr.object.ncloudstorage.com

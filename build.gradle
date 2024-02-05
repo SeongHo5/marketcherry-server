@@ -1,0 +1,158 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.graalvm.buildtools.native' version '0.9.28'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id("com.epages.restdocs-api-spec") version "0.19.0"
+    id "org.sonarqube" version "4.4.1.3373"
+    id 'jacoco'
+}
+
+group = 'com.cherrydev'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = '17'
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            includes = ['com.cherrydev.*']
+        }
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "devcherry_cherrymarket"
+        property "sonar.organization", "devcherry"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
+openapi3 {
+    server {
+        url = 'https://server.marketcherry.store'
+        description = 'Production server'
+    }
+    title = '[Cherry Market] API Docs'
+    description = '네이버 클라우드 캠프 3기 프로젝트 Cherry Market의 API Docs입니다.'
+    version = '0.0.1-SNAPSHOT'
+    format = 'yaml'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'log4j', module: 'log4j'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+    // SPRING BOOT
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
+
+    // SPRING BOOT DEV
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // SPRING BOOT ACTUATOR & METRICS
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // LOMBOK
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // SPRING DATA
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // QUERY DSL
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+
+    // JSON
+    implementation group: 'org.json', name: 'json', version: '20230227'
+
+    // JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    // MAIL & TEMPLATE
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'com.j2html:j2html:1.4.0'
+
+    // AWS-SDK-S3
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.112'
+
+    // TEST
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.redis:testcontainers-redis:2.0.1'
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.0'
+    testImplementation("org.junit.platform:junit-platform-launcher:1.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+    testImplementation 'org.projectlombok:lombok'
+    testImplementation 'org.assertj:assertj-core:3.19.0'
+
+    // API DOCS
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.19.0'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+}
+
+// For Test Coverage Report with Jacoco
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+    finalizedBy('jacocoTestReport')
+}
+
+tasks.named('asciidoctor') {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+// For Swagger UI
+tasks.register('copyOasToSwagger', Copy) {
+    delete 'src/main/resources/static/swagger-ui/openapi3.yaml'
+    from "$buildDir/api-spec/openapi3.yaml"
+    into 'src/main/resources/static/swagger-ui/'
+    dependsOn 'openapi3'
+}
+

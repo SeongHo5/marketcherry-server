@@ -1,0 +1,25 @@
+package com.cherrydev.cherrymarketbe.server.domain.order.dto.responses;
+
+import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
+import lombok.Builder;
+
+@Builder
+public record AmountDetailsInfo(
+        Long totalAmount,
+        Long discountedAmount,
+        Long couponUsed,
+        Long rewardUsed,
+        Long deliveryCost,
+        String paymentMethods
+) {
+    public static AmountDetailsInfo of(PaymentDetail paymentDetail) {
+        return AmountDetailsInfo.builder()
+                .totalAmount(paymentDetail.getTotalAmount())
+                .discountedAmount(paymentDetail.getDiscountedAmount())
+                .couponUsed(paymentDetail.getCouponUsed())
+                .rewardUsed(paymentDetail.getRewardUsed())
+                .deliveryCost(paymentDetail.getDeliveryCost())
+                .paymentMethods(paymentDetail.getPaymentMethods())
+                .build();
+    }
+}
