@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_CART;
 
@@ -34,13 +35,15 @@ public class CartService {
     public void addToCart(final AccountDetails accountDetails, final String goodsCode) {
         Account account = accountDetails.getAccount();
         Goods goods = goodsService.fetchGoodsEntity(goodsCode);
-        Cart cart = cartRepository.findByAccountAndGoods(account, goods)
-                .orElseGet(() ->
-                {
-                    goodsValidator.validateGoodsBeforeAddToCart(goods);
-                    return cartRepository.save(Cart.of(account, goods));
-                });
-        cart.increaseQuantity();
+        Optional<Cart> cart = cartRepository.findByAccountAndGoods(account, goods);
+        // 장바구니에 상품이 존재하는 경우, 수량을 증가시킨다.
+        if (cart.isPresent()) {
+            cart.get().increaseQuantity();
+            return;
+        }
+        // 장바구니에 상품이 없으면, 새로 추가한다.
+        goodsValidator.validateGoodsBeforeAddToCart(goods);
+        cartRepository.save(Cart.of(account, goods));
     }
 
     @Transactional
