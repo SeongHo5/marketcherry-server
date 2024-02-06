@@ -63,11 +63,10 @@ public class OrderController {
      */
     @PostMapping("/{order_code}/process")
     public void processOrder(
-            @AuthenticationPrincipal AccountDetails accountDetails,
             @RequestParam final String tossPaymentKey,
             @PathVariable("order_code") final String orderCode
     ) {
-        orderService.processOrder(accountDetails, tossPaymentKey, orderCode);
+        orderService.processOrder(tossPaymentKey, orderCode);
     }
 
 
