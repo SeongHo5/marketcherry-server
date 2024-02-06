@@ -3,7 +3,9 @@ package com.cherrydev.cherrymarketbe.server.application.account.service;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
+import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.AccountSearchConditions;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.AccountRepository;
+import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.CustomAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +18,15 @@ import static com.cherrydev.cherrymarketbe.server.application.aop.exception.Exce
 public class AccountQueryService {
 
     private final AccountRepository accountRepository;
+    private final CustomAccountRepository customAccountRepository;
 
     public Account fetchAccountEntity(final String email) {
         return accountRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_ACCOUNT));
     }
 
-    public Page<Account> fetchAllAccountEntities(Pageable pageable) {
-        return accountRepository.findAll(pageable);
+    public Page<Account> findByConditions(Pageable pageable, AccountSearchConditions conditions) {
+        return customAccountRepository.findByConditions(pageable, conditions);
     }
 
 
