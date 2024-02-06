@@ -62,6 +62,7 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         }
         return null;
     }
+
     @Nullable
     private BooleanExpression categoryIdEquals(Long categoryId) {
         if (categoryId != null) {
@@ -69,6 +70,7 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         }
         return null;
     }
+
     @Nullable
     private BooleanExpression makerIdEquals(Long makerId) {
         if (makerId != null) {
@@ -76,12 +78,17 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         }
         return null;
     }
+
     @Nullable
-    private BooleanExpression filterOnlyDiscountedItems(boolean isOnDiscount) {
-        return isOnDiscount
-                ? qGoods.discount.isNotNull()
-                : null;
+    private BooleanExpression filterOnlyDiscountedItems(Boolean isOnDiscount) {
+        if (isOnDiscount != null) {
+            return isOnDiscount
+                    ? qGoods.discount.isNotNull()
+                    : null;
+        }
+        return null;
     }
+
     private OrderSpecifier<?> determineOrderSpecification(String sort) {
 
         if (GoodsSortType.NEWEST.isEquals(sort)) {

@@ -42,7 +42,9 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
         // totalCount 계산
-        Long totalCount = jpaQueryFactory.select(qAccount.count())
+        Long totalCount = jpaQueryFactory
+                .select(qAccount.count())
+                .from(qAccount)
                 .where(
                         emailContainsIgnoreCase(conditions.email()),
                         nameContainsIgnoreCase(conditions.name()),
