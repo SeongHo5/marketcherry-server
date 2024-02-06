@@ -39,7 +39,6 @@ dependencies {
 
     // SPRING BOOT ACTUATOR & METRICS
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     // LOMBOK
     compileOnly 'org.projectlombok:lombok'
@@ -47,8 +46,9 @@ dependencies {
 
     // SPRING DATA
     runtimeOnly 'com.mysql:mysql-connector-j'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.redisson:redisson-spring-boot-starter:3.24.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // QUERY DSL
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'

@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.config;
+package com.cherrydev.cherrymarketbe.server.application.config.redis;
 
 import lombok.Getter;
 import lombok.Setter;

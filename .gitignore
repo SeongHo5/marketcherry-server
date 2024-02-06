@@ -52,3 +52,4 @@ out/
 .jpb
 /grafana
 /prometheus
+/redis

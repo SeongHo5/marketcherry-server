@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionTimeLoggingAspect {
 
-    @Around("execution(* com.cherrydev.cherrymarketbe..service..*.*(..)) " +
-            "|| execution(* com.cherrydev.cherrymarketbe..controller..*.*(..))")
+    @Around("execution(* com.cherrydev.cherrymarketbe..controller..*.*(..))")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         try {
@@ -20,11 +19,13 @@ public class ExecutionTimeLoggingAspect {
         } finally {
             long endTime = System.currentTimeMillis();
             long executionTime = endTime - startTime;
-            log.info("{}.{} executed in {} ms",
-                    joinPoint.getSignature().getDeclaringType().getSimpleName(),
-                    joinPoint.getSignature().getName(),
-                    executionTime
-            );
+            if (executionTime > 500) {
+                log.info("{}.{} executed in {} ms",
+                        joinPoint.getSignature().getDeclaringType().getSimpleName(),
+                        joinPoint.getSignature().getName(),
+                        executionTime
+                );
+            }
         }
     }
 }

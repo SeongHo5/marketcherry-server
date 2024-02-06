@@ -1,9 +1,11 @@
-package com.cherrydev.cherrymarketbe.server.application.config;
+package com.cherrydev.cherrymarketbe.server.application.config.redis;
 
 import lombok.RequiredArgsConstructor;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,21 +19,27 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @RequiredArgsConstructor
 public class RedisConfig {
 
+    public static final String REDISSON_HOST_PREFIX = "redis://";
+
     private final RedisProperties redisProperties;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         String host = redisProperties.getHost();
         int port = redisProperties.getPort();
-        String password = redisProperties.getPassword();
-
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port );
-
-        if (password != null && !password.isEmpty()) {
-            redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
-        }
-
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
+    }
+
+    @Bean
+    public RedissonClient redissonClient() {
+        Config config = new Config();
+        String address = REDISSON_HOST_PREFIX + redisProperties.getHost() + ":" + redisProperties.getPort();
+        config.useSingleServer()
+                .setDatabase(1)
+                .setAddress(address);
+
+        return Redisson.create(config);
     }
 
     @Bean
