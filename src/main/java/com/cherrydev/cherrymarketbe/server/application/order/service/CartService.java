@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_CART;
 
@@ -26,7 +27,7 @@ public class CartService {
     private final GoodsValidator goodsValidator;
 
     @Transactional(readOnly = true)
-    public List<Cart> fetchCartItems(final AccountDetails accountDetails) {
+    public Optional<List<Cart>> fetchCartItems(final AccountDetails accountDetails) {
         return cartRepository.findAllByAccount(accountDetails.getAccount());
     }
 

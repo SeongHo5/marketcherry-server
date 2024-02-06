@@ -36,7 +36,7 @@ public enum ExceptionStatus {
     // 404 - Not Found : 잘못된 리소스 접근
     NOT_FOUND_ACCOUNT(404, "존재하지 않는 계정입니다."),
     NOT_FOUND_CREDIT(404, "적립 내역이 존재하지 않습니다."),
-    NOT_FOUND_CART(404, "장바구니가 존재하지 않습니다."),
+    NOT_FOUND_CART(404, "장바구니에 담긴 상품이 존재하지 않습니다."),
     NOT_FOUND_GOODS(404, "존재 하지 않는 상품입니다."),
     NOT_FOUND_ORDER(404, "주문이 존재하지 않습니다."),
     NOT_FOUND_ADDRESS(404, "배송지 정보를 찾을 수 없습니다."),

@@ -67,7 +67,8 @@ public class OrderService {
             final AccountDetails accountDetails,
             final RequestCreateOrder request
     ) {
-        List<Cart> cartItems = cartService.fetchCartItems(accountDetails);
+        List<Cart> cartItems = cartService.fetchCartItems(accountDetails)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_ORDER));
         Orders orders = handleCreateOrderInternal(accountDetails, request, cartItems);
         ordersRepository.save(orders);
         eventPublisher.publishEvent(new OrderPlacedEvent(this, cartItems.stream().map(Cart::getId).toList()));
