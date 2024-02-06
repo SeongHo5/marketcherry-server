@@ -3,7 +3,6 @@ package com.cherrydev.cherrymarketbe.server.application.aop;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ApplicationException;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.InsufficientStockException;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.ErrorResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,7 +24,6 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
  * <i>요청, 예외에 대한 로깅은 AOP로 처리, 이곳에서는 예외 처리만 구성</i>
  */
 @RestControllerAdvice
-@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
     public static final String ERROR_MESSAGE_500 = "서버 내부 오류가 발생했습니다. 관리자에게 문의하세요.";
@@ -34,23 +32,17 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleAllUncaughtException(Exception ex) {
         return ResponseEntity.
                 status(INTERNAL_SERVER_ERROR).
-                body(new ErrorResponse(INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE_500));
+                body(new ErrorResponse(INTERNAL_SERVER_ERROR.value(), ERROR_MESSAGE_500 + " : " + ex.getLocalizedMessage()));
     }
 
     @ExceptionHandler({ApplicationException.class})
     protected ResponseEntity<ErrorResponse> applicationException(ApplicationException ex) {
-        if (ex instanceof InsufficientStockException stockException) {
-            return handleInsufficientStockExceptionInternal(stockException);
-        }
-        return handleApplicationExceptionInternal(ex);
-    }
-
-    protected ResponseEntity<ErrorResponse> handleApplicationExceptionInternal(ApplicationException ex) {
         return ResponseEntity
                 .status(ex.getStatusCode())
                 .body(new ErrorResponse(ex.getStatusCode(), ex.getMessage()));
     }
 
+    @ExceptionHandler({InsufficientStockException.class})
     protected ResponseEntity<ErrorResponse> handleInsufficientStockExceptionInternal(InsufficientStockException ex) {
         String message = ex.getMessage() + (ex.getGoodsName() != null ? " : " + ex.getGoodsName() : "");
         return ResponseEntity

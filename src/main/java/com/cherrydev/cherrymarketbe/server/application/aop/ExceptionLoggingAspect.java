@@ -6,6 +6,9 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 @Aspect
 @Component
 @Slf4j(topic = "exceptionLogger")
@@ -17,10 +20,14 @@ public class ExceptionLoggingAspect {
     }
 
     private void handleExceptionInternal(JoinPoint joinPoint, Throwable ex) {
-        log.error("Resolved Exception: {} - Reason: {} / FROM {}",
+        StringWriter sw = new StringWriter();
+        ex.printStackTrace(new PrintWriter(sw));
+        String exceptionAsString = sw.toString();
+        log.error("Resolved Exception: {} - Reason: {} / FROM {} / StackTrace: {}",
                 ex.getClass().getSimpleName(),
                 ex.getMessage(),
-                joinPoint.getSignature().toShortString()
+                joinPoint.getSignature().toShortString(),
+                exceptionAsString
         );
     }
 
