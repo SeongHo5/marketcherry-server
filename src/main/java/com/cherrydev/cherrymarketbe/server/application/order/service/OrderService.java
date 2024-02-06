@@ -104,7 +104,6 @@ public class OrderService {
 
     @Transactional
     public void processOrder(
-            AccountDetails accountDetails,
             final String tossPaymentKey,
             final String orderCode
     ) {

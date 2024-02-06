@@ -5,6 +5,7 @@ import com.cherrydev.cherrymarketbe.server.application.aop.exception.Insufficien
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,8 +13,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 
 /**
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
      * Parameter Validation 실패 시
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    protected ResponseEntity<ErrorResponse> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    protected ResponseEntity<ErrorResponse> handleArgumentNotValidException(MethodArgumentNotValidException ex) {
         return ResponseEntity.
                 status(BAD_REQUEST).
                 body(new ErrorResponse(BAD_REQUEST.value(), generateValidationErrorDetails(ex.getBindingResult())));
@@ -73,6 +73,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.
                 status(BAD_REQUEST).
                 body(new ErrorResponse(BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
+    protected ResponseEntity<ErrorResponse> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        String message = "지원하지 않는 메서드입니다. Expected: " + ex.getSupportedHttpMethods() + " Actual : " + ex.getMethod();
+        return ResponseEntity.
+                status(METHOD_NOT_ALLOWED).
+                body(new ErrorResponse(METHOD_NOT_ALLOWED.value(), message));
     }
 
 }
