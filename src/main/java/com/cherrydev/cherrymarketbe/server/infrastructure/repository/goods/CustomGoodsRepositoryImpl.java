@@ -44,6 +44,7 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
 
         Long totalCount = jpaQueryFactory
                 .select(qGoods.count())
+                .from(qGoods)
                 .where(
                         nameContainsIgnoreCase(conditions.goodsName()),
                         categoryIdEquals(conditions.categoryId()),
