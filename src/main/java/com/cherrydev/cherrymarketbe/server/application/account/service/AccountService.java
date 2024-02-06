@@ -80,17 +80,17 @@ public class AccountService {
     ) {
         Account account = accountDetails.getAccount();
 
-        if (requestDto.getPassword() != null) {
-            String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        if (requestDto.password() != null) {
+            String encodedPassword = passwordEncoder.encode(requestDto.password());
             account.updatePassword(encodedPassword);
         }
 
-        if (requestDto.getContact() != null) {
-            account.updateContact(requestDto.getContact());
+        if (requestDto.contact() != null) {
+            account.updateContact(requestDto.contact());
         }
 
-        if (requestDto.getBirthdate() != null) {
-            LocalDate birthdate = LocalDate.parse(requestDto.getBirthdate());
+        if (requestDto.birthdate() != null) {
+            LocalDate birthdate = LocalDate.parse(requestDto.birthdate());
             account.updateBirthdate(birthdate);
         }
 

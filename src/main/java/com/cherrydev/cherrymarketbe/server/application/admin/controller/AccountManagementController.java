@@ -3,6 +3,7 @@ package com.cherrydev.cherrymarketbe.server.application.admin.controller;
 import com.cherrydev.cherrymarketbe.server.application.admin.service.AccountManagementService;
 import com.cherrydev.cherrymarketbe.server.application.customer.service.CouponManagementService;
 import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
+import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.AccountSearchConditions;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.IssueCoupon;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserRole;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserStatus;
@@ -12,7 +13,6 @@ import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAd
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +35,18 @@ public class AccountManagementController {
      * @param pageable 페이징 정보(page, size)
      */
     @GetMapping("/accounts")
-    public ResponseEntity<Page<AdminUserInfo>> fetchAllAccounts(final Pageable pageable) {
-        Page<AdminUserInfo> response = accountManagementService.getAllAcounts(pageable);
+    public ResponseEntity<Page<AdminUserInfo>> fetchGoodsByConditions(
+            Pageable pageable,
+            @RequestParam(value = "email", required = false) final String email,
+            @RequestParam(value = "name", required = false) final String name,
+            @RequestParam(value = "gender", required = false) final String gender,
+            @RequestParam(value = "registerType", required = false) final String registerType,
+            @RequestParam(value = "status", required = false) final String status,
+            @RequestParam(value = "role", required = false) final String role,
+            @RequestParam(value = "sort", required = false) final String sort
+    ) {
+        AccountSearchConditions conditions = new AccountSearchConditions(email, name, gender, registerType, status, role, sort);
+        Page<AdminUserInfo> response = accountManagementService.fetchGoodsByConditions(pageable, conditions);
         return ResponseEntity.ok()
                 .header(PAGE_TOTAL_HEADER, String.valueOf(response.getTotalPages()))
                 .body(response);
@@ -46,7 +56,6 @@ public class AccountManagementController {
      * 계정 권한 변경
      */
     @PatchMapping("/account/role")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> modifyAccountRole(
             @RequestBody final ModifyUserRole roleRequestDto
     ) {
@@ -85,7 +94,6 @@ public class AccountManagementController {
      * @param issueCoupon 발행할 쿠폰 정보
      */
     @PostMapping("/coupons")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> issueCoupon(
             @RequestBody final IssueCoupon issueCoupon
     ) {
@@ -101,7 +109,7 @@ public class AccountManagementController {
      */
     @GetMapping("/coupons")
     public ResponseEntity<Page<CouponInfo>> searchCoupons(
-            final Pageable pageable
+            Pageable pageable
     ) {
         Page<CouponInfo> response = couponManagementService.getAllCoupons(pageable);
         return ResponseEntity.ok()

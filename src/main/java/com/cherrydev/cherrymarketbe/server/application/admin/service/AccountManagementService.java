@@ -3,6 +3,7 @@ package com.cherrydev.cherrymarketbe.server.application.admin.service;
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.AccountSearchConditions;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserRole;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserStatus;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.response.AdminUserInfo;
@@ -28,10 +29,11 @@ public class AccountManagementService {
     private final AccountQueryService accountQueryService;
 
     @Transactional(readOnly = true)
-    public Page<AdminUserInfo> getAllAcounts(
-            final Pageable pageable
-    ) {
-        return accountQueryService.fetchAllAccountEntities(pageable)
+    public Page<AdminUserInfo> fetchGoodsByConditions(
+            Pageable pageable,
+            final AccountSearchConditions conditions
+            ) {
+        return accountQueryService.findByConditions(pageable, conditions)
                 .map(AdminUserInfo::of);
     }
 
