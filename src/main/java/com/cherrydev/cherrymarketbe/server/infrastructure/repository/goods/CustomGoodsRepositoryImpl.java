@@ -55,32 +55,28 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         return new PageImpl<>(result, pageable, totalCount);
     }
 
-    @Nullable
-    private BooleanExpression nameContainsIgnoreCase(String name) {
+    private BooleanExpression nameContainsIgnoreCase(@Nullable String name) {
         if (StringUtils.hasText(name)) {
             return qGoods.name.containsIgnoreCase(name);
         }
         return null;
     }
 
-    @Nullable
-    private BooleanExpression categoryIdEquals(Long categoryId) {
+    private BooleanExpression categoryIdEquals(@Nullable Long categoryId) {
         if (categoryId != null) {
             return qGoods.category.id.eq(categoryId);
         }
         return null;
     }
 
-    @Nullable
-    private BooleanExpression makerIdEquals(Long makerId) {
+    private BooleanExpression makerIdEquals(@Nullable Long makerId) {
         if (makerId != null) {
             return qGoods.maker.id.eq(makerId);
         }
         return null;
     }
 
-    @Nullable
-    private BooleanExpression filterOnlyDiscountedItems(Boolean isOnDiscount) {
+    private BooleanExpression filterOnlyDiscountedItems(@Nullable Boolean isOnDiscount) {
         if (isOnDiscount != null) {
             return isOnDiscount
                     ? qGoods.discount.isNotNull()
@@ -89,24 +85,24 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         return null;
     }
 
-    private OrderSpecifier<?> determineOrderSpecification(String sort) {
-
-        if (GoodsSortType.NEWEST.isEquals(sort)) {
-            return qGoods.createdAt.asc();
-        }
-
-        if (GoodsSortType.OLDEST.isEquals(sort)) {
-            return qGoods.createdAt.desc();
-        }
-
-        if (GoodsSortType.PRICE_ASC.isEquals(sort)) {
-            return qGoods.price.asc();
-        }
-
-        if (GoodsSortType.PRICE_DESC.isEquals(sort)) {
-            return qGoods.price.desc();
-        }
+    private OrderSpecifier<?> determineOrderSpecification(@Nullable String sort) {
         // 기본 정렬은 최신 등록 순
-        return qGoods.createdAt.asc();
+        OrderSpecifier<?> defaultOrder = qGoods.createdAt.asc();
+
+        if (sort != null) {
+            if (GoodsSortType.NEWEST.isEquals(sort)) {
+                return qGoods.createdAt.asc();
+            }
+            if (GoodsSortType.OLDEST.isEquals(sort)) {
+                return qGoods.createdAt.desc();
+            }
+            if (GoodsSortType.PRICE_ASC.isEquals(sort)) {
+                return qGoods.price.asc();
+            }
+            if (GoodsSortType.PRICE_DESC.isEquals(sort)) {
+                return qGoods.price.desc();
+            }
+        }
+        return defaultOrder;
     }
 }
