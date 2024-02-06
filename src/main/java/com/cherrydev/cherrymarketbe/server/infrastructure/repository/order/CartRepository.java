@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    Optional<List<Cart>> findAllByAccount(Account account);
+    List<Cart> findAllByAccount(Account account);
 
     Optional<Cart> findByIdAndAccount(Long id, Account account);
 

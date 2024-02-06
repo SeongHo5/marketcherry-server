@@ -31,7 +31,7 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "ACNT_ID", nullable = false)
     private Account account;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "GOODS_ID", nullable = false)
     private Goods goods;
 
