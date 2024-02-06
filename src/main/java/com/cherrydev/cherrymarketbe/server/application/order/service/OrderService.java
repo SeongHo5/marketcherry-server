@@ -82,7 +82,7 @@ public class OrderService {
             RequestCreateOrder request,
             List<Cart> cartItems
     ) {
-//         장바구니에 담긴 상품들이 판매중이고, 재고가 있는지 확인
+        // 장바구니에 담긴 상품들이 판매중이고, 재고가 있는지 확인
         List<Cart> availableCartItems = cartItems.stream()
                 .filter(cart -> cart.getGoods().getSalesStatus().isOnSale())
                 .toList();

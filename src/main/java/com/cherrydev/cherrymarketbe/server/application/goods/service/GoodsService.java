@@ -41,7 +41,6 @@ public class GoodsService {
                 .toList();
         return new PageImpl<>(goodsList, pageable, goodsList.size());
     }
-
     @Transactional
     public void deleteById(Long goodsId) {
         Goods goods = goodsRepository.findById(goodsId)
@@ -56,22 +55,20 @@ public class GoodsService {
         cartItems.forEach(cartItem -> {
             Goods goods = cartItem.getGoods();
             int requestedQuantity = cartItem.getQuantity();
-            if (goods.getInventory() < requestedQuantity) {
-                throw new InsufficientStockException(INSUFFICIENT_STOCK, goods.getName());
-            }
-
             handleUpdateInventoryInternal(goods, requestedQuantity);
         });
+    }
+
+    private void handleUpdateInventoryInternal(Goods goods, int requestedQuantity) {
+        if (goods.getInventory() < requestedQuantity) {
+            throw new InsufficientStockException(INSUFFICIENT_STOCK, goods.getName());
+        }
+        goods.updateInventory(requestedQuantity);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public Goods fetchGoodsEntity(String goodsCode) {
         return goodsRepository.findByCode(goodsCode)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_GOODS));
-    }
-
-    private void handleUpdateInventoryInternal(Goods goods, int requestedQuantity) {
-        goods.updateInventory(requestedQuantity);
-
     }
 }
