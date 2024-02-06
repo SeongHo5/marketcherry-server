@@ -10,7 +10,7 @@ public class OrderPlacedEvent extends ApplicationEvent {
 
     private final List<Long> cartIds;
 
-    // 주문 Create가 성공했을 때, Cart에 있던 아이템을 모두 지운다.
+    // 주문 생성에 성공했을 때, 장바구니에 있던 아이템을 모두 지운다.
 
     public OrderPlacedEvent(Object source, List<Long> cartIds) {
         super(source);

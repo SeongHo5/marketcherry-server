@@ -22,7 +22,6 @@ import org.hibernate.annotations.SQLSelect;
 @Table(name = "GOODS", uniqueConstraints = {
         @UniqueConstraint(name = "GOODS_CODE_UNIQUE", columnNames = {"GOODS_CODE"})
 })
-@SQLSelect(sql = "SELECT * FROM GOODS WHERE GOODS_SEL_STTUS = 'ON_SALE'")
 public class Goods extends BaseEntity {
 
     @Id

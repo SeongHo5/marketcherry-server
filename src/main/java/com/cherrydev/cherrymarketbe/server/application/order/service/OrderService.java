@@ -17,7 +17,9 @@ import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.OrdersRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,6 +33,7 @@ import java.util.UUID;
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.GOODS_NOT_AVAILABLE;
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_ORDER;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -73,12 +76,13 @@ public class OrderService {
         eventPublisher.publishEvent(new OrderPlacedEvent(this, cartItems.stream().map(Cart::getId).toList()));
     }
 
+    @NotNull
     private Orders handleCreateOrderInternal(
             AccountDetails accountDetails,
             RequestCreateOrder request,
             List<Cart> cartItems
     ) {
-        // 장바구니에 담긴 상품들이 판매중이고, 재고가 있는지 확인
+//         장바구니에 담긴 상품들이 판매중이고, 재고가 있는지 확인
         List<Cart> availableCartItems = cartItems.stream()
                 .filter(cart -> cart.getGoods().getSalesStatus().isOnSale())
                 .toList();
