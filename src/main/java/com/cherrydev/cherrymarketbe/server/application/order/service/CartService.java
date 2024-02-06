@@ -27,8 +27,9 @@ public class CartService {
     private final GoodsValidator goodsValidator;
 
     @Transactional(readOnly = true)
-    public Optional<List<Cart>> fetchCartItems(final AccountDetails accountDetails) {
-        return cartRepository.findAllByAccount(accountDetails.getAccount());
+    public List<Cart> fetchCartItems(final AccountDetails accountDetails) {
+        return cartRepository.findAllByAccount(accountDetails.getAccount())
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_CART));
     }
 
     @Transactional
