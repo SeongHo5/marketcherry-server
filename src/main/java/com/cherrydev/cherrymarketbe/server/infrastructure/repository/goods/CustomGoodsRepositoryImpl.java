@@ -32,7 +32,7 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         List<Goods> result = jpaQueryFactory
                 .selectFrom(qGoods)
                 .where(
-                        nameContainsIgnoreCase(conditions.goodsName()),
+                        nameLike(conditions.goodsName()),
                         categoryIdEquals(conditions.categoryId()),
                         makerIdEquals(conditions.makerId()),
                         filterOnlyDiscountedItems(conditions.isOnDiscount())
@@ -46,7 +46,7 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
                 .select(qGoods.count())
                 .from(qGoods)
                 .where(
-                        nameContainsIgnoreCase(conditions.goodsName()),
+                        nameLike(conditions.goodsName()),
                         categoryIdEquals(conditions.categoryId()),
                         makerIdEquals(conditions.makerId()),
                         filterOnlyDiscountedItems(conditions.isOnDiscount())
@@ -55,9 +55,9 @@ public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
         return new PageImpl<>(result, pageable, totalCount);
     }
 
-    private BooleanExpression nameContainsIgnoreCase(@Nullable String name) {
+    private BooleanExpression nameLike(@Nullable String name) {
         if (StringUtils.hasText(name)) {
-            return qGoods.name.containsIgnoreCase(name);
+            return qGoods.name.likeIgnoreCase("%" + name + "%");
         }
         return null;
     }

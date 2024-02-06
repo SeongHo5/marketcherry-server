@@ -31,8 +31,8 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
         // 쿼리 생성 및 엔티티 조회
         List<Account> result = jpaQueryFactory.selectFrom(qAccount)
                 .where(
-                        emailContainsIgnoreCase(conditions.email()),
-                        nameContainsIgnoreCase(conditions.name()),
+                        emailLike(conditions.email()),
+                        nameLike(conditions.name()),
                         genderEquals(conditions.gender()),
                         registerTypeEquals(conditions.registerType()),
                         statusEquals(conditions.status()),
@@ -47,8 +47,8 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
                 .select(qAccount.count())
                 .from(qAccount)
                 .where(
-                        emailContainsIgnoreCase(conditions.email()),
-                        nameContainsIgnoreCase(conditions.name()),
+                        emailLike(conditions.email()),
+                        nameLike(conditions.name()),
                         genderEquals(conditions.gender()),
                         registerTypeEquals(conditions.registerType()),
                         statusEquals(conditions.status()),
@@ -58,16 +58,16 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
         return new PageImpl<>(result, pageable, totalCount);
     }
 
-    private BooleanExpression emailContainsIgnoreCase(@Nullable String email) {
+    private BooleanExpression emailLike(@Nullable String email) {
         if (email != null) {
-            return qAccount.email.containsIgnoreCase(email);
+            return qAccount.email.likeIgnoreCase("%" + email + "%");
         }
         return null;
     }
 
-    private BooleanExpression nameContainsIgnoreCase(@Nullable String name) {
+    private BooleanExpression nameLike(@Nullable String name) {
         if (name != null) {
-            return qAccount.name.containsIgnoreCase(name);
+            return qAccount.name.likeIgnoreCase("%" + name + "%");
         }
         return null;
     }
