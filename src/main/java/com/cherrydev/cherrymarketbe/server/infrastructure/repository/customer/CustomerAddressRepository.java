@@ -11,6 +11,8 @@ public interface CustomerAddressRepository extends JpaRepository<CustomerAddress
 
     Optional<CustomerAddress> findByIdAndAccount(Long id, Account account);
 
+    Optional<CustomerAddress> findByAccountAndIsDefault(Account account, Boolean isDefault);
+
     List<CustomerAddress> findAllByAccount(Account account);
 
     Integer countAllByAccount(Account account);

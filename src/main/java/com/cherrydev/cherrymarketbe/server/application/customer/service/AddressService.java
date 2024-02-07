@@ -52,6 +52,11 @@ public class AddressService {
                 .map(AddressInfo::of)
                 .toList();
     }
+    @Transactional(readOnly = true)
+    public CustomerAddress fetchDefaultAddressForOrders(final Account account) {
+        return addressRepository.findByAccountAndIsDefault(account, true)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_ADDRESS));
+    }
 
     @Transactional
     public void deleteAddress(
