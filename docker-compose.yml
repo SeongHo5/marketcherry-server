@@ -7,25 +7,11 @@ services:
     environment:
       MH_STORAGE: maildir
       MH_MAILDIR_PATH: /tmp/maildir
-  prometheus:
-    image: prom/prometheus:v2.37.6
-    container_name: prometheus
-    volumes:
-      - ./prometheus/config:/etc/prometheus
-      - ./prometheus/volume:/prometheus
+  redis:
+    image: redis:6.2.6
+    container_name: redis
     ports:
-      - 9090:9090
-    command:
-      - '--web.enable-lifecycle'
-      - '--config.file=/etc/prometheus/prometheus.yaml'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-    restart: always
-  grafana:
-    image: grafana/grafana:9.4.7
-    container_name: grafana
-    ports:
-      - 3000:3000
+      - 6379:6379
     volumes:
-      - ./grafana/volume:/var/lib/grafana
+      - ./redis/volume:/data
     restart: always
