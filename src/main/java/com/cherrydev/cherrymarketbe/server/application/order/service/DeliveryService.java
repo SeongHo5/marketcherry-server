@@ -1,61 +1,52 @@
 package com.cherrydev.cherrymarketbe.server.application.order.service;
 
+import com.cherrydev.cherrymarketbe.server.application.customer.service.AddressService;
+import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerAddress;
+import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.DeliveryDetail;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.DeliveryDetailRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Slf4j
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DeliveryService {
 
+    public static final int DEFAULT_DELIVERY_COST = 3000;
+    public static final int MINIMUM_AMOUNT_FOR_FREE_DELIVERY = 30000;
+
+    private final AddressService addressService;
     private final DeliveryDetailRepository deliveryDetailRepository;
 
-//    @Transactional
-//    public void createDeliveryDetail(AccountDetails accountDetails, Long orderId, String orderCode) {
-//        ShippingDetails shippingDetails = new ShippingDetailRequest()
-//                .create(
-//                        accountDetails,
-//                        orderId,
-//                        orderCode,
-//                        getDefaultAddress(accountDetails)
-//                );
-//        deliveryDetailRepository.save(shippingDetails);
-//    }
-//
-//    @Transactional
-//    public void updateDeliveryDetail(String orderCode, String deliveryStatus) {
-//        ShippingStatusRequest requestDto = ShippingStatusRequest.builder()
-//                .orderCode(orderCode)
-//                .deliveryStatus(deliveryStatus)
-//                .build();
-//        updateDeliveryDetail(requestDto);
-//    }
-//
-//    @Transactional
-//    public void updateDeliveryDetail(ShippingStatusRequest requestDto) {
-//        ShippingDetails shippingDetails = requestDto.changeDeliveryStatus();
-//        deliveryDetailRepository.updateStatus(shippingDetails);
-//    }
-//
-//    @Transactional
-//    public DeliveryDetailsInfo findByOrderCode(String orderCode) {
-//        return deliveryDetailRepository.findByOrderCode(orderCode);
-//    }
-//
-//    private CustomerAddress getDefaultAddress(AccountDetails accountDetails) {
-//        CustomerAddress address = deliveryDetailRepository.findByDefaultAddress(accountDetails.getAccount().getAccountId());
-//
-//        if (address.getAddressId() == null) {
-//            throw new NotFoundException(NOT_FOUND_ADDRESS);
-//        }
-//
-//
-//        return address;
-//    }
+    protected DeliveryDetail buildDeliveryDetail(Orders orders, RequestCreateOrder request) {
+        boolean getFromMyDefault = request.getFromMyDefault();
+        validateRequestFields(request);
+        if (getFromMyDefault) {
+            CustomerAddress customerAddress = addressService.fetchDefaultAddressForOrders(orders.getAccount());
+            return DeliveryDetail.of(orders, customerAddress, request);
+        }
+        return DeliveryDetail.of(orders, request);
+    }
+
+    private void validateRequestFields(RequestCreateOrder request) {
+        boolean getFromMe = request.getFromMyDefault();
+        boolean hasValueInRecipient = request.recipient() != null;
+        if (getFromMe && (!areAllRecipeintFieldsNull(request))) {
+            throw new IllegalArgumentException("수령인과 주문자 정보가 같다고 체크했을 때 수령인 정보는 입력할 수 없습니다.");
+        }
+        if (!getFromMe && !hasValueInRecipient) {
+            throw new IllegalArgumentException("수령인 정보는 필수입니다.");
+        }
+    }
+
+    private boolean areAllRecipeintFieldsNull(RequestCreateOrder request) {
+        return request.recipient() == null
+                && request.recipientContact() == null
+                && request.zipCode() == null
+                && request.address() == null
+                && request.addressDetail() == null;
+    }
 
 
 }

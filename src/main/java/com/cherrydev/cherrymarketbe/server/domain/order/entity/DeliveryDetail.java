@@ -1,6 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.entity;
 
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
+import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerAddress;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
 import com.cherrydev.cherrymarketbe.server.domain.order.enums.DeliveryStatus;
 import jakarta.persistence.*;
@@ -77,9 +78,24 @@ public class DeliveryDetail extends BaseEntity {
                 .zipCode(request.zipCode())
                 .roadNameAddress(request.address())
                 .addressDetail(request.addressDetail())
-                .deliveryPlace(request.place())
-                .deliveryComment(request.request())
+                .deliveryPlace(request.deliveryPlace())
+                .deliveryComment(request.deliveryComment())
                 .build();
+    }
+
+    public static DeliveryDetail of(Orders orders, CustomerAddress customerAddress, RequestCreateOrder request ) {
+        return DeliveryDetail.builder()
+                .orders(orders)
+                .deliveryStatus(DeliveryStatus.ORDER_RECEIVED)
+                .recipient(customerAddress.getName())
+                .recipientContact(orders.getAccount().getContact())
+                .zipCode(customerAddress.getZipCode())
+                .roadNameAddress(customerAddress.getRoadNameAddress())
+                .addressDetail(customerAddress.getAddressDetail())
+                .deliveryPlace(request.deliveryPlace())
+                .deliveryComment(request.deliveryComment())
+                .build();
+
     }
 
 }
