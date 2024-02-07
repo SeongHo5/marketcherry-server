@@ -66,6 +66,13 @@ public class CartService {
         cartRepository.deleteAllByIdIn(cartIds);
     }
 
+    protected List<Cart> filterAvailableCartItems(final List<Cart> cartItems) {
+        return cartItems.stream()
+                .filter(cart -> cart.getGoods().getSalesStatus().isOnSale()
+                        && cart.getQuantity() <= cart.getGoods().getInventory())
+                .toList();
+    }
+
     private Cart fetchCartEntity(final Long cartId, final Account account) {
         return cartRepository.findByIdAndAccount(cartId, account)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_CART));
