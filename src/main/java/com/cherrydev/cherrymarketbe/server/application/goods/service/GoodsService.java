@@ -35,7 +35,7 @@ public class GoodsService {
     public Page<GoodsInfo> fetchGoodsByConditions(Pageable pageable, GoodsSearchConditions conditions) {
         List<GoodsInfo> goodsList = customGoodsRepository.findByConditions(pageable, conditions)
                 .stream()
-                .map(goods -> GoodsInfo.of(goods, goods.getDiscount()))
+                .map(GoodsInfo::of)
                 .toList();
         return new PageImpl<>(goodsList, pageable, goodsList.size());
     }

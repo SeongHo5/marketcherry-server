@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class GoodsInventoryResponseDto {
+public class GoodsInventoryResponse {
 
     Long goodsId;
 

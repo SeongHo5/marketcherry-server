@@ -6,6 +6,7 @@ import com.cherrydev.cherrymarketbe.server.domain.goods.dto.RequestAddGoods;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.SalesStatus;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.StorageType;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.VolumeType;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -52,6 +53,7 @@ public class Goods extends BaseEntity {
     @Column(name = "GOODS_DC", nullable = false, length = 80)
     private String description;
 
+    @Nullable
     @Comment("상품 할인 ID")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
@@ -121,6 +123,18 @@ public class Goods extends BaseEntity {
 
     public void updateInventory(int requestedQuantity) {
         this.inventory -= requestedQuantity;
+    }
+
+    public int getDiscountedPrice() {
+        return discount == null
+                ? price
+                : (int) (price * (1 - discount.getDiscountRate() / 100.0));
+    }
+
+    public int getDiscountRate() {
+        return discount == null
+                ? 0
+                : discount.getDiscountRate();
     }
 
 }

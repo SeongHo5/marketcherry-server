@@ -4,6 +4,8 @@ import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import lombok.Builder;
 
+import java.util.Optional;
+
 @Builder
 public record GoodsDetailInfo(
         Long goodsId, String goodsCode, String goodsName, String description, Integer price,
@@ -13,7 +15,7 @@ public record GoodsDetailInfo(
 ) {
 
     public static GoodsDetailInfo of(Goods goods) {
-        Discount discount = goods.getDiscount();
+
         return GoodsDetailInfo.builder()
                 .goodsId(goods.getId())
                 .goodsCode(goods.getCode())
@@ -27,8 +29,8 @@ public record GoodsDetailInfo(
                 .allergyInfo(goods.getAllergyInfo())
                 .originPlace(goods.getOriginPlace())
                 .salesStatus(goods.getSalesStatus().toString())
-                .discountRate(discount.getDiscountRate())
-                .discountedPrice((int) (goods.getPrice() * (1 - (discount.getDiscountRate() / 100.0))))
+                .discountRate(goods.getDiscountRate())
+                .discountedPrice(goods.getDiscountedPrice())
                 .makerName(goods.getMaker().getName())
                 .build();
     }

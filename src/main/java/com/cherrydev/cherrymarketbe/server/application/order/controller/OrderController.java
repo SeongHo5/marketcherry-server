@@ -3,6 +3,7 @@ package com.cherrydev.cherrymarketbe.server.application.order.controller;
 import com.cherrydev.cherrymarketbe.server.application.order.service.OrderService;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
+import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderCreateResponse;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderDetailsInfo;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderInfoResponse;
 import jakarta.validation.Valid;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Slf4j
 @RestController
@@ -49,13 +52,19 @@ public class OrderController {
         );
     }
 
+    /**
+     * 주문 생성
+     *
+     * @param accountDetails 로그인한 사용자 정보
+     * @param request        주문 생성 요청
+     */
     @PostMapping("")
-    public ResponseEntity<Void> createOrder(
+    public ResponseEntity<OrderCreateResponse> createOrder(
             @AuthenticationPrincipal final AccountDetails accountDetails,
             @RequestBody @Valid final RequestCreateOrder request
     ) {
-        orderService.createOrder(accountDetails, request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(CREATED)
+                .body(orderService.createOrder(accountDetails, request));
     }
 
     /**
