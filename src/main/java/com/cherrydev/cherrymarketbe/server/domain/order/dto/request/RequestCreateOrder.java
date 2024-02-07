@@ -8,6 +8,8 @@ public record RequestCreateOrder(
         @NotNull
         @NotBlank
         String orderName,
+        @NotNull
+        Boolean getFromMyDefault,
         @Pattern(regexp = "^[가-힣]{2,4}$", message = "수령인 이름은 한글 2~4자로 입력해주세요.")
         String recipient,
         @Pattern(regexp = "^(010)-\\d{4}-\\d{4}$", message = "휴대폰 번호 형식이 올바르지 않습니다.")
@@ -16,7 +18,10 @@ public record RequestCreateOrder(
         String zipCode,
         String address,
         String addressDetail,
-        String place,
-        String request
+        @NotNull
+        String deliveryPlace,
+        @NotNull
+        String deliveryComment,
+        Long usedReward
 ) {
 }
