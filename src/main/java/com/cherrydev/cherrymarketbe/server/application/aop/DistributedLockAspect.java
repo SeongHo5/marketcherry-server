@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-@Slf4j(topic = "DistributedLockAspect")
+@Slf4j(topic = "distributedLockAspect")
 @Aspect
 @Component
 @RequiredArgsConstructor
