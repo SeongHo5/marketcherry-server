@@ -26,7 +26,7 @@ public class GoodsInventoryService {
     @Transactional(propagation = Propagation.MANDATORY)
     @Retryable(retryFor = {CouldNotObtainLockException.class},
             backoff = @Backoff(delay = 100, maxDelay = 500, multiplier = 2))
-    public void handleUpdateInventoryInternal(Goods goods, int requestedQuantity) {
+    public void processInventoryUpdate(Goods goods, int requestedQuantity) {
         em.refresh(goods);
         if (goods.getInventory() < requestedQuantity) {
             throw new InsufficientStockException(INSUFFICIENT_STOCK, goods.getName());

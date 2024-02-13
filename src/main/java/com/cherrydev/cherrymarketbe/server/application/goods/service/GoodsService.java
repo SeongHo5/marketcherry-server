@@ -53,7 +53,7 @@ public class GoodsService {
         cartItems.forEach(cartItem -> {
             Goods goods = cartItem.getGoods();
             int requestedQuantity = cartItem.getQuantity();
-            inventoryService.handleUpdateInventoryInternal(goods, requestedQuantity);
+            inventoryService.processInventoryUpdate(goods, requestedQuantity);
         });
     }
 
