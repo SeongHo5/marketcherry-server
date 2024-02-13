@@ -195,10 +195,10 @@ public class DistributedLockAspect {
     }
 }
 ```
-
 </details>
+
 <details>
-<summmary>JPA 캐시와 DB 불일치 문제 해결</summmary>
+<summary>JPA 캐시와 DB 불일치 문제 해결</summary>
 
 - **상황:** 주문 처리 로직 테스트 중, 다른 요청에 의해 동일한 상품의 재고가 이미 소진된 상태임에도 불구하고, 재고 부족 예외가 발생하지 않는 문제를 발견했습니다.
 
