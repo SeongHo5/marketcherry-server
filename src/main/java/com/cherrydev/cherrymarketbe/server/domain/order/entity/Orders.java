@@ -44,6 +44,7 @@ public class Orders extends BaseEntity {
     @Column(name = "ORDERS_CODE", columnDefinition = "BINARY(16)", nullable = false)
     private UUID code;
 
+    @Setter
     @Comment("주문 상태")
     @Enumerated(EnumType.STRING)
     @Column(name = "ORDERS_STTUS", nullable = false, length = 20)
@@ -57,12 +58,15 @@ public class Orders extends BaseEntity {
     @Column(name = "DELETED_DE")
     private Timestamp deletedAt;
 
+    @Setter
     @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     private DeliveryDetail deliveryDetail;
 
+    @Setter
     @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     private PaymentDetail paymentDetail;
 
+    @Setter
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
@@ -72,15 +76,6 @@ public class Orders extends BaseEntity {
                 .status(OrderStatus.PENDING_PAYMENT)
                 .name(orderName)
                 .build();
-    }
-    public void setDeliveryDetail(DeliveryDetail deliveryDetail) {
-        this.deliveryDetail = deliveryDetail;
-    }
-    public void setPaymentDetail(PaymentDetail paymentDetail) {
-        this.paymentDetail = paymentDetail;
-    }
-    public void setOrderDetails(List<OrderDetail> orderDetail) {
-        this.orderDetails = orderDetail;
     }
 
 
