@@ -55,14 +55,7 @@ _(실제로 운영되는 서비스가 아닙니다.)_
 - SQL 익숙한 사용으로 러닝 커브 완화
 - **SQL 제어**: SQL 개발자가 을 직접 작성하고 제어 가능
 </details>
-<details>
-<summary>MySQL</summary>
 
-![mysql.png](./docs/reason/mysql.png)
-- **신뢰성과 안정성**: 오랜 기간에 걸쳐 입증된 데이터베이스 관리 시스템
-- **무료 오픈 소스**: 비용 효율적인 선택 개발 및 배포에 무료로 사용 가능
-- **호환성과 확장성**: 다양한 언어 및 플랫폼과의 호환성 확장 가능한 구조
-</details>
 <details>
 <summary>Redis</summary>
 
