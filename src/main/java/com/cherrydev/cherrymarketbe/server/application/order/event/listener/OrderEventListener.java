@@ -20,7 +20,7 @@ public class OrderEventListener {
 
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @TransactionalEventListener(classes = OrderPlacedEvent.class, phase = TransactionPhase.AFTER_COMMIT)
     public void handleOrderPlacedEvent(OrderPlacedEvent event) {
         log.info("OrderPlacedEvent received!");
         cartService.clearCartItems(event.getCartIds());
