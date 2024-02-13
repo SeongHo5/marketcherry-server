@@ -4,17 +4,19 @@ import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundExc
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsService;
 import com.cherrydev.cherrymarketbe.server.application.order.event.OrderPlacedEvent;
-import com.cherrydev.cherrymarketbe.server.application.payments.service.TossPaymentsService;
+import com.cherrydev.cherrymarketbe.server.application.payments.service.PaymentService;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsDetailInfo;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
-import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderDetailsInfo;
+import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderCreateResponse;
+import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderSummary;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderInfoResponse;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.DeliveryDetail;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.OrderDetail;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
+import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApproveForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.OrdersRepository;
 import jakarta.validation.constraints.NotNull;
@@ -40,9 +42,10 @@ public class OrderService {
 
     private final OrdersRepository ordersRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final TossPaymentsService tossPaymentsService;
     private final CartService cartService;
     private final GoodsService goodsService;
+    private final DeliveryService deliveryService;
+    private final PaymentService paymentService;
 
     @Transactional(readOnly = true)
     public Page<OrderInfoResponse> fetchAllMyOrders(
@@ -57,16 +60,14 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public OrderDetailsInfo fetchOrderDetails(
-            final String orderCode
-    ) {
+    public OrderSummary fetchOrderDetails(final String orderCode) {
         Orders orders = fetchOrdersEntity(orderCode);
 
         return handleFetchOrderDetailsInternal(orders);
     }
 
     @Transactional
-    public void createOrder(
+    public OrderCreateResponse createOrder(
             final AccountDetails accountDetails,
             final RequestCreateOrder request
     ) {
@@ -74,42 +75,19 @@ public class OrderService {
         Orders orders = handleCreateOrderInternal(accountDetails, request, cartItems);
         ordersRepository.save(orders);
         eventPublisher.publishEvent(new OrderPlacedEvent(this, cartItems.stream().map(Cart::getId).toList()));
-    }
-
-    @NotNull
-    private Orders handleCreateOrderInternal(
-            AccountDetails accountDetails,
-            RequestCreateOrder request,
-            List<Cart> cartItems
-    ) {
-        // 장바구니에 담긴 상품들이 판매중이고, 재고가 있는지 확인
-        List<Cart> availableCartItems = cartItems.stream()
-                .filter(cart -> cart.getGoods().getSalesStatus().isOnSale())
-                .toList();
-        List<Cart> validCartItems = availableCartItems.stream()
-                .filter(cart -> cart.getQuantity() <= cart.getGoods().getInventory())
-                .toList();
-
-        boolean isAllGoodsAvailable = validCartItems.size() == cartItems.size();
-        if (isAllGoodsAvailable) {
-            Orders orders = Orders.of(accountDetails.getAccount(), request.orderName());
-            goodsService.updateGoodsInventory(validCartItems);
-            orders.setDeliveryDetail(DeliveryDetail.of(orders, request));
-            orders.setOrderDetails(validCartItems.stream().map(cart -> OrderDetail.of(orders, cart)).toList());
-            return orders;
-        } else {
-            throw new ServiceFailedException(GOODS_NOT_AVAILABLE);
-        }
+        return buildOrderCreateResponse(orders);
     }
 
     @Transactional
-    public void processOrder(
+    public OrderSummary processOrder(
             final String tossPaymentKey,
-            final String orderCode
+            final String orderCode,
+            final Long amount
     ) {
         Orders orders = fetchOrdersEntity(orderCode);
-        TossPayment tossPayment = tossPaymentsService.findPaymentByPaymentKey(tossPaymentKey);
-        PaymentDetail.of(orders, tossPayment);
+        TossPayment paymentResponse = paymentService.processPaymentApproval(PaymentApproveForm.of(tossPaymentKey, orderCode, amount));
+        paymentService.applyApprovalInfoToDetail(orders.getPaymentDetail(), paymentResponse);
+        return handleFetchOrderDetailsInternal(orders);
     }
 
     private Orders fetchOrdersEntity(String orderCode) {
@@ -117,7 +95,7 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_ORDER));
     }
 
-    private OrderDetailsInfo handleFetchOrderDetailsInternal(final Orders orders) {
+    private OrderSummary handleFetchOrderDetailsInternal(final Orders orders) {
         List<OrderDetail> orderDetail = orders.getOrderDetails();
         PaymentDetail paymentDetail = orders.getPaymentDetail();
         DeliveryDetail deliveryDetail = orders.getDeliveryDetail();
@@ -128,7 +106,34 @@ public class OrderService {
                 .map(GoodsDetailInfo::of)
                 .toList();
 
-        return OrderDetailsInfo.of(orders.getCode().toString(), paymentDetail, deliveryDetail, goodsDetail);
+        return OrderSummary.of(orders.getCode().toString(), paymentDetail, deliveryDetail, goodsDetail);
     }
+
+    @NotNull
+    private Orders handleCreateOrderInternal(
+            AccountDetails accountDetails,
+            RequestCreateOrder request,
+            List<Cart> cartItems
+    ) {
+        // 장바구니에 담긴 상품들이 판매중이고, 재고가 있는지 확인
+        List<Cart> availableCartItems = cartService.filterAvailableCartItems(cartItems);
+
+        boolean areAllGoodsAvailable = availableCartItems.size() == cartItems.size();
+        if (areAllGoodsAvailable) {
+            Orders orders = Orders.of(accountDetails.getAccount(), request.orderName());
+            goodsService.updateGoodsInventory(availableCartItems);
+            orders.setDeliveryDetail(deliveryService.buildDeliveryDetail(orders, request));
+            orders.setOrderDetails(availableCartItems.stream().map(cart -> OrderDetail.of(orders, cart)).toList());
+            orders.setPaymentDetail(paymentService.buildPaymentDetail(orders, availableCartItems, request.usedReward()));
+            return orders;
+        } else {
+            throw new ServiceFailedException(GOODS_NOT_AVAILABLE);
+        }
+    }
+
+    private OrderCreateResponse buildOrderCreateResponse(Orders orders) {
+        return new OrderCreateResponse(orders.getCode().toString(), orders.getName(), paymentService.caculatePaymentAmount(orders.getPaymentDetail()));
+    }
+
 
 }
