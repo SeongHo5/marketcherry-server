@@ -8,4 +8,8 @@ public record PaymentApproveForm(
         @NotNull Number amount
 ) {
 
+    public static PaymentApproveForm of(String paymentKey, String orderId, Number amount) {
+        return new PaymentApproveForm(paymentKey, orderId, amount);
+    }
+
 }

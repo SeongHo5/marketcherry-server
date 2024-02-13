@@ -4,7 +4,7 @@ import com.cherrydev.cherrymarketbe.server.domain.order.entity.DeliveryDetail;
 import lombok.Builder;
 
 @Builder
-public record DeliveryDetailsInfo(
+public record DeliverySummary(
 
         String shippingStatus,
         String recipient,
@@ -15,8 +15,8 @@ public record DeliveryDetailsInfo(
         String place,
         String request
 ) {
-    public static DeliveryDetailsInfo of(DeliveryDetail deliveryDetail) {
-        return DeliveryDetailsInfo.builder()
+    public static DeliverySummary of(DeliveryDetail deliveryDetail) {
+        return DeliverySummary.builder()
                 .shippingStatus(deliveryDetail.getDeliveryStatus().getStatus())
                 .recipient(deliveryDetail.getRecipient())
                 .recipientContact(deliveryDetail.getRecipientContact())

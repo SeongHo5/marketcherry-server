@@ -8,8 +8,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
+import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
 
 @Entity
 @Getter
@@ -88,23 +88,24 @@ public class PaymentDetail extends BaseEntity {
     @Column(name = "DELETED_DE")
     private Timestamp deletedAt;
 
-    public static PaymentDetail of(Orders orders, TossPayment tossPayment) {
+    public static PaymentDetail of(Orders orders, Long totalAmount, Long discountAmount, Long paymentAmount, Long rewardUsed) {
         return PaymentDetail.builder()
                 .orders(orders)
-                .paymentStatus(tossPayment.getStatus())
-                .paymentMethods(tossPayment.getMethod())
-                .paymentCardNumber(tossPayment.getCard().getNumber())
-                .paymentCardIssuer(tossPayment.getCard().getIssuerCode())
-                .paymentInstallment(tossPayment.getCard().getInstallmentPlanMonths())
-                .paidAt(Timestamp.from(Instant.parse(tossPayment.getApprovedAt())))
-                .paymentAmount(tossPayment.getSuppliedAmount())
-                .paymentKey(tossPayment.getPaymentKey())
-                .totalAmount(tossPayment.getTotalAmount())
-//                .discountedAmount(tossPayment.getDiscountedAmount())
-//                .deliveryCost(tossPayment.getDeliveryCost())
-//                .rewardUsed(tossPayment.getRewardUsed())
-//                .couponUsed(tossPayment.getCouponUsed())
+                .totalAmount(totalAmount)
+                .discountedAmount(discountAmount)
+                .paymentAmount(paymentAmount)
+                .rewardUsed(rewardUsed)
                 .build();
+    }
+
+    public void applyApprovalInfo(TossPayment tossPayment) {
+        this.paymentKey = tossPayment.getPaymentKey();
+        this.paymentStatus = PaymentStatus.DONE;
+        this.paymentMethods = tossPayment.getMethod();
+        this.paymentCardNumber = tossPayment.getCard().getNumber();
+        this.paymentCardIssuer = tossPayment.getCard().getAcquirerCode();
+        this.paymentInstallment = tossPayment.getCard().getInstallmentPlanMonths();
+        this.paidAt = Timestamp.valueOf(tossPayment.getApprovedAt());
     }
 
 }

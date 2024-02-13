@@ -4,7 +4,7 @@ import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
 import lombok.Builder;
 
 @Builder
-public record AmountDetailsInfo(
+public record PaymentSummary(
         Long totalAmount,
         Long discountedAmount,
         Long couponUsed,
@@ -12,8 +12,8 @@ public record AmountDetailsInfo(
         Long deliveryCost,
         String paymentMethods
 ) {
-    public static AmountDetailsInfo of(PaymentDetail paymentDetail) {
-        return AmountDetailsInfo.builder()
+    public static PaymentSummary of(PaymentDetail paymentDetail) {
+        return PaymentSummary.builder()
                 .totalAmount(paymentDetail.getTotalAmount())
                 .discountedAmount(paymentDetail.getDiscountedAmount())
                 .couponUsed(paymentDetail.getCouponUsed())
