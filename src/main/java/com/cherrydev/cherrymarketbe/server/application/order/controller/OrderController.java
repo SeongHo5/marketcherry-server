@@ -6,6 +6,7 @@ import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreat
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderCreateResponse;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderInfoResponse;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderSummary;
+import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,6 +79,18 @@ public class OrderController {
     ) {
         return ResponseEntity.status(CREATED)
                 .body(orderService.processOrder(tossPaymentKey, orderCode, amount));
+    }
+
+    /**
+     * 주문 취소
+     */
+    @DeleteMapping("/{order_code}/cancel")
+    public ResponseEntity<Void> cancelOrder(
+            @PathVariable("order_code") final String orderCode,
+            @RequestBody final PaymentCancelForm cancelForm
+    ) {
+        orderService.cancelOrder(orderCode, cancelForm);
+        return ResponseEntity.ok().build();
     }
 
 
