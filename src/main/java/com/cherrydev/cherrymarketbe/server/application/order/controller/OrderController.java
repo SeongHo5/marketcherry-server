@@ -4,7 +4,7 @@ import com.cherrydev.cherrymarketbe.server.application.order.service.OrderServic
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderCreateResponse;
-import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderDetailsInfo;
+import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderSummary;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderInfoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -44,7 +46,7 @@ public class OrderController {
      * 주문 상세 조회
      */
     @GetMapping("/me/{order_code}/detail")
-    public ResponseEntity<OrderDetailsInfo> fetchOrderDetails(
+    public ResponseEntity<OrderSummary> fetchOrderDetails(
             @PathVariable("order_code") final String orderCode
     ) {
         return ResponseEntity.ok(
@@ -68,14 +70,16 @@ public class OrderController {
     }
 
     /**
-     * 결제 완료 후 주문 처리
+     * 결제 승인 및 주문 처리
      */
     @PostMapping("/{order_code}/process")
-    public void processOrder(
+    public ResponseEntity<OrderSummary> processOrder(
+            @PathVariable("order_code") final String orderCode,
             @RequestParam final String tossPaymentKey,
-            @PathVariable("order_code") final String orderCode
+            @RequestParam final Long amount
     ) {
-        orderService.processOrder(tossPaymentKey, orderCode);
+        return ResponseEntity.status(CREATED)
+                .body(orderService.processOrder(tossPaymentKey, orderCode, amount));
     }
 
 
