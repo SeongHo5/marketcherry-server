@@ -53,6 +53,7 @@ public class CustomerReward extends BaseEntity {
     @Column(name = "CSTMR_REWARD_END_DE", nullable = false)
     private LocalDate expiredAt;
 
+    @Setter
     @Comment("리워드 사용여부")
     @Column(name = "CSTMR_REWARD_USE_AT", nullable = false)
     private Boolean isUsed = false;
@@ -70,5 +71,4 @@ public class CustomerReward extends BaseEntity {
                 .expiredAt(LocalDate.parse(request.expiredAt()))
                 .build();
     }
-
 }

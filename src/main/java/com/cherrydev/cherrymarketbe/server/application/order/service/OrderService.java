@@ -2,21 +2,26 @@ package com.cherrydev.cherrymarketbe.server.application.order.service;
 
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsService;
+import com.cherrydev.cherrymarketbe.server.application.order.event.OrderCancelledEvent;
 import com.cherrydev.cherrymarketbe.server.application.order.event.OrderPlacedEvent;
 import com.cherrydev.cherrymarketbe.server.application.payments.service.PaymentService;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsDetailInfo;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderCreateResponse;
-import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderSummary;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderInfoResponse;
+import com.cherrydev.cherrymarketbe.server.domain.order.dto.responses.OrderSummary;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.DeliveryDetail;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.OrderDetail;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
+import com.cherrydev.cherrymarketbe.server.domain.order.enums.OrderStatus;
 import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApproveForm;
+import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.OrdersRepository;
 import jakarta.validation.constraints.NotNull;
@@ -44,6 +49,7 @@ public class OrderService {
     private final ApplicationEventPublisher eventPublisher;
     private final CartService cartService;
     private final GoodsService goodsService;
+    private final RewardService rewardService;
     private final DeliveryService deliveryService;
     private final PaymentService paymentService;
 
@@ -90,6 +96,16 @@ public class OrderService {
         return handleFetchOrderDetailsInternal(orders);
     }
 
+    @Transactional
+    public void cancelOrder(final String orderCode, final PaymentCancelForm cancelForm) {
+        Orders orders = fetchOrdersEntity(orderCode);
+        String paymentKey = orders.getPaymentDetail().getPaymentKey();
+
+        orders.setStatus(OrderStatus.CANCELLED);
+        paymentService.cancelPayment(paymentKey, cancelForm);
+        eventPublisher.publishEvent(new OrderCancelledEvent(this, orders));
+    }
+
     private Orders fetchOrdersEntity(String orderCode) {
         return ordersRepository.findByCode(UUID.fromString(orderCode))
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_ORDER));
@@ -122,6 +138,7 @@ public class OrderService {
         if (areAllGoodsAvailable) {
             Orders orders = Orders.of(accountDetails.getAccount(), request.orderName());
             goodsService.updateGoodsInventory(availableCartItems);
+            applyRewardUsageIfUsed(accountDetails.getAccount(), request.usedReward());
             orders.setDeliveryDetail(deliveryService.buildDeliveryDetail(orders, request));
             orders.setOrderDetails(availableCartItems.stream().map(cart -> OrderDetail.of(orders, cart)).toList());
             orders.setPaymentDetail(paymentService.buildPaymentDetail(orders, availableCartItems, request.usedReward()));
@@ -133,6 +150,12 @@ public class OrderService {
 
     private OrderCreateResponse buildOrderCreateResponse(Orders orders) {
         return new OrderCreateResponse(orders.getCode().toString(), orders.getName(), paymentService.caculatePaymentAmount(orders.getPaymentDetail()));
+    }
+
+    private void applyRewardUsageIfUsed(Account account, Long usedReward) {
+        if (usedReward != null) {
+            rewardService.useReward(account, usedReward.intValue());
+        }
     }
 
 

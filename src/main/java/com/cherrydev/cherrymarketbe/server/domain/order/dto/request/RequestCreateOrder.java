@@ -1,5 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.dto.request;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -22,6 +23,7 @@ public record RequestCreateOrder(
         String deliveryPlace,
         @NotNull
         String deliveryComment,
+        @Nullable
         Long usedReward
 ) {
 }
