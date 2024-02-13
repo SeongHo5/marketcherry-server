@@ -16,6 +16,7 @@ public enum ExceptionStatus {
     GOODS_STATUS_MISMATCHED(400, "요청하신 작업을 수행할 수 없는 상품 상태입니다."),
     INVALID_BUSINESS_NUMBER_FORMAT(400, "사업자 등록번호 형식이 일치하지 않습니다."),
     INSUFFICIENT_STOCK(400, "재고가 부족합니다."),
+    INSUFFICIENT_REWARD(400, "적립금이 부족합니다."),
     GOODS_NOT_AVAILABLE(400, "판매 중이 아니거나, 재고가 없는 상품이 포함되어 있습니다."),
 
     // 401 - Unauthorized : 비인증(인증 수단이 없음)
