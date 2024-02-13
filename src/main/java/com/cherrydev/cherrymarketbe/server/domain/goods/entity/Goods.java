@@ -100,10 +100,6 @@ public class Goods extends BaseEntity {
     @Column(name = "GOODS_SEL_STTUS", nullable = false, length = 20)
     private SalesStatus salesStatus;
 
-    @Version
-    @Column(name = "VERSION")
-    private Long version;
-
     public static Goods of(RequestAddGoods request) {
         return Goods.builder()
                 .code(request.getCode())

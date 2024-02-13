@@ -5,10 +5,8 @@ import com.cherrydev.cherrymarketbe.server.application.aop.exception.CouldNotObt
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.InsufficientStockException;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class GoodsInventoryService {
 
     @DistributedLock(waitTime = 3, leaseTime = 10)
     @Transactional(propagation = Propagation.MANDATORY)
-    @Retryable(retryFor = {CouldNotObtainLockException.class, OptimisticLockException.class, ObjectOptimisticLockingFailureException.class},
+    @Retryable(retryFor = {CouldNotObtainLockException.class},
             backoff = @Backoff(delay = 100, maxDelay = 500, multiplier = 2))
     public void handleUpdateInventoryInternal(Goods goods, int requestedQuantity) {
         em.refresh(goods);
