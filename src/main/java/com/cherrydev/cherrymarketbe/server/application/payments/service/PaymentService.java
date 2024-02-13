@@ -7,7 +7,6 @@ import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApprov
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.cardpromotion.CardPromotion;
-import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.PaymentDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ import static com.cherrydev.cherrymarketbe.server.application.order.service.Deli
 public class PaymentService {
 
     private final TossFeignClient tossFeignClient;
-    private final PaymentDetailRepository paymentDetailRepository;
 
     @Transactional
     public PaymentDetail buildPaymentDetail(Orders orders, List<Cart> cartItems, Long rewardUsed) {

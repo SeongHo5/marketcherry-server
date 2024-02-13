@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
