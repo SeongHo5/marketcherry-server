@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class GoodsInventoryService {
     private final EntityManager em;
 
     @DistributedLock(waitTime = 3, leaseTime = 10)
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.SERIALIZABLE)
     @Retryable(retryFor = {CouldNotObtainLockException.class},
             backoff = @Backoff(delay = 100, maxDelay = 500, multiplier = 2))
     public void processInventoryUpdate(Goods goods, int requestedQuantity) {
