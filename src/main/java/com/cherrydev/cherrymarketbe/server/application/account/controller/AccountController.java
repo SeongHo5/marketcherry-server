@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,7 +40,8 @@ public class AccountController {
      * 내 정보 조회
      */
     @GetMapping("/me")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_SELLER') or hasRole('ROLE_ADMIN')")
+    @Cacheable(cacheNames = "accountCache", key = "#accountDetails.email", condition = "#accountDetails != null")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_SELLER', 'ROLE_ADMIN')")
     public ResponseEntity<AccountInfo> getAccountInfo(
             @AuthenticationPrincipal final AccountDetails accountDetails
     ) {
@@ -51,7 +53,7 @@ public class AccountController {
      * 내 정보 수정
      */
     @PatchMapping("/me")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_SELLER')")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_SELLER', 'ROLE_ADMIN')")
     public ResponseEntity<AccountInfo> modifyAccount(
             @AuthenticationPrincipal final AccountDetails accountDetails,
             @RequestBody final RequestModifyAccountInfo requestDto
@@ -64,7 +66,7 @@ public class AccountController {
      * 회원 탈퇴
      */
     @DeleteMapping("/me")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_SELLER')")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_SELLER')")
     public ResponseEntity<Void> dropOut(
             @AuthenticationPrincipal final AccountDetails accountDetails
     ) {
@@ -73,7 +75,7 @@ public class AccountController {
     }
 
     /**
-     * 이메일 중복체크 확인
+     * 이메일 중복 확인
      */
     @GetMapping("/email-check")
     public ResponseEntity<Void> checkDuplicateEmail(@RequestParam @Email final String email) {
