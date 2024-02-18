@@ -18,12 +18,10 @@
 - 리팩토링 및 추가 기능 개발: 2024.01.15. ~
     
 ## 📚 프로젝트 아키텍처
-
-![architecture.png](./docs/architecture.png)
+<img src="./docs/architecture.png" width="800" alt="architecture">
 
 ## 🔧 기술 스택
-
-![techstack.png](./docs/techstack.png)
+<img src="./docs/techstack.png" width="800" alt="techstack">
 
 ### ✒️ 기술적 의사 결정
 <details>
@@ -64,8 +62,7 @@
 </details>
 
 ## 📗 DB ERD
-
-![database.png](./docs/database.png)
+<img src="./docs/database.png" width="750" alt="db-erd">
 
 
 ## 🛠 트러블 슈팅
