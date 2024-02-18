@@ -19,8 +19,7 @@ public record CartByStorageType(
                         cartItem -> cartItem.getGoods().getStorageType().toString(),
                         Collectors.mapping(
                                 cartItem -> GoodsInfo.of(
-                                        cartItem.getGoods(),
-                                        cartItem.getGoods().getDiscount()
+                                        cartItem.getGoods()
                                 ),
                                 Collectors.toList()
                         )
