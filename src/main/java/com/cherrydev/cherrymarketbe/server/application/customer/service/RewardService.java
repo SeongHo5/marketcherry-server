@@ -132,7 +132,7 @@ public class RewardService {
                         reward.setIsUsed(true);
                         usedRewardAtomic.addAndGet(-reward.getRewardAmount());
                     } else {
-                        reward.useReward(currentUsedReward);
+//                        reward.useReward(currentUsedReward);
                         usedRewardAtomic.set(0);
                     }
                 });
