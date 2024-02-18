@@ -20,7 +20,7 @@ public class GoodsController {
 
     private final GoodsService goodsService;
     @GetMapping("")
-    @Cacheable(value = "goodsCache", key = "'sort_' + #sort", condition = "#sort != null && #goodsName == null && #categoryId == null && #makerId == null && #isOnDiscount == null")
+    @Cacheable(value = "goodsCache", key = "#sort", condition = "#sort != null && #goodsName == null && #categoryId == null && #makerId == null && #isOnDiscount == null")
     public ResponseEntity<Page<GoodsInfo>> fetchGoodsByConditions(
             Pageable pageable,
             @RequestParam(value = "goods_name", required = false) final String goodsName,
