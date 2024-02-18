@@ -5,6 +5,7 @@ import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsSearchConditions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class GoodsController {
 
     private final GoodsService goodsService;
     @GetMapping("")
+    @Cacheable(value = "goodsCache", key = "'sort_' + #sort", condition = "#sort != null && #goodsName == null && #categoryId == null && #makerId == null && #isOnDiscount == null")
     public ResponseEntity<Page<GoodsInfo>> fetchGoodsByConditions(
             Pageable pageable,
             @RequestParam(value = "goods_name", required = false) final String goodsName,
