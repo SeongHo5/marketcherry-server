@@ -7,6 +7,7 @@ import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApprov
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.cardpromotion.CardPromotion;
+import com.cherrydev.cherrymarketbe.server.infrastructure.feign.TossFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

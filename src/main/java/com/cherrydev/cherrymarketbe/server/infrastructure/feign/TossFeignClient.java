@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.payments.service;
+package com.cherrydev.cherrymarketbe.server.infrastructure.feign;
 
 import com.cherrydev.cherrymarketbe.server.application.config.feign.TossFeignConfig;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApproveForm;
