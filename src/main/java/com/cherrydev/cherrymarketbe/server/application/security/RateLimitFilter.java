@@ -16,6 +16,9 @@ import java.time.Duration;
 import static org.apache.http.HttpStatus.SC_TOO_MANY_REQUESTS;
 import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 
+/**
+ * 토큰 버킷 방식으로 API 요청 제한을 하는 필터입니다.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor

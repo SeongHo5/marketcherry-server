@@ -87,6 +87,9 @@ public class Account extends BaseEntity {
     @Column(name = "DELETED_DE", columnDefinition = "default null")
     private Timestamp deletedAt;
 
+    /**
+     * 로컬로 가입 시 계정 생성
+     */
     public static Account of(RequestSignUp request, String encodedPassword, RegisterType registerType) {
         return Account.builder()
                 .name(request.getName())
@@ -100,6 +103,9 @@ public class Account extends BaseEntity {
                 .build();
     }
 
+    /**
+     * 소셜 로그인 시 계정 생성
+     */
     public static Account of(OAuthAccountInfo oAuthAccountInfo, String encodedPassword, RegisterType registerType) {
         return Account.builder()
                 .name(oAuthAccountInfo.getName())
@@ -110,9 +116,8 @@ public class Account extends BaseEntity {
                 .build();
     }
 
-    public Account updatePassword(String encodePassword) {
+    public void updatePassword(String encodePassword) {
         this.password = encodePassword;
-        return this;
     }
 
     public void updateContact(String contact) {
