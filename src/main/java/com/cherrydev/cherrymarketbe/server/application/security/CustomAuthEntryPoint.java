@@ -30,5 +30,7 @@ public class CustomAuthEntryPoint implements AuthenticationEntryPoint {
         responseJson.put("message", "인증이 필요한 서비스입니다.");
 
         response.getWriter().print(responseJson);
+        response.getWriter().flush();
+        response.getWriter().close();
     }
 }

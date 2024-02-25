@@ -28,8 +28,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         JSONObject responseJson = new JSONObject();
         responseJson.put("statusCode", HttpStatus.FORBIDDEN.value());
         responseJson.put("message", "접근 권한이 없습니다.");
-
         response.getWriter().print(responseJson);
+        response.getWriter().flush();
+        response.getWriter().close();
     }
 
 }
