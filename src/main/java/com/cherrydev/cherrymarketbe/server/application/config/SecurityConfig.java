@@ -58,15 +58,10 @@ public class SecurityConfig {
                         .requestMatchers("/prometheus").access(localHostOnly)
                         .anyRequest().denyAll()
                 )
-                .addFilterBefore(new JwtAuthFilter(jwtProvider, redisService),
-                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthFilter(jwtProvider, redisService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new RateLimitFilter(redisService), JwtAuthFilter.class)
-                .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(new CustomAccessDeniedHandler())
-                )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new CustomAuthEntryPoint())
-                );
+                .exceptionHandling(exception -> exception.accessDeniedHandler(new CustomAccessDeniedHandler()))
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(new CustomAuthEntryPoint()));
         return http.build();
     }
 
