@@ -38,7 +38,7 @@ public class DistributedLockAspect {
         RLock lock = redissonClient.getLock(goods.getCode());
         boolean isLocked = false;
         try {
-            isLocked = lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), TimeUnit.SECONDS);
+            isLocked = lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());
             if (isLocked) {
                 log.info("Lock acquired for key: {}", goods.getCode());
                 return joinPoint.proceed();
