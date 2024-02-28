@@ -9,8 +9,8 @@ import org.springframework.retry.RetryListener;
 public class CustomRetryListener implements RetryListener {
     @Override
     public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
-        log.error("Retryable method failed with exception: {}", throwable.getMessage());
-        log.info("Retry Count: {}", context.getRetryCount());
+        log.debug("Retryable method failed with exception: {}", throwable.getMessage());
+        log.debug("Retry Count: {}", context.getRetryCount());
     }
 
 }
