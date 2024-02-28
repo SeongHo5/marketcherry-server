@@ -69,7 +69,7 @@ public class SecurityConfig {
      * CORS(Cross-Origin Resource Sharing) 설정
      */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.addAllowedHeader("*");
