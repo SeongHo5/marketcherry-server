@@ -36,12 +36,16 @@ public class GoodsInventoryService {
             backoff = @Backoff(delay = 100, maxDelay = 500, multiplier = 2))
     public void processInventoryUpdate(Goods goods, int requestedQuantity) {
         em.refresh(goods);
-        if (goods.getInventory() < requestedQuantity) {
-            throw new InsufficientStockException(INSUFFICIENT_STOCK, goods.getName());
-        }
+        checkInventory(goods, requestedQuantity);
         goods.updateInventory(requestedQuantity);
         em.flush();
         log.info("재고 업데이트 완료! / 요청 수량 : {}, 반영 후 재고 : {}", requestedQuantity, goods.getInventory());
+    }
+
+    private void checkInventory(Goods goods, int requestedQuantity) {
+        if (goods.getInventory() < requestedQuantity) {
+            throw new InsufficientStockException(INSUFFICIENT_STOCK, goods.getName());
+        }
     }
 
 }
