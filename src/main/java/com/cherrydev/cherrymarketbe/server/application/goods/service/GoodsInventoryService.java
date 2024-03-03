@@ -23,6 +23,13 @@ public class GoodsInventoryService {
 
     private final EntityManager em;
 
+    /**
+     * 재고 업데이트를 처리합니다.
+     * @param goods 재고를 업데이트할 상품(영속성 컨텍스트에 존재해야 함)
+     * @param requestedQuantity 요청 수량
+     * @throws InsufficientStockException 재고 부족 시
+     * @throws CouldNotObtainLockException Lock 획득 실패 시(이 경우 재시도됨)
+     */
     @DistributedLock(waitTime = 3, leaseTime = 10)
     @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.SERIALIZABLE)
     @Retryable(retryFor = {CouldNotObtainLockException.class},
@@ -32,7 +39,6 @@ public class GoodsInventoryService {
         if (goods.getInventory() < requestedQuantity) {
             throw new InsufficientStockException(INSUFFICIENT_STOCK, goods.getName());
         }
-
         goods.updateInventory(requestedQuantity);
         em.flush();
         log.info("재고 업데이트 완료! / 요청 수량 : {}, 반영 후 재고 : {}", requestedQuantity, goods.getInventory());
