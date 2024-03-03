@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BLACK_LIST_KEY_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BLACKLISTED_KEY_PREFIX;
 import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
 import static com.cherrydev.cherrymarketbe.server.application.common.utils.CodeGenerator.generateRandomPassword;
 import static org.springframework.beans.propertyeditors.CustomBooleanEditor.VALUE_TRUE;
@@ -132,7 +132,7 @@ public class AuthService {
     private void invalidateToken(String email, String accessToken) {
         redisService.deleteData(email);
         redisService.setDataExpire(
-                BLACK_LIST_KEY_PREFIX + accessToken,
+                BLACKLISTED_KEY_PREFIX + accessToken,
                 VALUE_TRUE, REFRESH_TOKEN_EXPIRE_TIME);
     }
 
