@@ -23,7 +23,7 @@ public class OAuthController {
     public ResponseEntity<SignInResponse> naverSignIn(
             final @RequestBody OAuthRequestDto oAuthRequestDto
     ) {
-        return naverService.signIn(oAuthRequestDto);
+        return ResponseEntity.ok(naverService.signIn(oAuthRequestDto));
     }
 
     @DeleteMapping("/naver/sign-out")

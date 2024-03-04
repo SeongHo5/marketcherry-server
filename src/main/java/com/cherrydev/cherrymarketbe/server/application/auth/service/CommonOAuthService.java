@@ -6,14 +6,13 @@ import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthExcepti
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.DuplicatedException;
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthAccountInfo;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthTokenResponse;
+import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
@@ -30,7 +29,7 @@ public class CommonOAuthService {
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
 
-    public ResponseEntity<SignInResponse> processSignIn(
+    public SignInResponse processSignIn(
             final OAuthAccountInfo accountInfo,
             final String provider
     ) {
@@ -48,21 +47,18 @@ public class CommonOAuthService {
      * <p>
      * 소셜 로그인은 고객만 가능하므로, 응답 DTO의 userRole은 ROLE_CUSTOMER로 고정
      */
-    private ResponseEntity<SignInResponse> createSignInResponse(
+    private SignInResponse createSignInResponse(
             final JwtResponse jwtResponse,
             final String userName
     ) {
-        return ResponseEntity.ok()
-                .body(
-                        SignInResponse.builder()
-                                .userName(userName)
-                                .userRole(ROLE_CUSTOMER)
-                                .grantType(jwtResponse.grantType())
-                                .accessToken(jwtResponse.accessToken())
-                                .refreshToken(jwtResponse.refreshToken())
-                                .expiresIn(jwtResponse.accessTokenExpiresIn())
-                                .build()
-                );
+        return SignInResponse.builder()
+                .userName(userName)
+                .userRole(ROLE_CUSTOMER)
+                .grantType(jwtResponse.grantType())
+                .accessToken(jwtResponse.accessToken())
+                .refreshToken(jwtResponse.refreshToken())
+                .expiresIn(jwtResponse.accessTokenExpiresIn())
+                .build();
     }
 
     /**

@@ -6,6 +6,8 @@ import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.OAuthRequestD
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthAccountInfo;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthTokenResponse;
+import com.cherrydev.cherrymarketbe.server.infrastructure.feign.NaverAuthFeignClient;
+import com.cherrydev.cherrymarketbe.server.infrastructure.feign.NaverUserFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +37,7 @@ public class NaverOAuthService {
     private final CommonOAuthService commonOAuthService;
     private final RedisService redisService;
     @Transactional
-    public ResponseEntity<SignInResponse> signIn(final OAuthRequestDto oAuthRequestDto) {
+    public SignInResponse signIn(final OAuthRequestDto oAuthRequestDto) {
         String authCode = oAuthRequestDto.getAuthCode();
         String state = oAuthRequestDto.getState();
 

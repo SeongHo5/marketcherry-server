@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.auth.service;
+package com.cherrydev.cherrymarketbe.server.infrastructure.feign;
 
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthAccountInfo;
 import feign.Headers;
