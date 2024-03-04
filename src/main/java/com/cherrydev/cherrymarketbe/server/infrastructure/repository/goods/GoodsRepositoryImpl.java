@@ -8,7 +8,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +18,12 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Repository
-public class CustomGoodsRepositoryImpl implements CustomGoodsRepository {
-    private final JPAQueryFactory jpaQueryFactory;
+@RequiredArgsConstructor
+public class GoodsRepositoryImpl implements CustomGoodsRepository {
+
     private static final QGoods qGoods = QGoods.goods;
 
-    public CustomGoodsRepositoryImpl(EntityManager em) {
-        this.jpaQueryFactory = new JPAQueryFactory(em);
-    }
+    private final JPAQueryFactory jpaQueryFactory;
 
     @Override
     public Page<Goods> findByConditions(Pageable pageable, GoodsSearchConditions conditions) {

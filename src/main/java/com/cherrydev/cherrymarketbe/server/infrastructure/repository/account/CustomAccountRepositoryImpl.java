@@ -19,8 +19,9 @@ import java.util.List;
 @Repository
 public class CustomAccountRepositoryImpl implements CustomAccountRepository {
 
-    private final JPAQueryFactory jpaQueryFactory;
     private static final QAccount qAccount = QAccount.account;
+
+    private final JPAQueryFactory jpaQueryFactory;
 
     public CustomAccountRepositoryImpl(EntityManager em) {
         this.jpaQueryFactory = new JPAQueryFactory(em);
