@@ -105,8 +105,7 @@ public class AccountService {
     // =============== PRIVATE METHODS =============== //
 
     private void publishWelcomeEvent(Account account) {
-        AccountRegistrationEvent event = new AccountRegistrationEvent(this, account);
-        eventPublisher.publishEvent(event);
+        eventPublisher.publishEvent(AccountRegistrationEvent.from(this, account));
     }
 
 }

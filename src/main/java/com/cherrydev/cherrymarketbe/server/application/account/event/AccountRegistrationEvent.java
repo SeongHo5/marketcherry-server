@@ -24,4 +24,9 @@ public class AccountRegistrationEvent extends ApplicationEvent {
         this.rewardGrantType = SIGN_UP_REWARD_TYPE;
         this.couponCode = SIGN_UP_COUPON_CODE;
     }
+
+    public static AccountRegistrationEvent from(Object source, Account account) {
+        return new AccountRegistrationEvent(source, account);
+    }
+
 }
