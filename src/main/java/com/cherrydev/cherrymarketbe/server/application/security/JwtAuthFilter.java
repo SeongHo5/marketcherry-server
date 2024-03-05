@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +18,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BLACK_LIST_KEY_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BLACKLISTED_KEY_PREFIX;
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.BLACKLISTED_TOKEN;
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INVALID_AUTH_ERROR;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -36,16 +38,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String userToken = jwtProvider.resolveToken(request);
 
         // 요청에 토큰이 포함된 때만 검증 - 인증을 요구하지 않는 API에 대한 검증 방지
-        if (userToken != null) {
-            try {
-                validateToken(userToken);
-                // 토큰에서 사용자 정보를 추출하고 인증을 설정합니다.
-                Claims userInfo = jwtProvider.getInfoFromToken(userToken);
-                setAuthentication(userInfo.getSubject());
-            } catch (Exception e) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, INVALID_AUTH_ERROR.getMessage());
-                return;
+        if (!hasAuthentication()) {
+            if (userToken != null) {
+                try {
+                    validateToken(userToken);
+                    // 토큰에서 사용자 정보를 추출하고 인증을 설정합니다.
+                    Claims userInfo = jwtProvider.getInfoFromToken(userToken);
+                    setAuthentication(userInfo.getSubject());
+                } catch (Exception e) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, INVALID_AUTH_ERROR.getMessage());
+                    return;
+                }
             }
+        } else {
+            log.warn("SecurityContextHolder에 이미 인증 정보가 존재합니다. - {}",
+                    SecurityContextHolder.getContext().getAuthentication());
         }
         filterChain.doFilter(request, response);
     }
@@ -63,8 +70,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void checkIfTokenInBlackList(String token) {
-        if (redisService.hasKey(BLACK_LIST_KEY_PREFIX + token)) {
+        if (redisService.hasKey(BLACKLISTED_KEY_PREFIX + token)) {
             throw new AuthException(BLACKLISTED_TOKEN);
         }
+    }
+
+    private boolean hasAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication() == null;
     }
 }

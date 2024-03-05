@@ -77,6 +77,6 @@ public enum ExceptionStatus {
     FAILED_TO_EXECUTE_REQUESTED_ACTION(500, "요청한 작업을 수행할 수 없습니다."),
     FAILED_HTTP_ACTION(500, "HTTP 요청 실패");
 
-    private final int statusCode;
+    private final Integer statusCode;
     private final String message;
 }
