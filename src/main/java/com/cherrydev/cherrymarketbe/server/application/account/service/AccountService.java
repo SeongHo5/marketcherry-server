@@ -74,7 +74,7 @@ public class AccountService {
     }
 
     @Transactional
-    public AccountInfo resetPassword(
+    public AccountInfo modifyAccountInfo(
             final AccountDetails accountDetails,
             final RequestModifyAccountInfo requestDto
     ) {

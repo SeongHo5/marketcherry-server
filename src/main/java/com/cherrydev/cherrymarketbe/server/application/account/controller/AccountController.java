@@ -58,7 +58,7 @@ public class AccountController {
             @AuthenticationPrincipal final AccountDetails accountDetails,
             @RequestBody final RequestModifyAccountInfo requestDto
     ) {
-        AccountInfo accountInfo = accountService.resetPassword(accountDetails, requestDto);
+        AccountInfo accountInfo = accountService.modifyAccountInfo(accountDetails, requestDto);
         return ResponseEntity.ok(accountInfo);
     }
 
