@@ -69,7 +69,7 @@ public class DeliveryDetail extends BaseEntity {
     @Column(name = "CHECK_CHANGE_ADRES")
     private Boolean isAddressChanged;
 
-    public static DeliveryDetail of(Orders orders, RequestCreateOrder request) {
+    public static DeliveryDetail from(Orders orders, RequestCreateOrder request) {
         return DeliveryDetail.builder()
                 .orders(orders)
                 .deliveryStatus(DeliveryStatus.ORDER_RECEIVED)
@@ -83,7 +83,7 @@ public class DeliveryDetail extends BaseEntity {
                 .build();
     }
 
-    public static DeliveryDetail of(Orders orders, CustomerAddress customerAddress, RequestCreateOrder request ) {
+    public static DeliveryDetail from(Orders orders, CustomerAddress customerAddress, RequestCreateOrder request ) {
         return DeliveryDetail.builder()
                 .orders(orders)
                 .deliveryStatus(DeliveryStatus.ORDER_RECEIVED)

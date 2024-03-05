@@ -34,7 +34,7 @@ public class AddressService {
             final RequestAddAddress request
     ) {
         Account account = accountDetails.getAccount();
-        CustomerAddress customerAddress = CustomerAddress.of(request, account);
+        CustomerAddress customerAddress = CustomerAddress.from(request, account);
 
         addressValidator.verifyAddressLimit(account);
         addressValidator.checkDefaultAddressAlreadyExists(account);

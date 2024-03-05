@@ -34,7 +34,7 @@ public class RewardService {
     public void grantReward(final RequestAddReward request) {
         Account account = accountQueryService.fetchAccountEntity(request.email());
 
-        customerRewardRepository.save(CustomerReward.of(request, account));
+        customerRewardRepository.save(CustomerReward.from(request, account));
     }
 
     @Transactional

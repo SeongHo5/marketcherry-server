@@ -43,7 +43,7 @@ public class CartService {
         }
         // 장바구니에 상품이 없으면, 새로 추가한다.
         goodsValidator.validateGoodsBeforeAddToCart(goods);
-        cartRepository.save(Cart.of(account, goods));
+        cartRepository.save(Cart.from(account, goods));
     }
 
     @Transactional

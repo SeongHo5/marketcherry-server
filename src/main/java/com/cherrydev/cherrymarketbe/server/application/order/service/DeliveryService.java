@@ -24,9 +24,9 @@ public class DeliveryService {
         validateRequestFields(request);
         if (getFromMyDefault) {
             CustomerAddress customerAddress = addressService.fetchDefaultAddressForOrders(orders.getAccount());
-            return DeliveryDetail.of(orders, customerAddress, request);
+            return DeliveryDetail.from(orders, customerAddress, request);
         }
-        return DeliveryDetail.of(orders, request);
+        return DeliveryDetail.from(orders, request);
     }
 
     private void validateRequestFields(RequestCreateOrder request) {

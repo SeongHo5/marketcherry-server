@@ -59,7 +59,7 @@ public class CustomerReward extends BaseEntity {
     @Column(name = "CSTMR_REWARD_USE_DE")
     private Timestamp usedAt;
 
-    public static CustomerReward of(RequestAddReward request, Account account) {
+    public static CustomerReward from(RequestAddReward request, Account account) {
         return CustomerReward.builder()
                 .account(account)
                 .grantType(RewardGrantType.valueOf(request.rewardGrantType()))

@@ -87,7 +87,7 @@ public class PaymentDetail extends BaseEntity {
     @Column(name = "DELETED_DE")
     private Timestamp deletedAt;
 
-    public static PaymentDetail of(Orders orders, Long totalAmount, Long discountAmount, Long paymentAmount, Long rewardUsed) {
+    public static PaymentDetail from(Orders orders, Long totalAmount, Long discountAmount, Long paymentAmount, Long rewardUsed) {
         return PaymentDetail.builder()
                 .orders(orders)
                 .totalAmount(totalAmount)

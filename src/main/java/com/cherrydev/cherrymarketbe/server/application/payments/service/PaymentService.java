@@ -35,7 +35,7 @@ public class PaymentService {
         long deliveryCost = calculation.getTotalAmount() < MINIMUM_AMOUNT_FOR_FREE_DELIVERY ? DEFAULT_DELIVERY_COST : 0L;
         long paymentAmount = totalAmount - discountAmount + deliveryCost;
 
-        return PaymentDetail.of(orders, totalAmount, discountAmount, paymentAmount, rewardUsed);
+        return PaymentDetail.from(orders, totalAmount, discountAmount, paymentAmount, rewardUsed);
     }
 
     @Transactional

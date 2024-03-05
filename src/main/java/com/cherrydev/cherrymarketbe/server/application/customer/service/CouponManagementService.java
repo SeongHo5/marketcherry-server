@@ -46,7 +46,7 @@ public class CouponManagementService {
         Coupon coupon = couponRepository.findByCode(grantCouponByAdmin.couponCode())
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUPON));
 
-        CustomerCoupon customerCoupon = CustomerCoupon.of(account, coupon);
+        CustomerCoupon customerCoupon = CustomerCoupon.from(account, coupon);
 
         customerCouponRepository.save(customerCoupon);
     }

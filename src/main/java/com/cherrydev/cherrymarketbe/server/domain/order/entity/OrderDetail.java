@@ -39,7 +39,7 @@ public class OrderDetail extends BaseEntity {
     @Column(name = "ORDERS_QY", nullable = false)
     private Integer orderQuantity;
 
-    public static OrderDetail of(Orders orders, Cart cart) {
+    public static OrderDetail from(Orders orders, Cart cart) {
         return OrderDetail.builder()
                 .orders(orders)
                 .goods(cart.getGoods())

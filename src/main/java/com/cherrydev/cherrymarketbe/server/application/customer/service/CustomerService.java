@@ -37,7 +37,7 @@ public class CustomerService {
         checkCouponExistence(coupon, account);
 
 
-        customerCouponRepository.save(CustomerCoupon.of(account, coupon));
+        customerCouponRepository.save(CustomerCoupon.from(account, coupon));
     }
 
     @Transactional(readOnly = true)

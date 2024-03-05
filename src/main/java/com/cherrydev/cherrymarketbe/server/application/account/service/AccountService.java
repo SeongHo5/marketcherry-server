@@ -43,7 +43,7 @@ public class AccountService {
 
         String encodedPassword = passwordEncoder.encode(requestSignUp.getPassword());
 
-        Account account = Account.of(requestSignUp, encodedPassword, LOCAL);
+        Account account = Account.from(requestSignUp, encodedPassword, LOCAL);
         accountRepository.save(account);
 
         Agreement agreement = Agreement.of(requestSignUp);
@@ -61,7 +61,7 @@ public class AccountService {
         accountValidator.checkUsernameIsProhibited(name);
         accountValidator.checkEmailIsDuplicated(email);
 
-        Account account = Account.of(oAuthAccountInfo, encodedPassword, RegisterType.valueOf(provider));
+        Account account = Account.from(oAuthAccountInfo, encodedPassword, RegisterType.valueOf(provider));
 
         accountRepository.save(account);
         publishWelcomeEvent(account);

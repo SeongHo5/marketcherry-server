@@ -90,7 +90,7 @@ public class Account extends BaseEntity {
     /**
      * 로컬로 가입 시 계정 생성
      */
-    public static Account of(RequestSignUp request, String encodedPassword, RegisterType registerType) {
+    public static Account from(RequestSignUp request, String encodedPassword, RegisterType registerType) {
         return Account.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -106,7 +106,7 @@ public class Account extends BaseEntity {
     /**
      * 소셜 로그인 시 계정 생성
      */
-    public static Account of(OAuthAccountInfo oAuthAccountInfo, String encodedPassword, RegisterType registerType) {
+    public static Account from(OAuthAccountInfo oAuthAccountInfo, String encodedPassword, RegisterType registerType) {
         return Account.builder()
                 .name(oAuthAccountInfo.getName())
                 .email(oAuthAccountInfo.getEmail())

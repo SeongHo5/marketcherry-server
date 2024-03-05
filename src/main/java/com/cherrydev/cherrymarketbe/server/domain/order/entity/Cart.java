@@ -47,7 +47,7 @@ public class Cart extends BaseEntity {
         this.quantity--;
     }
 
-    public static Cart of(Account account, Goods goods) {
+    public static Cart from(Account account, Goods goods) {
         return Cart.builder()
                 .account(account)
                 .goods(goods)

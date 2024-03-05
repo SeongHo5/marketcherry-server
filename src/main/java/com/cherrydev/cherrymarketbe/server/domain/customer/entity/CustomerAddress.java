@@ -71,7 +71,7 @@ public class CustomerAddress extends BaseEntity {
 
 
 
-    public static CustomerAddress of(RequestAddAddress request, Account account) {
+    public static CustomerAddress from(RequestAddAddress request, Account account) {
         return CustomerAddress.builder()
                 .account(account)
                 .isDefault(request.isDefault())

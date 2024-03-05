@@ -46,7 +46,7 @@ public class CustomerCoupon extends BaseEntity {
     @Column(name = "COUPON_USE_DE")
     private Timestamp usedAt;
 
-    public static CustomerCoupon of(Account account, Coupon coupon) {
+    public static CustomerCoupon from(Account account, Coupon coupon) {
         return CustomerCoupon.builder()
                 .account(account)
                 .coupon(coupon)

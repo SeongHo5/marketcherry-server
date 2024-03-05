@@ -70,7 +70,7 @@ public class Orders extends BaseEntity {
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    public static Orders of(Account account, String orderName) {
+    public static Orders from(Account account, String orderName) {
         return Orders.builder()
                 .account(account)
                 .status(OrderStatus.PENDING_PAYMENT)
