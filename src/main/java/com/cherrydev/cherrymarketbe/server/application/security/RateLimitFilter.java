@@ -19,16 +19,17 @@ import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 /**
  * 토큰 버킷 방식으로 API 요청 제한을 하는 필터입니다.
  */
-@Slf4j
+@Slf4j(topic = "RateLimitFilter")
 @Component
 @RequiredArgsConstructor
 public class RateLimitFilter extends OncePerRequestFilter {
 
-    private final RedisService redisService;
     public static final String API_ENDPOINT_PREFIX = "/api";
     public static final String RATE_LIMIT_KEY_PREFIX = "RATE::LIMIT::";
     public static final int MAX_REQUESTS_PER_MINUTE = 40;
     public static final int BLOCK_TIME_IN_SECONDS = 30;
+
+    private final RedisService redisService;
 
     @Override
     protected void doFilterInternal(
@@ -36,30 +37,36 @@ public class RateLimitFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
-        String clientIp = request.getRemoteAddr();
-
-        if (!requestURI.startsWith(API_ENDPOINT_PREFIX)) {
-            String key = RATE_LIMIT_KEY_PREFIX + clientIp;
-            String currentValue = redisService.getData(key, String.class);
-
-            if (currentValue == null) {
-                redisService.setDataExpire(key, "1", Duration.ofMinutes(1));
-            } else {
-                int requests = Integer.parseInt(currentValue);
-
-                if (requests >= MAX_REQUESTS_PER_MINUTE) {
-                    handleRateLimitExceeded(response, clientIp);
-                    return;
-                }
-                redisService.incrementValueByKey(key);
-            }
+        if (!request.getRequestURI().startsWith(API_ENDPOINT_PREFIX)) {
+            doRateLimiting(request.getRemoteAddr(), response);
         }
         filterChain.doFilter(request, response);
     }
 
+    private void doRateLimiting(String clientIp, HttpServletResponse response) throws IOException {
+        String key = RATE_LIMIT_KEY_PREFIX + clientIp;
+        String currentValue = redisService.getData(key, String.class);
+
+        if (currentValue == null) {
+            initializeRequestCount(key);
+        } else {
+            processCurrentRateLimitCount(key, currentValue, response, clientIp);
+        }
+    }
+    private void initializeRequestCount(String key) {
+        redisService.setDataExpire(key, "1", Duration.ofMinutes(1));
+    }
+    private void processCurrentRateLimitCount(String key, String currentValue, HttpServletResponse response, String clientIp) throws IOException {
+        int requests = Integer.parseInt(currentValue);
+
+        if (requests >= MAX_REQUESTS_PER_MINUTE) {
+            handleRateLimitExceeded(response, clientIp);
+        } else {
+            redisService.incrementValueByKey(key);
+        }
+    }
     private void handleRateLimitExceeded(HttpServletResponse response, String clientIp) throws IOException {
-        log.warn("[RateLimitFilter] Too many requests from [{}]", clientIp);
+        log.warn("Too many requests from [{}]", clientIp);
 
         redisService.extendExpireTime(RATE_LIMIT_KEY_PREFIX + clientIp, BLOCK_TIME_IN_SECONDS);
 
