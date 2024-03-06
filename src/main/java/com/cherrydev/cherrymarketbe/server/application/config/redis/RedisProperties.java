@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class RedisProperties {
 
     private String host;
-    private int port;
+    private Integer port;
     private String password;
 
 }
