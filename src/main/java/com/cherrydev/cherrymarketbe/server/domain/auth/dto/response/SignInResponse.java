@@ -6,7 +6,8 @@ import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import lombok.Builder;
 import lombok.Value;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BEARER_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
+
 
 @Value
 @Builder

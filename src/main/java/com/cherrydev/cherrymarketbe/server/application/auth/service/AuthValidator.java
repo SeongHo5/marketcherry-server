@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.EmailConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus.DELETED;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus.RESTRICTED;
 import static org.springframework.beans.propertyeditors.CustomBooleanEditor.VALUE_TRUE;
@@ -93,8 +93,6 @@ public class AuthValidator {
 
     /**
      * 비밀번호 재설정 코드 검증
-     *
-     * @return 검증 성공 여부
      */
     protected void verifyResetCode(final String email, final String code) {
         String validCode = redisService.getData(PREFIX_PW_RESET + email, String.class);

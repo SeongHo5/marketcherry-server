@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 
 
 @Service

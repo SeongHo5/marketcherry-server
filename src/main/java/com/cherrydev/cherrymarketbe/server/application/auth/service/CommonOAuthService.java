@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.LOCAL;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole.ROLE_CUSTOMER;
 
@@ -80,8 +80,7 @@ public class CommonOAuthService {
      */
     private JwtResponse issueJwtToken(final String email) {
         JwtResponse jwtResponse = jwtProvider.createJwtToken(email);
-        redisService.setDataExpire(email, jwtResponse.refreshToken(),
-                REFRESH_TOKEN_EXPIRE_TIME);
+        redisService.setDataExpire(email, jwtResponse.refreshToken(), REFRESH_TOKEN_EXPIRE_TIME);
         return jwtResponse;
     }
 

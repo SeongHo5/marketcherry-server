@@ -15,8 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BEARER_PREFIX;
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.GRANT_TYPE_AUTHORIZATION;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.GRANT_TYPE_AUTHORIZATION;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.NAVER;
 
 

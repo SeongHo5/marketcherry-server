@@ -25,7 +25,8 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 
 @Setter
