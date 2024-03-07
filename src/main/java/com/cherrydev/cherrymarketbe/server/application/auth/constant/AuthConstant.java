@@ -10,7 +10,6 @@ public final class AuthConstant {
 
     // JWT Constants
     public static final String BLACKLISTED_KEY_PREFIX = "JWT::BLACK_LIST::";
-    public static final String AUTHORIZATION = "Authorization";
     public static final String AUTHORIZATION_KEY = "auth";
     public static final String BEARER_PREFIX = "Bearer ";
     public static final Duration ACCESS_TOKEN_EXPIRE_TIME = Duration.ofDays(2);

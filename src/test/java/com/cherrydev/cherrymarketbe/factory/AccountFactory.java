@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.integration.factory;
+package com.cherrydev.cherrymarketbe.factory;
 
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestModifyAccountInfo;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
