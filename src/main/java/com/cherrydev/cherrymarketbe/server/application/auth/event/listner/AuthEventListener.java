@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.PW_RESET_INFO_TITTLE;
+import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.createPasswordResetInfoMessage;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ public class AuthEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onPasswordReset(PasswordResetEvent event) {
         log.info("Reset password for {}", event.getEmail());
-        emailService.sendNotificationMail(event.getEmail());
+        emailService.sendMail(event.getEmail(), PW_RESET_INFO_TITTLE, createPasswordResetInfoMessage());
     }
 
 }

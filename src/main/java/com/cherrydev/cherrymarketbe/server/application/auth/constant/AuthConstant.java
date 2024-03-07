@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.common.constant;
+package com.cherrydev.cherrymarketbe.server.application.auth.constant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -21,5 +21,15 @@ public final class AuthConstant {
     // OAuth Constants - NAVER
     public static final String OAUTH_NAVER_PREFIX = "OAUTH::NAVER::";
     public static final String OAUTH_NAVER_REFRESH_PREFIX = "OAUTH::NAVER::REFRESH::";
+
+    // Verification Constants
+
+    public static final String PREFIX_VERIFY = "EMAIL::VERIFY::";
+    public static final String PREFIX_VERIFIED = "EMAIL::VERIFIED::";
+    public static final String PREFIX_PW_RESET = "EMAIL::PW_RESET::";
+
+    public static final int VERIFICATION_CODE_LENGTH = 6;
+    public static final Duration VERIFICATION_CODE_EXPIRE_TIME = Duration.ofMinutes(3);
+    public static final Duration WHITE_LIST_VERIFIED_TIME = Duration.ofDays(1);
 
 }

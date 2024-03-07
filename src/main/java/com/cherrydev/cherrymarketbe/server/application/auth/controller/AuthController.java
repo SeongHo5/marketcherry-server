@@ -1,7 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.controller;
 
 import com.cherrydev.cherrymarketbe.server.application.auth.service.AuthService;
-import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtReissueResponse;
@@ -14,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BEARER_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -24,7 +23,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class AuthController {
 
     private final AuthService authService;
-    private final EmailService emailService;
 
     /**
      * 로그인
@@ -73,7 +71,7 @@ public class AuthController {
     public ResponseEntity<Void> sendEmail(
             @RequestParam @Email final String email
     ) {
-        emailService.sendVerificationMail(email);
+        authService.sendVerificationMail(email);
         return ResponseEntity.ok().build();
     }
 
@@ -100,7 +98,7 @@ public class AuthController {
     public ResponseEntity<Void> sendPasswordResetEmail(
             @RequestParam @Email final String email
     ) {
-        emailService.sendPasswordResetMail(email);
+        authService.sendPasswordResetMail(email);
         return ResponseEntity.ok().build();
     }
 

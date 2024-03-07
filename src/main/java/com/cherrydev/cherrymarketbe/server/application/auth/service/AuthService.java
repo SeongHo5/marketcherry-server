@@ -1,9 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
+import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.application.auth.event.PasswordResetEvent;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
+import com.cherrydev.cherrymarketbe.server.application.common.utils.CodeGenerator;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
@@ -18,8 +21,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.BLACKLISTED_KEY_PREFIX;
-import static com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
+import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.EMAIL_ALREADY_SENT;
+import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.EMAIL_ALREADY_VERIFIED;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.*;
+import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.createPasswordResetMessage;
 import static com.cherrydev.cherrymarketbe.server.application.common.utils.CodeGenerator.generateRandomPassword;
 import static org.springframework.beans.propertyeditors.CustomBooleanEditor.VALUE_TRUE;
 
@@ -30,6 +36,7 @@ public class AuthService {
 
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
+    private final EmailService emailService;
     private final AccountQueryService accountQueryService;
     private final AuthValidator authValidator;
     private final PasswordEncoder passwordEncoder;
@@ -95,9 +102,36 @@ public class AuthService {
                 .accessTokenExpiresIn(jwtResponse.accessTokenExpiresIn())
                 .build();
     }
+    /**
+     * 이미 발송된 코드가 있는지 확인하고, 없으면 인증 코드 생성 후 이메일 전송
+     * <p>
+     * <em>사용시 주의 사항</em>
+     * <p>
+     * ※ 이메일 발송에 약 7초 정도 소요됩니다.
+     *
+     * @param email 전송할 이메일
+     */
+    public void sendVerificationMail(final String email) {
+        checkIfEmailIsWhiteListed(email);
+        checkIfCodeAlreadySent(email, PREFIX_VERIFY);
+
+        String verificationCode = CodeGenerator.generateRandomCode(VERIFICATION_CODE_LENGTH);
+
+        redisService.setDataExpire(PREFIX_VERIFY + email, verificationCode, VERIFICATION_CODE_EXPIRE_TIME);
+        emailService.sendMail(email, VERIFICATION_TITTLE, createVerificationMessage(verificationCode));
+    }
 
     public void verifyEmailByCode(final String email, final String code) {
         authValidator.verifyEmail(email, code);
+    }
+
+    public void sendPasswordResetMail(final String email) {
+        checkIfCodeAlreadySent(email, PREFIX_PW_RESET);
+
+        String verificationCode = CodeGenerator.generateRandomCode(VERIFICATION_CODE_LENGTH);
+
+        redisService.setDataExpire(PREFIX_PW_RESET + email, verificationCode, VERIFICATION_CODE_EXPIRE_TIME);
+        emailService.sendMail(email, PW_RESET_TITTLE, createPasswordResetMessage(verificationCode));
     }
 
     /**
@@ -134,6 +168,18 @@ public class AuthService {
         redisService.setDataExpire(
                 BLACKLISTED_KEY_PREFIX + accessToken,
                 VALUE_TRUE, REFRESH_TOKEN_EXPIRE_TIME);
+    }
+
+    private void checkIfCodeAlreadySent(final String email, final String prefix) {
+        if (redisService.hasKey(prefix + email)) {
+            throw new AuthException(EMAIL_ALREADY_SENT);
+        }
+    }
+
+    private void checkIfEmailIsWhiteListed(final String email) {
+        if (redisService.hasKey(PREFIX_VERIFIED + email)) {
+            throw new AuthException(EMAIL_ALREADY_VERIFIED);
+        }
     }
 
     private void publishPasswordResetEvent(Account account) {
