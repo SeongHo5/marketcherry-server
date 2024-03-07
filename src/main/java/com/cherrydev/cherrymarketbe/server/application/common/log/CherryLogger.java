@@ -14,4 +14,12 @@ public final class CherryLogger {
         log.info("============================================================================");
     }
 
+    public static void logWarmUpStart() {
+        log.info("*********************** WARM UP START ***********************");
+    }
+
+    public static void logWarmUpEnd() {
+        log.info("*********************** WARM UP END ***********************");
+    }
+
 }
