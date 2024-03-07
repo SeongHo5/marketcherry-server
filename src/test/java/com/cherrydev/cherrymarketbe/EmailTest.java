@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.integration;
+package com.cherrydev.cherrymarketbe;
 
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
@@ -11,14 +11,13 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @Testcontainers
 @SpringBootTest
-class EmailServiceTest {
+class EmailTest {
 
     @Container
     private static final GenericContainer<?> mailhog =

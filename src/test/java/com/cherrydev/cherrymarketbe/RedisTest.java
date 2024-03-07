@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.integration;
+package com.cherrydev.cherrymarketbe;
 
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.redis.testcontainers.RedisContainer;
@@ -22,7 +22,7 @@ import static org.awaitility.Awaitility.await;
 
 @DataRedisTest
 @Testcontainers
-class RedisServiceTest {
+class RedisTest {
 
     @Container
     private static final RedisContainer redis = new RedisContainer(

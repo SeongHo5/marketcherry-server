@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.unit.common;
+package com.cherrydev.cherrymarketbe;
 
 import org.junit.jupiter.api.Test;
 
