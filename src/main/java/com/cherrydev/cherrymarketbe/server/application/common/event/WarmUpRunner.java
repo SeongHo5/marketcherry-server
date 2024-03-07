@@ -27,10 +27,10 @@ public class WarmUpRunner {
     private static final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${warmup.id}")
-    private String warmUpId;
+    private String warmUpAuthId;
 
     @Value("${warmup.pw}")
-    private String warmUpPw;
+    private String warmUpAuthPassword;
 
     @EventListener(ApplicationReadyEvent.class)
     public void warmUp() {
@@ -52,7 +52,7 @@ public class WarmUpRunner {
     }
 
     private void invokeAuthApi() {
-        RequestSignIn requestSignIn = new RequestSignIn(warmUpId, warmUpPw);
+        RequestSignIn requestSignIn = new RequestSignIn(warmUpAuthId, warmUpAuthPassword);
         ResponseEntity<SignInResponse> response = restTemplate.postForEntity("/auth/login", requestSignIn, SignInResponse.class);
         restTemplate.postForEntity("/auth/re-issue", response.getBody(), SignInResponse.class);
         restTemplate.delete("/auth/" + Objects.requireNonNull(response.getBody()).getAccessToken());
