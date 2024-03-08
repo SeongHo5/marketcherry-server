@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +29,8 @@ public class GoodsInventoryService {
      * @throws InsufficientStockException 재고 부족 시
      * @throws CouldNotObtainLockException Lock 획득 실패 시(이 경우 재시도됨)
      */
-    @DistributedLock(waitTime = 3, leaseTime = 10)
-    @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.SERIALIZABLE)
+    @DistributedLock(keyName = "#goods.getCode()", waitTime = 3, leaseTime = 10)
+    @Transactional(propagation = Propagation.MANDATORY)
     @Retryable(retryFor = {CouldNotObtainLockException.class},
             backoff = @Backoff(delay = 100, maxDelay = 500, multiplier = 2))
     public void processInventoryUpdate(Goods goods, int requestedQuantity) {

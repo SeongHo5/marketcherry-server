@@ -1,19 +1,16 @@
 package com.cherrydev.cherrymarketbe.server.application.aop;
 
 import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.CouldNotObtainLockException;
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
+import com.cherrydev.cherrymarketbe.server.application.common.utils.CustomSpELParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
 
 @Slf4j(topic = "distributedLockAspect")
 @Aspect
@@ -21,35 +18,49 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class DistributedLockAspect {
 
+    private static final String REDISSON_KEY_PREFIX = "LOCK::";
+
     private final RedissonClient redissonClient;
 
-    @Pointcut("@annotation(distributedLock)")
-    public void lockPointcut(DistributedLock distributedLock) {
-    }
-
-    @Around(value = "lockPointcut(distributedLock) && args(goods, requestedQuantity)",
-            argNames = "joinPoint,distributedLock,goods,requestedQuantity")
+    @Around("@annotation(distributedLock)")
     public Object aroundLockPointcut(
             ProceedingJoinPoint joinPoint,
-            DistributedLock distributedLock,
-            Goods goods,
-            int requestedQuantity
+            DistributedLock distributedLock
     ) throws Throwable {
-        RLock lock = redissonClient.getLock(goods.getCode());
-        boolean isLocked = false;
+        String key = getKeyFromMethodSignature(joinPoint, distributedLock);
+        RLock lock = redissonClient.getLock(key);
         try {
-            isLocked = lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());
-            if (isLocked) {
-                log.info("Lock acquired for key: {}", goods.getCode());
-                return joinPoint.proceed();
-            } else {
-                throw new CouldNotObtainLockException("Could not obtain lock");
+            log.info("Acquiring Lock: {}", key);
+            if (!acquireLock(lock, distributedLock)) {
+                return false;
             }
+            return joinPoint.proceed();
+        } catch (InterruptedException e) {
+            throw new InterruptedException();
         } finally {
-            if (isLocked) {
-                log.info("Releasing lock for key: {}", goods.getCode());
-                lock.unlock();
-            }
+            releaseLock(lock);
+        }
+    }
+
+    private String getKeyFromMethodSignature(ProceedingJoinPoint joinPoint, DistributedLock distributedLock) {
+        String key = CustomSpELParser.getDynamicValue(
+                ((MethodSignature) joinPoint.getSignature()).getParameterNames(),
+                joinPoint.getArgs(),
+                distributedLock.keyName()
+        ).toString();
+        return REDISSON_KEY_PREFIX + key;
+    }
+
+    private boolean acquireLock(RLock lock, DistributedLock distributedLock) throws InterruptedException {
+        return lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());
+    }
+
+    private void releaseLock(RLock lock) {
+        try {
+            lock.unlock();
+        } catch (IllegalMonitorStateException e) {
+            log.error("Error While Releasing Lock", e);
         }
     }
 }
+
