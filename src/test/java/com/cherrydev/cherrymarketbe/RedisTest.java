@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.aot.DisabledInAotMode;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -22,6 +23,7 @@ import static org.awaitility.Awaitility.await;
 
 @DataRedisTest
 @Testcontainers
+@DisabledInAotMode
 class RedisTest {
 
     @Container
