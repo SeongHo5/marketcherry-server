@@ -90,6 +90,7 @@ public class PaymentDetail extends BaseEntity {
     public static PaymentDetail from(Orders orders, Long totalAmount, Long discountAmount, Long paymentAmount, Long rewardUsed) {
         return PaymentDetail.builder()
                 .orders(orders)
+                .paymentStatus(PaymentStatus.READY)
                 .totalAmount(totalAmount)
                 .discountedAmount(discountAmount)
                 .paymentAmount(paymentAmount)
