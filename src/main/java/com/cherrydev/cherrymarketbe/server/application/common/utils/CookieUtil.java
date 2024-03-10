@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.application.common.utils;
 
-import com.cherrydev.cherrymarketbe.server.application.common.constant.AuthConstant;
 import org.springframework.http.ResponseCookie;
+
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
 
 public final class CookieUtil {
 
@@ -15,7 +16,7 @@ public final class CookieUtil {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(AuthConstant.REFRESH_TOKEN_EXPIRE_TIME)
+                .maxAge(REFRESH_TOKEN_EXPIRE_TIME)
                 .build();
     }
 

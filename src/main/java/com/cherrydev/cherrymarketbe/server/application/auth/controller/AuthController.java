@@ -13,8 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.AUTHORIZATION_KEY;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.common.utils.CookieUtil.createCookie;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 
 @Slf4j
 @RestController
@@ -34,6 +37,7 @@ public class AuthController {
         SignInResponse response = authService.signIn(requestSignIn);
         return ResponseEntity.ok()
                 .header(AUTHORIZATION, BEARER_PREFIX + response.getAccessToken())
+                .header(SET_COOKIE, createCookie(AUTHORIZATION_KEY, response.getAccessToken()).toString())
                 .body(response);
     }
 
