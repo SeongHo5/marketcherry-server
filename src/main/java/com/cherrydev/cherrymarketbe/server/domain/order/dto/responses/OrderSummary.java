@@ -17,7 +17,7 @@ public class OrderSummary {
     List<GoodsDetailInfo> orderedGoods;
 
 
-    public static OrderSummary of(String orderCode, PaymentDetail paymentDetail, DeliveryDetail deliveryDetail, List<GoodsDetailInfo> goodsDetailsInfo) {
+    public static OrderSummary from(String orderCode, PaymentDetail paymentDetail, DeliveryDetail deliveryDetail, List<GoodsDetailInfo> goodsDetailsInfo) {
         return OrderSummary.builder()
                 .orderCode(orderCode)
                 .paymentSummary(PaymentSummary.of(paymentDetail))

@@ -122,7 +122,7 @@ public class OrderService {
                 .map(GoodsDetailInfo::of)
                 .toList();
 
-        return OrderSummary.of(orders.getCode().toString(), paymentDetail, deliveryDetail, goodsDetail);
+        return OrderSummary.from(orders.getCode().toString(), paymentDetail, deliveryDetail, goodsDetail);
     }
 
     @NotNull
