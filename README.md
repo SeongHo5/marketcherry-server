@@ -18,7 +18,7 @@
 - 리팩토링 및 추가 기능 개발: 2024.01.15. ~
     
 ## 📚 프로젝트 아키텍처
-<img src="./docs/architecture.png" width="800" alt="architecture">
+<img src="./docs/app-architecture.png" width="800" alt="architecture">
 
 ## 🔧 기술 스택
 <img src="./docs/techstack.png" width="800" alt="techstack">
