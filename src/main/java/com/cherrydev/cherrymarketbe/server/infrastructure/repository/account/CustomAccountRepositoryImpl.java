@@ -8,7 +8,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,15 +17,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class CustomAccountRepositoryImpl implements CustomAccountRepository {
-
     private static final QAccount qAccount = QAccount.account;
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    public CustomAccountRepositoryImpl(EntityManager em) {
-        this.jpaQueryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public Page<Account> findByConditions(Pageable pageable, AccountSearchConditions conditions) {
