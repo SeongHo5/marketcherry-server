@@ -103,7 +103,7 @@ public class OrderService {
 
         orders.setStatus(OrderStatus.CANCELLED);
         paymentService.cancelPayment(paymentKey, cancelForm);
-        eventPublisher.publishEvent(new OrderCancelledEvent(this, orders));
+        eventPublisher.publishEvent(OrderCancelledEvent.from(this, orders));
     }
 
     private Orders fetchOrdersEntity(String orderCode) {

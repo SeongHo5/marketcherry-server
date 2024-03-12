@@ -12,4 +12,8 @@ public class OrderCancelledEvent extends ApplicationEvent {
         super(source);
         this.orders = orders;
     }
+
+    public static OrderCancelledEvent from(Object source, Orders orders) {
+        return new OrderCancelledEvent(source, orders);
+    }
 }
