@@ -12,6 +12,9 @@ import java.util.concurrent.Executor;
 @Configuration
 public class AsyncConfig {
 
+    /**
+     * 비동기 처리를 위한 Executor 설정
+     */
     @Primary
     @Bean(name = "asyncExecutor")
     public Executor taskExecutor() {
