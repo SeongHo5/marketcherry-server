@@ -7,6 +7,17 @@ services:
     environment:
       MH_STORAGE: maildir
       MH_MAILDIR_PATH: /tmp/maildir
+  mysql:
+    image: mysql:8.0.33
+    container_name: mysql
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: marketcherry
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
   redis:
     image: redis:6.2.6
     container_name: redis
@@ -14,4 +25,3 @@ services:
       - 6379:6379
     volumes:
       - ./redis/volume:/data
-    restart: always
