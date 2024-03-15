@@ -9,4 +9,8 @@ public interface CustomAccountRepository {
 
     Page<Account> findByConditions(Pageable pageable, AccountSearchConditions conditions);
 
+    void releaseRestrictedAccount();
+
+    void deleteInactiveAccount();
+
 }

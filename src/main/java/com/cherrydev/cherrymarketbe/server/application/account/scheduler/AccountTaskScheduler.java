@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.account.scheduler;
 
-import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.AccountRepository;
+import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.CustomAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.GenericJDBCException;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AccountTaskScheduler {
 
-    private final AccountRepository accountRepository;
+    private final CustomAccountRepository accountRepository;
     @Transactional
     @Scheduled(cron = "0 0 1 * * ?") // 매일 01시 00분 00초
     @Retryable(retryFor = {GenericJDBCException.class})

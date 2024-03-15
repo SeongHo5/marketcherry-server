@@ -14,14 +14,18 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class CustomAccountRepositoryImpl implements CustomAccountRepository {
     private static final QAccount qAccount = QAccount.account;
+    public static final int MAXIMUM_ACCOUNT_STORING_DAYS = 14;
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final Clock clock;
 
     @Override
     public Page<Account> findByConditions(Pageable pageable, AccountSearchConditions conditions) {
@@ -53,6 +57,24 @@ public class CustomAccountRepositoryImpl implements CustomAccountRepository {
                 ).fetchFirst();
 
         return new PageImpl<>(result, pageable, totalCount);
+    }
+
+    @Override
+    public void releaseRestrictedAccount() {
+        jpaQueryFactory.update(qAccount)
+                .set(qAccount.userStatus, UserStatus.ACTIVE)
+                .where(qAccount.userStatus.eq(UserStatus.RESTRICTED)
+                        .and(qAccount.restrictedUntil.before(LocalDate.now(clock))))
+                .execute();
+    }
+
+    @Override
+    public void deleteInactiveAccount() {
+        jpaQueryFactory.delete(qAccount)
+                .where(qAccount.userStatus.eq(UserStatus.DELETED)
+                        .and(qAccount.deletedAt.before(LocalDate.now(clock).minusDays(MAXIMUM_ACCOUNT_STORING_DAYS))))
+                        .execute();
+
     }
 
     private BooleanExpression emailLike(@Nullable String email) {
