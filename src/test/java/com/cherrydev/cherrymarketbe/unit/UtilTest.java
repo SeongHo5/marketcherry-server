@@ -22,8 +22,8 @@ class UtilTest {
         String case2 = generateRandomPassword(VERIFICATION_CODE_LENGTH);
 
         // When & Then
-        assertThat(case1.length()).isEqualTo(VERIFICATION_CODE_LENGTH);
-        assertThat(case2.length()).isEqualTo(VERIFICATION_CODE_LENGTH);
+        assertThat(case1).hasSize(VERIFICATION_CODE_LENGTH);
+        assertThat(case2).hasSize(VERIFICATION_CODE_LENGTH);
     }
 
     @Test
