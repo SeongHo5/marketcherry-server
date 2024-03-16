@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.unit;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
