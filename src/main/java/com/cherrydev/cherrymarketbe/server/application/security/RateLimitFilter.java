@@ -73,5 +73,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
         response.setStatus(SC_TOO_MANY_REQUESTS);
         response.addIntHeader(RETRY_AFTER, BLOCK_TIME_IN_SECONDS);
         response.getWriter().write("Too many requests, please try again later.");
+        response.getWriter().flush();
+        response.getWriter().close();
     }
 }
