@@ -24,10 +24,10 @@ import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 @RequiredArgsConstructor
 public class RateLimitFilter extends OncePerRequestFilter {
 
-    public static final String API_ENDPOINT_PREFIX = "/api";
-    public static final String RATE_LIMIT_KEY_PREFIX = "RATE::LIMIT::";
-    public static final int MAX_REQUESTS_PER_MINUTE = 40;
-    public static final int BLOCK_TIME_IN_SECONDS = 30;
+    private static final String API_ENDPOINT_PREFIX = "/api";
+    private static final String RATE_LIMIT_KEY_PREFIX = "RATE::LIMIT::";
+    private static final int MAX_REQUESTS_PER_MINUTE = 40;
+    private static final int BLOCK_TIME_IN_SECONDS = 30;
 
     private final RedisService redisService;
 
