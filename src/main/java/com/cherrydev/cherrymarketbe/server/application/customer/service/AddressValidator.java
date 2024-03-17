@@ -33,7 +33,7 @@ public class AddressValidator {
         }
     }
 
-    protected void checkIfRequestBodyIsNull(final RequestModifyAddress requestModifyAddress) {
+    protected void checkIfRequestBodyIsAllNull(final RequestModifyAddress requestModifyAddress) {
         boolean isAllNull = Stream.of(
                 requestModifyAddress.getIsDefault(),
                 requestModifyAddress.getName(),

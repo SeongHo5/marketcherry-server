@@ -78,7 +78,7 @@ public class AddressService {
         Long addressId = requestModifyAddress.getAddressId();
         boolean isSetAsDefault = requestModifyAddress.getIsDefault();
 
-        addressValidator.checkIfRequestBodyIsNull(requestModifyAddress);
+        addressValidator.checkIfRequestBodyIsAllNull(requestModifyAddress);
         CustomerAddress customerAddress = fetchCustomerAddressEntity(addressId, account);
 
         if (isSetAsDefault) {
