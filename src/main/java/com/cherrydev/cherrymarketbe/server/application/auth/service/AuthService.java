@@ -33,6 +33,7 @@ import static org.springframework.beans.propertyeditors.CustomBooleanEditor.VALU
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    private static final int NEW_PASSWORD_LENGTH = 12;
 
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
@@ -41,8 +42,6 @@ public class AuthService {
     private final AuthValidator authValidator;
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher eventPublisher;
-
-    private static final int NEW_PASSWORD_LENGTH = 12;
 
     /**
      * 로그인 처리를 위해 사용자를 조회하고, 비밀번호를 검증한다.
@@ -102,6 +101,7 @@ public class AuthService {
                 .accessTokenExpiresIn(jwtResponse.accessTokenExpiresIn())
                 .build();
     }
+
     /**
      * 이미 발송된 코드가 있는지 확인하고, 없으면 인증 코드 생성 후 이메일 전송
      * <p>
@@ -120,11 +120,9 @@ public class AuthService {
         redisService.setDataExpire(PREFIX_VERIFY + email, verificationCode, VERIFICATION_CODE_EXPIRE_TIME);
         emailService.sendMail(email, VERIFICATION_TITTLE, createVerificationMessage(verificationCode));
     }
-
     public void verifyEmailByCode(final String email, final String code) {
         authValidator.verifyEmail(email, code);
     }
-
     public void sendPasswordResetMail(final String email) {
         checkIfCodeAlreadySent(email, PREFIX_PW_RESET);
 
@@ -159,7 +157,6 @@ public class AuthService {
 
     // =============== PRIVATE METHODS =============== //
 
-
     /**
      * REDIS에서 사용자의 정보를 삭제하고, 토큰을 BLACK_LIST에 추가해 토큰을 무효화한다.
      */
@@ -169,19 +166,16 @@ public class AuthService {
                 BLACKLISTED_KEY_PREFIX + accessToken,
                 VALUE_TRUE, REFRESH_TOKEN_EXPIRE_TIME);
     }
-
     private void checkIfCodeAlreadySent(final String email, final String prefix) {
         if (redisService.hasKey(prefix + email)) {
             throw new AuthException(EMAIL_ALREADY_SENT);
         }
     }
-
     private void checkIfEmailIsWhiteListed(final String email) {
         if (redisService.hasKey(PREFIX_VERIFIED + email)) {
             throw new AuthException(EMAIL_ALREADY_VERIFIED);
         }
     }
-
     private void publishPasswordResetEvent(Account account) {
         PasswordResetEvent event = new PasswordResetEvent(this, account.getEmail());
         eventPublisher.publishEvent(event);
