@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.aop;
 
 import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
-import com.cherrydev.cherrymarketbe.server.application.common.utils.CustomSpELParser;
+import com.cherrydev.cherrymarketbe.server.application.common.utils.CustomSpelParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -43,7 +43,7 @@ public class DistributedLockAspect {
     }
 
     private String getKeyFromMethodSignature(ProceedingJoinPoint joinPoint, DistributedLock distributedLock) {
-        String key = CustomSpELParser.getDynamicValue(
+        String key = CustomSpelParser.getDynamicValue(
                 ((MethodSignature) joinPoint.getSignature()).getParameterNames(),
                 joinPoint.getArgs(),
                 distributedLock.keyName()

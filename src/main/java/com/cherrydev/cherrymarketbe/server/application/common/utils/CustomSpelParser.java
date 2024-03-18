@@ -8,7 +8,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CustomSpELParser {
+public final class CustomSpelParser {
 
     public static Object getDynamicValue(String[] parameterNames, Object[] args, String name) {
         ExpressionParser parser = new SpelExpressionParser();
