@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration;
 
 import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;

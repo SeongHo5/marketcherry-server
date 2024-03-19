@@ -1,5 +1,6 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration;
 
+import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestModifyAddress;
@@ -17,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.TestHelper.convertToJSONString;
-import static com.cherrydev.cherrymarketbe.factory.CustomerFactory.*;
+import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
+import static com.cherrydev.cherrymarketbe.integration.factory.CustomerFactory.*;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;

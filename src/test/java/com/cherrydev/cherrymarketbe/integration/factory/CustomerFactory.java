@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.factory;
+package com.cherrydev.cherrymarketbe.integration.factory;
 
 
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;

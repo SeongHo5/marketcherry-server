@@ -1,5 +1,6 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration;
 
+import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.TestHelper.convertToJSONString;
-import static com.cherrydev.cherrymarketbe.factory.AccountFactory.createSignUpRequestDtoA;
-import static com.cherrydev.cherrymarketbe.factory.AccountFactory.createSignUpRequestDtoB;
+import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
+import static com.cherrydev.cherrymarketbe.integration.factory.AccountFactory.createSignUpRequestDtoA;
+import static com.cherrydev.cherrymarketbe.integration.factory.AccountFactory.createSignUpRequestDtoB;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

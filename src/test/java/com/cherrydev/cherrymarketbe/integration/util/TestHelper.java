@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +17,6 @@ public class TestHelper {
 
     @Autowired
     private MockMvc mockMvc;
-
 
     /**
      * 지정된 API 엔드포인트에 대해 테스트를 수행하는 DynamicTest를 생성한다.

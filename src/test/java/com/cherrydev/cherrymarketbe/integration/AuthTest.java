@@ -1,5 +1,6 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration;
 
+import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
@@ -24,8 +25,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.TestHelper.convertToJSONString;
-import static com.cherrydev.cherrymarketbe.factory.AuthFactory.*;
+import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
+import static com.cherrydev.cherrymarketbe.integration.factory.AuthFactory.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -1,6 +1,7 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.factory.AdminFactory;
+import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
+import com.cherrydev.cherrymarketbe.integration.factory.AdminFactory;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.IssueCoupon;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserRole;
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.TestHelper.convertToJSONString;
+import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;

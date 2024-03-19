@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe;
+package com.cherrydev.cherrymarketbe.integration;
 
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.redis.testcontainers.RedisContainer;
