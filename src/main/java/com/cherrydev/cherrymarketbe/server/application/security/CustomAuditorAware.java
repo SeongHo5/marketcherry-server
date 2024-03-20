@@ -19,7 +19,8 @@ public class CustomAuditorAware implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
+        boolean isNotAuthenticated = authentication == null || !authentication.isAuthenticated();
+        if (isNotAuthenticated) {
             return Optional.empty();
         }
         return Optional.ofNullable(authentication.getName());
