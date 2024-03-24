@@ -48,7 +48,7 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.httpBasic(AbstractHttpConfigurer::disable)
+        return http.httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,8 +61,8 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthFilter(jwtProvider, redisService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new RateLimitFilter(redisService), JwtAuthFilter.class)
                 .exceptionHandling(exception -> exception.accessDeniedHandler(new CustomAccessDeniedHandler()))
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(new CustomAuthEntryPoint()));
-        return http.build();
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(new CustomAuthEntryPoint()))
+                .build();
     }
 
     /**
