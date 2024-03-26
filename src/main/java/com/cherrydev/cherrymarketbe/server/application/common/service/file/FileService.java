@@ -24,14 +24,13 @@ import static com.cherrydev.cherrymarketbe.server.application.aop.exception.Exce
 @RequiredArgsConstructor
 public class FileService {
 
-    private final AmazonS3Client objectStorageClient;
-    private final FileValidator fileValidator;
-
     public static final String BUCKET_NAME = "cherry-resource";
     protected static final String[] SUPPORTED_IMAGE_FORMAT = {"jpg", "jpeg", "png"};
     public static final int FILE_LIMIT_MAX_COUNT = 3;
     public static final long FILE_LIMIT_MAX_SIZE = 3L * 1024 * 1024; // 3MB
     public static final String DIRECTORY_SEPARATOR = "/";
+    private final AmazonS3Client objectStorageClient;
+    private final FileValidator fileValidator;
 
     /**
      * 단일 파일 업로드
@@ -48,11 +47,7 @@ public class FileService {
         objectMetadata.setContentType(multipartFile.getContentType());
 
         String fileName = dirName + DIRECTORY_SEPARATOR + multipartFile.getOriginalFilename();
-        try {
-            return putFileToBucket(multipartFile.getInputStream(), fileName, objectMetadata);
-        } catch (IOException e) {
-            throw new ServiceFailedException(FAILED_TO_UPLOAD_FILE);
-        }
+        return putFileToBucket(multipartFile, fileName, objectMetadata);
     }
 
     /**
@@ -71,12 +66,8 @@ public class FileService {
             objectMetadata.setContentLength(multipartFile.getSize());
 
             String fileName = dirName + DIRECTORY_SEPARATOR + multipartFile.getOriginalFilename();
-            try {
-                log.info("Upload Image to Object Storage : " + fileName);
-                putFileToBucket(multipartFile.getInputStream(), fileName, objectMetadata);
-            } catch (IOException e) {
-                throw new ServiceFailedException(FAILED_TO_UPLOAD_FILE);
-            }
+            log.info("Upload Image to Object Storage : " + fileName);
+            putFileToBucket(multipartFile, fileName, objectMetadata);
         }
     }
 
@@ -106,10 +97,14 @@ public class FileService {
     /**
      * Object Storage 파일 업로드 처리
      */
-    private String putFileToBucket(InputStream file, String fileName, ObjectMetadata objectMetadata) {
-        objectStorageClient.putObject(
-                new PutObjectRequest(BUCKET_NAME, fileName, file, objectMetadata).withCannedAcl(
-                        CannedAccessControlList.PublicRead));
+    private String putFileToBucket(MultipartFile file, String fileName, ObjectMetadata objectMetadata) {
+        try {
+            PutObjectRequest request = new PutObjectRequest(BUCKET_NAME, fileName, file.getInputStream(), objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead);
+            objectStorageClient.putObject(request);
+        } catch (IOException e) {
+            throw new ServiceFailedException(FAILED_TO_UPLOAD_FILE);
+        }
         return objectStorageClient.getUrl(BUCKET_NAME, fileName).toString();
     }
 
