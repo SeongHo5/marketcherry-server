@@ -12,12 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
+import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.FAILED_TO_UPLOAD_FILE;
 
 @Slf4j
 @Service
