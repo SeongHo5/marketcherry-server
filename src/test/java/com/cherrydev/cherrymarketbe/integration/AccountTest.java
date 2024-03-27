@@ -1,37 +1,22 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.integration.factory.AccountFactory.createSignUpRequestDtoA;
 import static com.cherrydev.cherrymarketbe.integration.factory.AccountFactory.createSignUpRequestDtoB;
+import static com.cherrydev.cherrymarketbe.integration.TestHelper.convertToJSONString;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Rollback
-@Transactional
-@SpringBootTest
-@DisabledInAotMode
-@AutoConfigureMockMvc
-class AccountTest {
-
-    @Autowired
-    private TestHelper testHelper;
+class AccountTest extends IntegrationTest {
 
     @TestFactory
     @DisplayName("회원 관련 API 테스트")

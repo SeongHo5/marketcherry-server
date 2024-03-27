@@ -1,6 +1,5 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
 import com.cherrydev.cherrymarketbe.integration.factory.AdminFactory;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.IssueCoupon;
@@ -13,18 +12,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
+import static com.cherrydev.cherrymarketbe.integration.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -32,18 +26,10 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Rollback
-@Transactional
-@SpringBootTest
-@DisabledInAotMode
-@AutoConfigureMockMvc
-class AdminTest {
+class AdminTest extends IntegrationTest {
 
     @Autowired
     JwtProvider jwtProvider;
-
-    @Autowired
-    private TestHelper testHelper;
 
     private JwtResponse jwtResponse;
 

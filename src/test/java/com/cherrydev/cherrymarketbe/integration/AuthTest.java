@@ -1,6 +1,5 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.integration.util.TestHelper;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
@@ -11,34 +10,25 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.integration.util.TestHelper.convertToJSONString;
+import static com.cherrydev.cherrymarketbe.integration.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.integration.factory.AuthFactory.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Rollback
-@Transactional
-@SpringBootTest
+
 @Testcontainers
-@DisabledInAotMode
-@AutoConfigureMockMvc
-public class AuthTest {
+public class AuthTest extends IntegrationTest {
 
     @Container
     private static final RedisContainer redis = new RedisContainer(
@@ -59,9 +49,6 @@ public class AuthTest {
         registry.add("spring.mail.host", mailhog::getHost);
         registry.add("spring.mail.port", mailhog::getFirstMappedPort);
     }
-
-    @Autowired
-    private TestHelper testHelper;
 
     @Autowired
     private JwtProvider jwtProvider;

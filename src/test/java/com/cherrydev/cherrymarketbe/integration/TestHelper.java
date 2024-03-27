@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.integration.util;
+package com.cherrydev.cherrymarketbe.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
