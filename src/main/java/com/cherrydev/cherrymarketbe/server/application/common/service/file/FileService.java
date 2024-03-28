@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.FAILED_TO_UPLOAD_FILE;
 
-@Slf4j
+@Slf4j(topic = "fileService")
 @Service
 @RequiredArgsConstructor
 public class FileService {
