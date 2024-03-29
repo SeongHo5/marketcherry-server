@@ -1,12 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.application.common.service.template;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import static j2html.TagCreator.*;
 
-public class EmailTemplate {
-
-    private EmailTemplate() {
-        throw new IllegalStateException("유틸리티 클래스는 인스턴스화할 수 없습니다.");
-    }
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class EmailTemplate {
 
     public static final String VERIFICATION_TITTLE = "[CherryMarket] 회원가입 본인 인증 메일입니다.";
 
