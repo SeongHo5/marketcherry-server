@@ -17,8 +17,8 @@ import static jakarta.mail.Message.RecipientType.TO;
 @RequiredArgsConstructor
 public class EmailService {
 
-    public static final String ENCODING_CHARSET = "UTF-8";
-    public static final String MAILER_SUBTYPE = "HTML";
+    private static final String ENCODING_CHARSET = "UTF-8";
+    private static final String MAILER_SUBTYPE = "HTML";
 
     private final JavaMailSender mailSender;
 

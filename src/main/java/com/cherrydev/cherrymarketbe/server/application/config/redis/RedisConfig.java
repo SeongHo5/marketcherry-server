@@ -18,7 +18,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @RequiredArgsConstructor
 public class RedisConfig {
 
-    public static final String REDISSON_HOST_PREFIX = "redis://";
+    private static final String REDISSON_HOST_PREFIX = "redis://";
     private static final String ADDRESS_SEPARATOR = ":";
 
     private final RedisProperties redisProperties;
@@ -30,7 +30,6 @@ public class RedisConfig {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
-
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
