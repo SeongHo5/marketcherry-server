@@ -31,7 +31,7 @@ public class DistributedLockAspect {
         RLock lock = redissonClient.getLock(key);
         try {
             log.info("Acquiring Lock: {}", key);
-            if (!acquireLock(lock, distributedLock)) {
+            if (!tryAcquiringLock(lock, distributedLock)) {
                 return false;
             }
             return joinPoint.proceed();
@@ -51,7 +51,7 @@ public class DistributedLockAspect {
         return REDISSON_KEY_PREFIX + key;
     }
 
-    private boolean acquireLock(RLock lock, DistributedLock distributedLock) throws InterruptedException {
+    private boolean tryAcquiringLock(RLock lock, DistributedLock distributedLock) throws InterruptedException {
         return lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());
     }
 
