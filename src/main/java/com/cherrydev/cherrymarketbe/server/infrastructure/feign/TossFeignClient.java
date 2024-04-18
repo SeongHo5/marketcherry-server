@@ -30,7 +30,7 @@ public interface TossFeignClient {
     @PostMapping("/v1/payments/confirm")
     TossPayment approvePayment(@RequestBody PaymentApproveForm form);
 
-    @PostMapping("{paymentId}/cancel")
+    @PostMapping("/{paymentId}/cancel")
     TossPayment cancelPayment(
             @PathVariable("paymentId") String paymentId,
             @RequestBody PaymentCancelForm form
