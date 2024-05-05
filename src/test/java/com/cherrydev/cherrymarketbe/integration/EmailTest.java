@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

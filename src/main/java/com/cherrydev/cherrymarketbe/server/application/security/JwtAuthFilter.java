@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.security;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import io.jsonwebtoken.Claims;
@@ -18,8 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.BLACKLISTED_TOKEN;
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INVALID_AUTH_ERROR;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.BLACKLISTED_TOKEN;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_AUTH_ERROR;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BLACKLISTED_KEY_PREFIX;
 
 @Slf4j

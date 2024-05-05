@@ -2,9 +2,9 @@ package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountService;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthException;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.DuplicatedException;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.application.exception.DuplicatedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
@@ -15,7 +15,6 @@ import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.LOCAL;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole.ROLE_CUSTOMER;

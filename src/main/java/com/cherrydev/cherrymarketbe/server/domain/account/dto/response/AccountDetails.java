@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.domain.account.dto.response;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_ACCOUNT;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_ACCOUNT;
 
 /**
  * {@link Account} 정보를 담고 있는 {@link UserDetails} 구현체 클래스

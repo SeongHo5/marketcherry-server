@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.application.auth.event.PasswordResetEvent;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
@@ -21,8 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.EMAIL_ALREADY_SENT;
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.EMAIL_ALREADY_VERIFIED;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.EMAIL_ALREADY_SENT;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.EMAIL_ALREADY_VERIFIED;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.*;
 import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.createPasswordResetMessage;

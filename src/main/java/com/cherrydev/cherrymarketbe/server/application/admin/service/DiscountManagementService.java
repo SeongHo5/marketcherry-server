@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.admin.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.RequestAddDiscount;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.RequestModifyDiscount;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.response.DiscountInfo;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_DISCOUNT;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_DISCOUNT;
 
 @Service
 @RequiredArgsConstructor

@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.order.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsService;
 import com.cherrydev.cherrymarketbe.server.application.order.event.OrderCancelledEvent;
@@ -37,8 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.GOODS_NOT_AVAILABLE;
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_ORDER;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.GOODS_NOT_AVAILABLE;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_ORDER;
 
 @Slf4j
 @Service

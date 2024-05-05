@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthException;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus.DELETED;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus.RESTRICTED;

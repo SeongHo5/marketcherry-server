@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.aop.exception;
+package com.cherrydev.cherrymarketbe.server.application.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

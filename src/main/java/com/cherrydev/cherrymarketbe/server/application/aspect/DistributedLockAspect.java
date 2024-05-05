@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.aop;
+package com.cherrydev.cherrymarketbe.server.application.aspect;
 
 import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
 import com.cherrydev.cherrymarketbe.server.application.common.utils.CustomSpelParser;

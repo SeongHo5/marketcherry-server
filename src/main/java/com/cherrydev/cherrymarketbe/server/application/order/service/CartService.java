@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.order.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsService;
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsValidator;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_CART;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_CART;
 
 @Service
 @RequiredArgsConstructor

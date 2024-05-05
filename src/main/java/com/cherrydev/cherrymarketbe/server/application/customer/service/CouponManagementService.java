@@ -1,8 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.GrantCouponByAdmin;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.IssueCoupon;
@@ -19,8 +19,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INVALID_INPUT_VALUE;
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_COUPON;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_INPUT_VALUE;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_COUPON;
 
 @Slf4j
 @Service
