@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.FAILED_TO_UPLOAD_FILE;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.FAILED_TO_UPLOAD_FILE;
 
-@Slf4j(topic = "fileService")
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FileService {

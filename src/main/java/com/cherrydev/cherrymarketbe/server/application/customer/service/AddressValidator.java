@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestModifyAddress;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CustomerAddressRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.application.customer.service.AddressService.MAX_ADDRESS_COUNT;
 
 @Service

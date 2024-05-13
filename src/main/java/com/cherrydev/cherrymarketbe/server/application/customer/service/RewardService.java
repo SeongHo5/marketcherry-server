@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.InsufficientRewardException;
+import com.cherrydev.cherrymarketbe.server.application.exception.InsufficientRewardException;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddReward;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INSUFFICIENT_REWARD;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INSUFFICIENT_REWARD;
 import static com.cherrydev.cherrymarketbe.server.domain.customer.enums.RewardGrantType.USE;
 
 @Slf4j

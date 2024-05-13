@@ -1,15 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.enums.Gender;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.naver.NaverAccountResponse;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Value;
-
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INVALID_INPUT_VALUE;
 
 
 @Value

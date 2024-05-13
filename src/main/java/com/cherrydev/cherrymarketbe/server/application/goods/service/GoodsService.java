@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.goods.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsSearchConditions;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_GOODS;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_GOODS;
 import static com.cherrydev.cherrymarketbe.server.domain.goods.enums.SalesStatus.ON_SALE;
 
 @Slf4j

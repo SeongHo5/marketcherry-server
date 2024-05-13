@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.common.service.file;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.application.common.service.file.FileService.*;
 
 @Component

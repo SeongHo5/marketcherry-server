@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.cherrydev.cherrymarketbe.server.application.common.service.file.FileService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,6 +31,7 @@ class FileServiceTest {
     private FileService fileService;
 
     @Test
+    @DisplayName("단일 파일 업로드에 성공해야한다.")
     void shouldUploadSingleFile() throws IOException {
         // Given
         MultipartFile multipartFile = mock(MultipartFile.class);

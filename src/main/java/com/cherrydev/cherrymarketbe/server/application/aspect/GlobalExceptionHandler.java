@@ -1,7 +1,7 @@
-package com.cherrydev.cherrymarketbe.server.application.aop;
+package com.cherrydev.cherrymarketbe.server.application.aspect;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ApplicationException;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.InsufficientStockException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ApplicationException;
+import com.cherrydev.cherrymarketbe.server.application.exception.InsufficientStockException;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

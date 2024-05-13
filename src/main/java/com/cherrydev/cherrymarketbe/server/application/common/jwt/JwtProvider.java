@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.common.jwt;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountDetailsServiceImpl;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import io.jsonwebtoken.*;
@@ -24,7 +24,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 

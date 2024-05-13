@@ -1,6 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.NOT_FOUND_ADDRESS;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_ADDRESS;
 
 @Slf4j
 @Service

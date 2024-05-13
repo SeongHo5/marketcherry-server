@@ -1,7 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.admin.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
-import com.cherrydev.cherrymarketbe.server.application.aop.exception.ServiceFailedException;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.AccountSearchConditions;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserRole;
@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.CHANGE_ROLE_FORBIDDEN;
-import static com.cherrydev.cherrymarketbe.server.application.aop.exception.ExceptionStatus.INVALID_INPUT_VALUE;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.CHANGE_ROLE_FORBIDDEN;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_INPUT_VALUE;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.LOCAL;
 
 

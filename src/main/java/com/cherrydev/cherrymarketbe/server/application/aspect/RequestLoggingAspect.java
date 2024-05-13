@@ -1,4 +1,4 @@
-package com.cherrydev.cherrymarketbe.server.application.aop;
+package com.cherrydev.cherrymarketbe.server.application.aspect;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
