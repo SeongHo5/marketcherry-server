@@ -16,7 +16,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AccountTest extends IntegrationTest {
+class AccountTest extends AbstractIntegrationTest {
 
     @TestFactory
     @DisplayName("회원 관련 API 테스트")

@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @Testcontainers
-public class AuthTest extends IntegrationTest {
+public class AuthTest extends AbstractIntegrationTest {
 
     @Container
     private static final RedisContainer redis = new RedisContainer(
