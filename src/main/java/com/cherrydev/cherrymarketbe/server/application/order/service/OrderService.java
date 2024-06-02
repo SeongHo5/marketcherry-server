@@ -1,8 +1,22 @@
 package com.cherrydev.cherrymarketbe.server.application.order.service;
 
+import java.util.List;
+import java.util.UUID;
+import jakarta.validation.constraints.NotNull;
+
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
 import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
-import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
 import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsService;
 import com.cherrydev.cherrymarketbe.server.application.order.event.OrderCancelledEvent;
 import com.cherrydev.cherrymarketbe.server.application.order.event.OrderPlacedEvent;
@@ -24,18 +38,6 @@ import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApprov
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.OrdersRepository;
-import jakarta.validation.constraints.NotNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.UUID;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.GOODS_NOT_AVAILABLE;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_ORDER;
@@ -125,8 +127,7 @@ public class OrderService {
         return OrderSummary.from(orders.getCode().toString(), paymentDetail, deliveryDetail, goodsDetail);
     }
 
-    @NotNull
-    private Orders handleCreateOrderInternal(
+    @NotNull private Orders handleCreateOrderInternal(
             AccountDetails accountDetails,
             RequestCreateOrder request,
             List<Cart> cartItems

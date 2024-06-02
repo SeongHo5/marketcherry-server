@@ -1,10 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.application.common.utils;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.security.SecureRandom;
 import java.util.Random;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * 무작위 코드를 생성하는 유틸리티 클래스입니다.

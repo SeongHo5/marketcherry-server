@@ -1,9 +1,9 @@
 package com.cherrydev.cherrymarketbe.unit;
 
-import org.junit.jupiter.api.Test;
-
 import java.sql.Timestamp;
 import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
 
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.VERIFICATION_CODE_LENGTH;
 import static com.cherrydev.cherrymarketbe.server.application.common.utils.CodeGenerator.generateRandomCode;

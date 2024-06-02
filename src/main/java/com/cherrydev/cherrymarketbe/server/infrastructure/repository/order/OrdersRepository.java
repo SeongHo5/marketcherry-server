@@ -1,12 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.order;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
 

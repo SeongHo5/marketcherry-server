@@ -1,16 +1,20 @@
 package com.cherrydev.cherrymarketbe.server.application.common.service.file;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.RequiredArgsConstructor;
+
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
+
+import com.amazonaws.services.s3.AmazonS3Client;
+
 import static com.cherrydev.cherrymarketbe.server.application.common.service.file.FileService.*;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.*;
 
 @Component
 @RequiredArgsConstructor

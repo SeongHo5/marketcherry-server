@@ -1,18 +1,20 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.controller;
 
-import com.cherrydev.cherrymarketbe.server.application.customer.service.AddressService;
-import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
-import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;
-import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestModifyAddress;
-import com.cherrydev.cherrymarketbe.server.domain.customer.dto.response.AddressInfo;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.customer.service.AddressService;
+import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
+import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;
+import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestModifyAddress;
+import com.cherrydev.cherrymarketbe.server.domain.customer.dto.response.AddressInfo;
 
 import static org.springframework.http.HttpStatus.CREATED;
 

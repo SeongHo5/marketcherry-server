@@ -1,11 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.entity;
 
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerAddress;
 import com.cherrydev.cherrymarketbe.server.domain.order.dto.request.RequestCreateOrder;
 import com.cherrydev.cherrymarketbe.server.domain.order.enums.DeliveryStatus;
-import jakarta.persistence.*;
-import lombok.*;
+
 import org.hibernate.annotations.Comment;
 
 @Entity

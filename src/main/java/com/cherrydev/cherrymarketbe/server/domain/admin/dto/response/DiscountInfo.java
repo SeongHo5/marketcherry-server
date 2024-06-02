@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.domain.admin.dto.response;
 
-import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
 import lombok.Builder;
+
+import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
 
 import static com.cherrydev.cherrymarketbe.server.application.common.utils.TimeFormatter.localDateToString;
 

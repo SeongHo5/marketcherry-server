@@ -1,11 +1,11 @@
 package com.cherrydev.cherrymarketbe.server.application.security;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 /**
  * Auditing을 위한 현재 사용자 정보를 제공하는 클래스입니다.<br>

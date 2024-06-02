@@ -1,10 +1,10 @@
 package com.cherrydev.cherrymarketbe.integration.factory;
 
+import java.time.LocalDate;
+
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestModifyAccountInfo;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-
-import java.time.LocalDate;
 
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.Gender.MALE;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole.ROLE_CUSTOMER;

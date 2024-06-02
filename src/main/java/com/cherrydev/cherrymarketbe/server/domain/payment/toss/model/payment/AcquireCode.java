@@ -55,4 +55,3 @@ public enum AcquireCode {
         return "Unknown code";
     }
 }
-

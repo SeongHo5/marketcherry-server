@@ -1,9 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.domain.admin.dto.response;
 
-import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
-import com.cherrydev.cherrymarketbe.server.domain.admin.enums.CouponType;
 import lombok.Builder;
 import lombok.Value;
+
+import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
+import com.cherrydev.cherrymarketbe.server.domain.admin.enums.CouponType;
 
 @Value
 @Builder

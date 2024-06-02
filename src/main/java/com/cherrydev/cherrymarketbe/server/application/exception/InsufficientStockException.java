@@ -1,6 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.exception;
 
 import jakarta.annotation.Nullable;
+
 import lombok.Getter;
 
 @Getter

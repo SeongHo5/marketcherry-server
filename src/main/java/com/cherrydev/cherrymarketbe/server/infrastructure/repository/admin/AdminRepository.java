@@ -1,17 +1,20 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.admin;
 
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.QGoods;
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.QOrderDetail;
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.QOrders;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+
+import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
+import com.cherrydev.cherrymarketbe.server.domain.goods.entity.QGoods;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.QOrderDetail;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.QOrders;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
 @RequiredArgsConstructor

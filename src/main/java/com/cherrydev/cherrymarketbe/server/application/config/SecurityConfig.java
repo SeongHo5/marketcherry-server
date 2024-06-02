@@ -1,12 +1,5 @@
 package com.cherrydev.cherrymarketbe.server.application.config;
 
-import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
-import com.cherrydev.cherrymarketbe.server.application.security.CustomAccessDeniedHandler;
-import com.cherrydev.cherrymarketbe.server.application.security.CustomAuthEntryPoint;
-import com.cherrydev.cherrymarketbe.server.application.security.JwtAuthFilter;
-import com.cherrydev.cherrymarketbe.server.application.security.RateLimitFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -25,6 +18,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.RequiredArgsConstructor;
+
+import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
+import com.cherrydev.cherrymarketbe.server.application.security.CustomAccessDeniedHandler;
+import com.cherrydev.cherrymarketbe.server.application.security.CustomAuthEntryPoint;
+import com.cherrydev.cherrymarketbe.server.application.security.JwtAuthFilter;
+import com.cherrydev.cherrymarketbe.server.application.security.RateLimitFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -35,14 +37,14 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
 
-    AuthorizationManager<RequestAuthorizationContext> localHostOnly = (auth, context) -> {
+    protected AuthorizationManager<RequestAuthorizationContext> localHostOnly = (auth, context) -> {
         String ip = context.getRequest().getRemoteAddr();
         boolean isLocalHost = ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1");
         return new AuthorizationDecision(isLocalHost);
     };
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

@@ -1,13 +1,16 @@
 package com.cherrydev.cherrymarketbe.server.application.common.service;
 
-import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.FAIL_TO_CONSTRUCT_EMAIL;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.FAIL_TO_SEND_EMAIL;

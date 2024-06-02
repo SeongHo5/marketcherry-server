@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.dto;
 
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import lombok.Builder;
+
+import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 
 @Builder
 public record GoodsDetailInfo(

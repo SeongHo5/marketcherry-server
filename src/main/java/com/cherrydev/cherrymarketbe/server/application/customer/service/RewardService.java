@@ -1,5 +1,16 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
+import java.time.Clock;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
 import com.cherrydev.cherrymarketbe.server.application.exception.InsufficientRewardException;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
@@ -8,15 +19,6 @@ import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAd
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.response.RewardInfo;
 import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerReward;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CustomerRewardRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Clock;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INSUFFICIENT_REWARD;
 import static com.cherrydev.cherrymarketbe.server.domain.customer.enums.RewardGrantType.USE;

@@ -3,6 +3,7 @@ package com.cherrydev.cherrymarketbe.server.domain.account.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+
 import lombok.Builder;
 import lombok.Value;
 

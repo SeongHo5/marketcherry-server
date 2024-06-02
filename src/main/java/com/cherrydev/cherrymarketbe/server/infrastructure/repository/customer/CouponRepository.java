@@ -1,11 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer;
 
-import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 

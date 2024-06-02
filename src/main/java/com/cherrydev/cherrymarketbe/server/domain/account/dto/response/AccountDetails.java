@@ -1,16 +1,18 @@
 package com.cherrydev.cherrymarketbe.server.domain.account.dto.response;
 
-import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole;
-import lombok.Getter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
+import lombok.Getter;
+
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_ACCOUNT;
 

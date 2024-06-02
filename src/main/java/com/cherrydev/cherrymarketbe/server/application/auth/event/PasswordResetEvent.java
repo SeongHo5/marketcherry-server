@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.event;
 
-import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
+
+import lombok.Getter;
 @Getter
 public class PasswordResetEvent extends ApplicationEvent {
 

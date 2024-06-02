@@ -1,11 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.application.goods.service;
 
+import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+
 import com.cherrydev.cherrymarketbe.server.application.exception.GoodsNotAvailableException;
 import com.cherrydev.cherrymarketbe.server.application.exception.InsufficientStockException;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.SalesStatus;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.GOODS_STATUS_MISMATCHED;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INSUFFICIENT_STOCK;

@@ -1,14 +1,16 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.entity;
 
-import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
+
 import lombok.*;
+
+import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
+
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

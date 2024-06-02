@@ -1,5 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
@@ -8,12 +16,6 @@ import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestMo
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.response.AddressInfo;
 import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerAddress;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CustomerAddressRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_ADDRESS;
 

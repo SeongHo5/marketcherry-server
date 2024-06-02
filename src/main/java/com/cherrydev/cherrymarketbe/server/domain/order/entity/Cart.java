@@ -1,11 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -35,8 +38,7 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "GOODS_ID", nullable = false)
     private Goods goods;
 
-    @NotNull
-    @Column(name = "CART_QY", nullable = false)
+    @NotNull @Column(name = "CART_QY", nullable = false)
     private Integer quantity;
 
     public void increaseQuantity() {

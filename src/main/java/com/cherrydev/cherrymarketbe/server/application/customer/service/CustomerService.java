@@ -1,5 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cherrydev.cherrymarketbe.server.application.exception.DuplicatedException;
 import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
@@ -9,12 +17,6 @@ import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
 import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerCoupon;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CouponRepository;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CustomerCouponRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.ALREADY_EXIST_COUPON;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_COUPON;

@@ -1,8 +1,11 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.entity;
 
-import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import jakarta.persistence.*;
+
 import lombok.*;
+
+import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
+
 import org.hibernate.annotations.Comment;
 
 @Entity

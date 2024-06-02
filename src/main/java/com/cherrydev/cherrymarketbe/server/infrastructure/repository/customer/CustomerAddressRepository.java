@@ -1,11 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerAddress;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerAddress;
 
 public interface CustomerAddressRepository extends JpaRepository<CustomerAddress, Long> {
 

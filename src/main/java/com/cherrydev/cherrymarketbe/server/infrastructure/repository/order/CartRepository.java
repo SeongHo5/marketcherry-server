@@ -1,13 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.order;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-import java.util.Optional;
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 

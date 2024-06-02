@@ -1,13 +1,15 @@
 package com.cherrydev.cherrymarketbe.server.domain.admin.entity;
 
+import java.time.LocalDate;
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.IssueCoupon;
 import com.cherrydev.cherrymarketbe.server.domain.admin.enums.CouponType;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Comment;
 
-import java.time.LocalDate;
+import org.hibernate.annotations.Comment;
 
 
 @Entity

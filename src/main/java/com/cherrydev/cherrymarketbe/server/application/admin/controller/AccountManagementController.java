@@ -1,5 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.application.admin.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
+
 import com.cherrydev.cherrymarketbe.server.application.admin.service.AccountManagementService;
 import com.cherrydev.cherrymarketbe.server.application.customer.service.CouponManagementService;
 import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
@@ -10,12 +18,6 @@ import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserSt
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.response.AdminUserInfo;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.response.CouponInfo;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddReward;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 
 import static com.cherrydev.cherrymarketbe.server.application.common.constant.CommonConstant.PAGE_TOTAL_HEADER;
 

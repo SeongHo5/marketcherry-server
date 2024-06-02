@@ -1,17 +1,20 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
-import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
-import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
-import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus;
-import com.cherrydev.cherrymarketbe.server.domain.core.dto.RequestJwt;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
+import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus;
+import com.cherrydev.cherrymarketbe.server.domain.core.dto.RequestJwt;
+
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus.DELETED;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus.RESTRICTED;
 import static org.springframework.beans.propertyeditors.CustomBooleanEditor.VALUE_TRUE;

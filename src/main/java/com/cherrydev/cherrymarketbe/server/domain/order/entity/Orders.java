@@ -1,19 +1,21 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.entity;
 
-import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.order.enums.OrderStatus;
-import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
-import jakarta.persistence.*;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Table;
-import lombok.*;
-import org.hibernate.annotations.*;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
+
+import lombok.*;
+
+import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.order.enums.OrderStatus;
+import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
+
+import org.hibernate.annotations.*;
 
 @Entity
 @Getter

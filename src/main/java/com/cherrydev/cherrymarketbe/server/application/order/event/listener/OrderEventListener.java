@@ -1,13 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.order.event.listener;
 
-import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsInventoryService;
-import com.cherrydev.cherrymarketbe.server.application.order.event.OrderCancelledEvent;
-import com.cherrydev.cherrymarketbe.server.application.order.event.OrderPlacedEvent;
-import com.cherrydev.cherrymarketbe.server.application.order.service.CartService;
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.OrderDetail;
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,7 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.goods.service.GoodsInventoryService;
+import com.cherrydev.cherrymarketbe.server.application.order.event.OrderCancelledEvent;
+import com.cherrydev.cherrymarketbe.server.application.order.event.OrderPlacedEvent;
+import com.cherrydev.cherrymarketbe.server.application.order.service.CartService;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.OrderDetail;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 
 @Component
 @Slf4j(topic = "orderEventListener")

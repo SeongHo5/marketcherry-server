@@ -1,14 +1,17 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.entity;
 
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.RequestAddGoods;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.SalesStatus;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.StorageType;
 import com.cherrydev.cherrymarketbe.server.domain.goods.enums.VolumeType;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
-import lombok.*;
+
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -53,8 +56,7 @@ public class Goods extends BaseEntity {
     @Column(name = "GOODS_DC", nullable = false, length = 80)
     private String description;
 
-    @Nullable
-    @Comment("상품 할인 ID")
+    @Nullable @Comment("상품 할인 ID")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "GOODS_DSCNT_ID")

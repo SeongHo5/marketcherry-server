@@ -1,14 +1,16 @@
 package com.cherrydev.cherrymarketbe.server.domain.payment.entity;
 
+import java.sql.Timestamp;
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.payment.PaymentStatus;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Comment;
 
-import java.sql.Timestamp;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter

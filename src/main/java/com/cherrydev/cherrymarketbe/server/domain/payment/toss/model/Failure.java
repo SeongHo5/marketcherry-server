@@ -1,8 +1,9 @@
 package com.cherrydev.cherrymarketbe.server.domain.payment.toss.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Value
 public class Failure {
@@ -14,6 +15,3 @@ public class Failure {
     String message;
 
 }
-
-
-

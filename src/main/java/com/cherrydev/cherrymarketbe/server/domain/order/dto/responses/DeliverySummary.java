@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.dto.responses;
 
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.DeliveryDetail;
 import lombok.Builder;
+
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.DeliveryDetail;
 
 @Builder
 public record DeliverySummary(

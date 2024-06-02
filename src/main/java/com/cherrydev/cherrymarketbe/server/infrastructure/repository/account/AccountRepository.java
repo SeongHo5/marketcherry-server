@@ -1,11 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.account;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 
-import java.util.Optional;
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 

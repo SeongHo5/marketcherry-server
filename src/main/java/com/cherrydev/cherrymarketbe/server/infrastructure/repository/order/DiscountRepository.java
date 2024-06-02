@@ -1,9 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.infrastructure.repository.order;
 
-import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
 
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
