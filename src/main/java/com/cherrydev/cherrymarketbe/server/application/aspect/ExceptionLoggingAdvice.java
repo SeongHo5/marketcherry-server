@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 @Aspect
 @Component
 @Slf4j(topic = "exceptionLogger")
-public class ExceptionLoggingAspect {
+public class ExceptionLoggingAdvice {
 
     @AfterThrowing(pointcut = "execution(* com..controller.*.*(..))", throwing = "ex")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable ex) {

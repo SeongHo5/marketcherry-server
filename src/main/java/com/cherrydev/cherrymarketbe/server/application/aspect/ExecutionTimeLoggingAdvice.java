@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 @Aspect
 @Slf4j(topic = "executionTimeLogger")
 @Component
-public class ExecutionTimeLoggingAspect {
+public class ExecutionTimeLoggingAdvice {
 
     @Around("execution(* com.cherrydev.cherrymarketbe..controller..*.*(..))")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {

@@ -19,7 +19,7 @@ import org.redisson.api.RedissonClient;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class DistributedLockAspect {
+public class DistributedLockAdvice {
 
     private static final String REDISSON_KEY_PREFIX = "LOCK::";
 

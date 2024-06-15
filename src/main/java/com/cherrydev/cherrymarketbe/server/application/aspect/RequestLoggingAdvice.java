@@ -14,7 +14,7 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 @Component
 @Slf4j(topic = "requestLogger")
-public class RequestLoggingAspect {
+public class RequestLoggingAdvice {
 
     @Before("execution(* com..*.controller.*.*(..))")
     public void logBeforeRequest() {
