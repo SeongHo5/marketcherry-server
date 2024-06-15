@@ -39,7 +39,7 @@ public class FileService {
      * @param dirName       업로드할 디렉토리 이름
      */
     public String uploadSingleFile(MultipartFile multipartFile, String dirName) {
-        fileValidator.validateBeforeUploadSignleFile(multipartFile);
+        fileValidator.validate(multipartFile);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         multipartFile.getOriginalFilename();
@@ -58,7 +58,7 @@ public class FileService {
      */
     public void uploadMultipleFiles(List<MultipartFile> multipartFiles, String dirName) {
 
-        fileValidator.validateBeforeUploadMultipleFiles(multipartFiles);
+        fileValidator.validate(multipartFiles);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
 

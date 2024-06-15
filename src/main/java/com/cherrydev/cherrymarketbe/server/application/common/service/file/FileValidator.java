@@ -22,13 +22,13 @@ public class FileValidator {
 
     private final AmazonS3Client objectStorageClient;
 
-    protected void validateBeforeUploadSignleFile(MultipartFile multipartFile) {
+    protected void validate(MultipartFile multipartFile) {
         checkFileExist(multipartFile);
         checkFileFormat(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         checkFileSizeLimit(multipartFile.getSize());
     }
 
-    protected void validateBeforeUploadMultipleFiles(List<MultipartFile> multipartFiles) {
+    protected void validate(List<MultipartFile> multipartFiles) {
         checkFileExist(multipartFiles);
         checkFileCountLimit(multipartFiles.size());
         multipartFiles.forEach(multipartFile -> {
