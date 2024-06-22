@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @Testcontainers
 @SpringBootTest
 @DisabledInAotMode
-class EmailTest {
+final class EmailTest {
 
     @Container
     private static final GenericContainer<?> mailhog =

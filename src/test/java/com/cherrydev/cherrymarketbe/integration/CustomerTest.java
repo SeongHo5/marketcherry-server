@@ -24,7 +24,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class CustomerTest extends AbstractIntegrationTest {
+final class CustomerTest extends AbstractIntegrationTest {
 
     @Autowired
     private TestHelper testHelper;
