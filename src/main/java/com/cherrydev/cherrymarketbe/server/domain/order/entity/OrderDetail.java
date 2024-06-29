@@ -1,9 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.entity;
 
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
-import jakarta.persistence.*;
-import lombok.*;
+
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

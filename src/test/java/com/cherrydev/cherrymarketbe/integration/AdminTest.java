@@ -1,5 +1,12 @@
 package com.cherrydev.cherrymarketbe.integration;
 
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.RequestBuilder;
+
 import com.cherrydev.cherrymarketbe.integration.factory.AdminFactory;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.IssueCoupon;
@@ -7,16 +14,12 @@ import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserRo
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.ModifyUserStatus;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddReward;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.RequestBuilder;
-
-import java.util.stream.Stream;
 
 import static com.cherrydev.cherrymarketbe.integration.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
@@ -26,7 +29,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AdminTest extends IntegrationTest {
+final class AdminTest extends AbstractIntegrationTest {
 
     @Autowired
     JwtProvider jwtProvider;

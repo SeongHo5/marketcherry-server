@@ -1,17 +1,20 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
-import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.aot.DisabledInAotMode;
+
+import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
+
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -19,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @Testcontainers
 @SpringBootTest
 @DisabledInAotMode
-class EmailTest {
+final class EmailTest {
 
     @Container
     private static final GenericContainer<?> mailhog =

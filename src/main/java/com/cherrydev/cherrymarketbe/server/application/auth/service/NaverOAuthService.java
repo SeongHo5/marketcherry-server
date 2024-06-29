@@ -1,5 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.OAuthRequestDto;
@@ -8,12 +16,6 @@ import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthA
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthTokenResponse;
 import com.cherrydev.cherrymarketbe.server.infrastructure.feign.NaverAuthFeignClient;
 import com.cherrydev.cherrymarketbe.server.infrastructure.feign.NaverUserFeignClient;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.GRANT_TYPE_AUTHORIZATION;

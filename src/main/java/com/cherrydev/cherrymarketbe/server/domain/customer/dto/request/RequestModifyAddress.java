@@ -1,6 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.domain.customer.dto.request;
 
 import jakarta.validation.constraints.Pattern;
+
 import lombok.Value;
 
 @Value
@@ -19,4 +20,3 @@ public class RequestModifyAddress {
 
     String addressDetail;
 }
-

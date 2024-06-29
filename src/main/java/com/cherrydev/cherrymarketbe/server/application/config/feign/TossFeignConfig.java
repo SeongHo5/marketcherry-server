@@ -1,8 +1,9 @@
 package com.cherrydev.cherrymarketbe.server.application.config.feign;
 
-import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+
+import feign.RequestInterceptor;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 

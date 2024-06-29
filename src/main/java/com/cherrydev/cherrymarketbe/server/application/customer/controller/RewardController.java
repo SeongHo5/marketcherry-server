@@ -1,13 +1,15 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.controller;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
-import com.cherrydev.cherrymarketbe.server.domain.customer.dto.response.RewardInfo;
-import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.customer.service.RewardService;
+import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
+import com.cherrydev.cherrymarketbe.server.domain.customer.dto.response.RewardInfo;
 
 @Slf4j
 @RestController

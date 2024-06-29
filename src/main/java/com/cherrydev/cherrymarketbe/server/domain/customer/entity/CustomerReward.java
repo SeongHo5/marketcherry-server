@@ -1,17 +1,19 @@
 package com.cherrydev.cherrymarketbe.server.domain.customer.entity;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddReward;
 import com.cherrydev.cherrymarketbe.server.domain.customer.enums.RewardGrantType;
-import jakarta.persistence.*;
-import lombok.*;
+
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 @Entity
 @Getter
 @Builder

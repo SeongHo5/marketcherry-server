@@ -1,10 +1,7 @@
 package com.cherrydev.cherrymarketbe.server.application.common.event;
 
-import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
-import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
-import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -12,7 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
+import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
+import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
 
 import static com.cherrydev.cherrymarketbe.server.application.common.log.CherryLogger.logWarmUpEnd;
 import static com.cherrydev.cherrymarketbe.server.application.common.log.CherryLogger.logWarmUpStart;

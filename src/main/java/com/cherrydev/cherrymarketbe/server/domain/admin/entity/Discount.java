@@ -1,14 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.domain.admin.entity;
 
+import java.time.LocalDate;
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.RequestAddDiscount;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
-import org.hibernate.annotations.Comment;
 
-import java.time.LocalDate;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter

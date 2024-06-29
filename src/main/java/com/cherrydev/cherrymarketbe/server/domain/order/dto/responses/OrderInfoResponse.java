@@ -1,11 +1,13 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.dto.responses;
 
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.sql.Timestamp;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Builder;
 
-import java.sql.Timestamp;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Builder
 public record OrderInfoResponse(
         @NotNull String orderCode,

@@ -1,5 +1,9 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountService;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
@@ -12,8 +16,6 @@ import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInRespon
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthAccountInfo;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthTokenResponse;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.*;

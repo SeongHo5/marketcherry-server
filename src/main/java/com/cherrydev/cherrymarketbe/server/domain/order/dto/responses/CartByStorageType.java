@@ -1,11 +1,11 @@
 package com.cherrydev.cherrymarketbe.server.domain.order.dto.responses;
 
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
-import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 
 public record CartByStorageType(
         Map<String, List<GoodsInfo>> itemsByType

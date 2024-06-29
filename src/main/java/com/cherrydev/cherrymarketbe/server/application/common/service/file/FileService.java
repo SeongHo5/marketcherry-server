@@ -1,18 +1,21 @@
 package com.cherrydev.cherrymarketbe.server.application.common.service.file;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
+
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.FAILED_TO_UPLOAD_FILE;
 
@@ -37,7 +40,7 @@ public class FileService {
      * @param dirName       업로드할 디렉토리 이름
      */
     public String uploadSingleFile(MultipartFile multipartFile, String dirName) {
-        fileValidator.validateBeforeUploadSignleFile(multipartFile);
+        fileValidator.validate(multipartFile);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         multipartFile.getOriginalFilename();
@@ -56,7 +59,7 @@ public class FileService {
      */
     public void uploadMultipleFiles(List<MultipartFile> multipartFiles, String dirName) {
 
-        fileValidator.validateBeforeUploadMultipleFiles(multipartFiles);
+        fileValidator.validate(multipartFiles);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
 

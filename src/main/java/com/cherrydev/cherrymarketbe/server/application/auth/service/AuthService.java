@@ -1,32 +1,35 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
-import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.application.auth.event.PasswordResetEvent;
 import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
 import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.application.common.utils.CodeGenerator;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtReissueResponse;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.RequestJwt;
-import io.jsonwebtoken.Claims;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.EMAIL_ALREADY_SENT;
-import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.EMAIL_ALREADY_VERIFIED;
+import io.jsonwebtoken.Claims;
+
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.*;
 import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.createPasswordResetMessage;
 import static com.cherrydev.cherrymarketbe.server.application.common.utils.CodeGenerator.generateRandomPassword;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.EMAIL_ALREADY_SENT;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.EMAIL_ALREADY_VERIFIED;
 import static org.springframework.beans.propertyeditors.CustomBooleanEditor.VALUE_TRUE;
 
 @Slf4j

@@ -1,17 +1,20 @@
 package com.cherrydev.cherrymarketbe.server.application.goods.service;
 
-import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
-import com.cherrydev.cherrymarketbe.server.application.exception.CouldNotObtainLockException;
-import com.cherrydev.cherrymarketbe.server.application.exception.InsufficientStockException;
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
+import com.cherrydev.cherrymarketbe.server.application.exception.CouldNotObtainLockException;
+import com.cherrydev.cherrymarketbe.server.application.exception.InsufficientStockException;
+import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INSUFFICIENT_STOCK;
 

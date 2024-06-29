@@ -1,16 +1,12 @@
 package com.cherrydev.cherrymarketbe.server.application.common.jwt;
 
-import com.cherrydev.cherrymarketbe.server.application.account.service.AccountDetailsServiceImpl;
-import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
-import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
-import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Base64;
+import java.util.Date;
+import java.util.stream.Collectors;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,12 +15,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.account.service.AccountDetailsServiceImpl;
+import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.BLACKLISTED_TOKEN;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_AUTH_ERROR;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 

@@ -1,16 +1,19 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;
-import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestModifyAddress;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.TestFactory;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.RequestBuilder;
 
-import java.util.stream.Stream;
+import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestAddAddress;
+import com.cherrydev.cherrymarketbe.server.domain.customer.dto.request.RequestModifyAddress;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
 
 import static com.cherrydev.cherrymarketbe.integration.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.integration.factory.CustomerFactory.*;
@@ -21,7 +24,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class CustomerTest extends IntegrationTest {
+final class CustomerTest extends AbstractIntegrationTest {
 
     @Autowired
     private TestHelper testHelper;

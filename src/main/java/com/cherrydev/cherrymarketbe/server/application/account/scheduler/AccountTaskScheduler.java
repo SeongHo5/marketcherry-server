@@ -1,13 +1,16 @@
 package com.cherrydev.cherrymarketbe.server.application.account.scheduler;
 
-import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.AccountRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.GenericJDBCException;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.AccountRepository;
+
+import org.hibernate.exception.GenericJDBCException;
 
 @Slf4j
 @Component

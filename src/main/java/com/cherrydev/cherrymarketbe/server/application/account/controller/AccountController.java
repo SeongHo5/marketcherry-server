@@ -1,21 +1,24 @@
 package com.cherrydev.cherrymarketbe.server.application.account.controller;
 
-import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
-import com.cherrydev.cherrymarketbe.server.application.account.service.AccountService;
-import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestModifyAccountInfo;
-import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
-import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
-import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountInfo;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
+import com.cherrydev.cherrymarketbe.server.application.account.service.AccountService;
+import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestModifyAccountInfo;
+import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
+import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
+import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountInfo;
 
 @Slf4j
 @RestController

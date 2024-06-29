@@ -1,8 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.application.order.event;
 
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
-import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
+
+import lombok.Getter;
+
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 
 @Getter
 public class OrderCancelledEvent extends ApplicationEvent {

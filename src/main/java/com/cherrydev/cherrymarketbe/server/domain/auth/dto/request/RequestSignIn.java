@@ -9,8 +9,7 @@ public record RequestSignIn(
         String email,
 
         @Size(min = 8, max = 20, message = "비밀번호는 8 ~ 20자 사이여야 합니다.")
-        @NotNull
-        String password
+        @NotNull String password
 ) {
 
 }

@@ -1,5 +1,11 @@
 package com.cherrydev.cherrymarketbe.server.domain.account.entity;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import jakarta.persistence.*;
+
+import lombok.*;
+
 import com.cherrydev.cherrymarketbe.server.domain.BaseEntity;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.request.RequestSignUp;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.Gender;
@@ -7,13 +13,9 @@ import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.UserStatus;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthAccountInfo;
-import jakarta.persistence.*;
-import lombok.*;
+
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.SQLDelete;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole.ROLE_CUSTOMER;
 

@@ -1,8 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
+
 import lombok.Value;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Value
 public class OAuthTokenResponse {
@@ -21,8 +23,7 @@ public class OAuthTokenResponse {
 
     String scope;
 
-    @Nullable
-    @JsonProperty("refresh_token_expires_in")
+    @Nullable @JsonProperty("refresh_token_expires_in")
     Long refreshTokenExpiresIn = 0L;
 
 }

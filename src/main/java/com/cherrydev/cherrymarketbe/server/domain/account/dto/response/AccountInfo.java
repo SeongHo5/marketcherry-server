@@ -1,9 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.domain.account.dto.response;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import com.cherrydev.cherrymarketbe.server.domain.account.enums.Gender;
 import lombok.Builder;
 import lombok.Value;
+
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
+import com.cherrydev.cherrymarketbe.server.domain.account.enums.Gender;
 
 import static com.cherrydev.cherrymarketbe.server.application.common.utils.TimeFormatter.localDateToString;
 

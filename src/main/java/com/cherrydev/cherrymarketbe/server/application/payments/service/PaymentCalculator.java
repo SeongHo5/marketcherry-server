@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.application.payments.service;
 
-import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 import lombok.Getter;
+
+import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 
 @Getter
 class PaymentCalculator {

@@ -1,26 +1,29 @@
 package com.cherrydev.cherrymarketbe.server.application.security;
 
-import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
-import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
-import io.jsonwebtoken.Claims;
+import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
+
+import io.jsonwebtoken.Claims;
+
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BLACKLISTED_KEY_PREFIX;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.BLACKLISTED_TOKEN;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_AUTH_ERROR;
-import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BLACKLISTED_KEY_PREFIX;
 
 @Slf4j
 @Component

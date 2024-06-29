@@ -1,8 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.application.account.event;
 
-import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
-import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
+
+import lombok.Getter;
+
+import com.cherrydev.cherrymarketbe.server.domain.account.entity.Account;
 
 @Getter
 public class AccountRegistrationEvent extends ApplicationEvent {

@@ -1,8 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.dto;
 
-import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+
+import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Builder
 public record GoodsInfo(

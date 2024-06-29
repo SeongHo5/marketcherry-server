@@ -1,13 +1,15 @@
 package com.cherrydev.cherrymarketbe.server.application.account.service;
 
+import java.util.Arrays;
+
+import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+
 import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.application.exception.DuplicatedException;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.ForbiddenUserName;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.account.AccountRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.CONFLICT_ACCOUNT;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.PROHIBITED_USERNAME;

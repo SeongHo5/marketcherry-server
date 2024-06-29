@@ -38,14 +38,6 @@ public enum AcquireCode {
         this.description = description;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public static String getDescriptionByCode(String code) {
         for (AcquireCode ac : AcquireCode.values()) {
             if (ac.getCode().equals(code)) {
@@ -55,4 +47,3 @@ public enum AcquireCode {
         return "Unknown code";
     }
 }
-

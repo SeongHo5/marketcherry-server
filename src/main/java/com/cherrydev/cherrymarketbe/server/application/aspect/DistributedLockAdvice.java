@@ -1,22 +1,25 @@
 package com.cherrydev.cherrymarketbe.server.application.aspect;
 
-import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
-import com.cherrydev.cherrymarketbe.server.application.common.utils.CustomSpelParser;
+import org.springframework.stereotype.Component;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.annotation.DistributedLock;
+import com.cherrydev.cherrymarketbe.server.application.common.utils.CustomSpelParser;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.stereotype.Component;
 
 @Slf4j(topic = "distributedLockAspect")
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class DistributedLockAspect {
+public class DistributedLockAdvice {
 
     private static final String REDISSON_KEY_PREFIX = "LOCK::";
 
@@ -39,8 +42,10 @@ public class DistributedLockAspect {
             throw new InterruptedException();
         } finally {
             releaseLock(lock);
+
         }
     }
+
 
     private String getKeyFromMethodSignature(ProceedingJoinPoint joinPoint, DistributedLock distributedLock) {
         String key = CustomSpelParser.getDynamicValue(
@@ -63,4 +68,3 @@ public class DistributedLockAspect {
         }
     }
 }
-

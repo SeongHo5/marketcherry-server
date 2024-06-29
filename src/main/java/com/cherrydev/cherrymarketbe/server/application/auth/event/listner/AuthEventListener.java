@@ -1,12 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.event.listner;
 
-import com.cherrydev.cherrymarketbe.server.application.auth.event.PasswordResetEvent;
-import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import com.cherrydev.cherrymarketbe.server.application.auth.event.PasswordResetEvent;
+import com.cherrydev.cherrymarketbe.server.application.common.service.EmailService;
 
 import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.PW_RESET_INFO_TITTLE;
 import static com.cherrydev.cherrymarketbe.server.application.common.service.template.EmailTemplate.createPasswordResetInfoMessage;

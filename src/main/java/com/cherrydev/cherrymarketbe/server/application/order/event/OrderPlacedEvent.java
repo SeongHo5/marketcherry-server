@@ -1,9 +1,10 @@
 package com.cherrydev.cherrymarketbe.server.application.order.event;
 
-import lombok.Getter;
+import java.util.List;
+
 import org.springframework.context.ApplicationEvent;
 
-import java.util.List;
+import lombok.Getter;
 
 @Getter
 public class OrderPlacedEvent extends ApplicationEvent {

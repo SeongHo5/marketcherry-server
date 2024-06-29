@@ -1,23 +1,26 @@
 package com.cherrydev.cherrymarketbe.integration;
 
-import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
-import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
-import com.cherrydev.cherrymarketbe.server.domain.core.dto.RequestJwt;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.redis.testcontainers.RedisContainer;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.TestFactory;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.RequestBuilder;
+
+import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.domain.auth.dto.request.RequestSignIn;
+import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
+import com.cherrydev.cherrymarketbe.server.domain.core.dto.RequestJwt;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.redis.testcontainers.RedisContainer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.stream.Stream;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
 
 import static com.cherrydev.cherrymarketbe.integration.TestHelper.convertToJSONString;
 import static com.cherrydev.cherrymarketbe.integration.factory.AuthFactory.*;
@@ -28,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @Testcontainers
-public class AuthTest extends IntegrationTest {
+final class AuthTest extends AbstractIntegrationTest {
 
     @Container
     private static final RedisContainer redis = new RedisContainer(

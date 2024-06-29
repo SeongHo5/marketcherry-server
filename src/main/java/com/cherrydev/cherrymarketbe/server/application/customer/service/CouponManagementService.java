@@ -1,5 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.application.customer.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
 import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
@@ -11,13 +20,6 @@ import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
 import com.cherrydev.cherrymarketbe.server.domain.customer.entity.CustomerCoupon;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CouponRepository;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.customer.CustomerCouponRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_INPUT_VALUE;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_COUPON;

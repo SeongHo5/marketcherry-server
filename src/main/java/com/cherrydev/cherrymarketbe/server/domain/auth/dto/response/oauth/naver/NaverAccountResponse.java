@@ -1,7 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.naver;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Value
 public class NaverAccountResponse {
