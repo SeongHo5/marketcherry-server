@@ -2,11 +2,11 @@ package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountQueryService;
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountService;
+import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
+import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.application.exception.DuplicatedException;
 import com.cherrydev.cherrymarketbe.server.application.exception.ServiceFailedException;
-import com.cherrydev.cherrymarketbe.server.application.common.jwt.JwtProvider;
-import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.SignInResponse;
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthAccountInfo;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.*;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.LOCAL;
 import static com.cherrydev.cherrymarketbe.server.domain.account.enums.UserRole.ROLE_CUSTOMER;
 
@@ -36,7 +37,7 @@ public class CommonOAuthService {
         String userName = accountInfo.getName();
 
         checkAndProcessOAuthRegistration(accountInfo, provider);
-        JwtResponse jwtResponse = issueJwtToken(email);
+        JwtResponse jwtResponse = issue(email);
 
         return createSignInResponse(jwtResponse, userName);
     }
@@ -44,7 +45,7 @@ public class CommonOAuthService {
     /**
      * 소셜 로그인 응답을 생성한다.
      * <p>
-     * 소셜 로그인은 고객만 가능하므로, 응답 DTO의 userRole은 ROLE_CUSTOMER로 고정
+     * @apiNote 소셜 로그인은 고객만 가능하므로, 응답 DTO의 userRole은 ROLE_CUSTOMER로 고정
      */
     private SignInResponse createSignInResponse(
             final JwtResponse jwtResponse,
@@ -77,7 +78,7 @@ public class CommonOAuthService {
     /**
      * OAuth 인증이 완료된 사용자에게 토큰을 발급한다.
      */
-    private JwtResponse issueJwtToken(final String email) {
+    private JwtResponse issue(final String email) {
         JwtResponse jwtResponse = jwtProvider.createJwtToken(email);
         redisService.setDataExpire(email, jwtResponse.refreshToken(), REFRESH_TOKEN_EXPIRE_TIME);
         return jwtResponse;
@@ -85,6 +86,7 @@ public class CommonOAuthService {
 
     /**
      * OAuth 응답에 토큰이 정상 반환되었는지 확인하고, 있다면 토큰을 반환한다.
+     *
      * @param tokenResponse OAuth Response
      * @return AcessToken
      */
@@ -97,7 +99,7 @@ public class CommonOAuthService {
     }
 
     private void checkOAuthAccountType(RegisterType type, String provider) {
-        if (type != null && type.equals(LOCAL)){
+        if (type != null && type.equals(LOCAL)) {
             throw new DuplicatedException(LOCAL_ACCOUNT_ALREADY_EXIST);
         }
         if (type != null && !type.equals(RegisterType.valueOf(provider))) {
