@@ -24,11 +24,12 @@ import static com.cherrydev.cherrymarketbe.server.application.exception.Exceptio
 @RequiredArgsConstructor
 public class FileService {
 
-    public static final String BUCKET_NAME = "cherry-resource";
     protected static final String[] SUPPORTED_IMAGE_FORMAT = {"jpg", "jpeg", "png"};
-    public static final int FILE_LIMIT_MAX_COUNT = 3;
-    public static final long FILE_LIMIT_MAX_SIZE = 3L * 1024 * 1024; // 3MB
-    public static final String DIRECTORY_SEPARATOR = "/";
+    protected static final int FILE_LIMIT_MAX_COUNT = 3;
+    protected static final long FILE_LIMIT_MAX_SIZE = 3L * 1024 * 1024; // 3MB
+
+    private static final String BUCKET_NAME = "cherry-resource";
+    private static final String DIRECTORY_SEPARATOR = "/";
     private final AmazonS3Client objectStorageClient;
     private final FileValidator fileValidator;
 
