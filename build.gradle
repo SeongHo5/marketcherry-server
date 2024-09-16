@@ -42,7 +42,6 @@ spotless {
     }
 }
 
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -87,6 +86,9 @@ dependencies {
     implementation 'org.redisson:redisson-spring-boot-starter:3.24.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // SPRING BATCH
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+
     // QUERY DSL
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
@@ -123,6 +125,10 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 }
 
+tasks.jar {
+    enabled = false
+}
+
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
@@ -154,14 +160,6 @@ jacocoTestCoverageVerification {
         rule {
             includes = ['com.cherrydev.*']
         }
-    }
-}
-
-sonar {
-    properties {
-        property "sonar.projectKey", "devcherry_cherrymarket"
-        property "sonar.organization", "devcherry"
-        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
 
