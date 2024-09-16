@@ -1,28 +1,21 @@
 package com.cherrydev.cherrymarketbe.server.domain.admin.dto.response;
 
-import lombok.Builder;
+import static com.cherrydev.cherrymarketbe.server.application.common.utils.TimeFormatter.localDateToString;
 
 import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Discount;
-
-import static com.cherrydev.cherrymarketbe.server.application.common.utils.TimeFormatter.localDateToString;
+import lombok.Builder;
 
 @Builder
 public record DiscountInfo(
-        String code,
-        String description,
-        Integer discountRate,
-        String startDate,
-        String endDate
-) {
+    String code, String description, Integer discountRate, String startDate, String endDate) {
 
-    public static DiscountInfo of(Discount discount) {
-        return DiscountInfo.builder()
-                .code(discount.getCode())
-                .description(discount.getDescription())
-                .discountRate(discount.getDiscountRate())
-                .startDate(localDateToString(discount.getStartDate()))
-                .endDate(localDateToString(discount.getEndDate()))
-                .build();
-    }
-
+  public static DiscountInfo of(Discount discount) {
+    return DiscountInfo.builder()
+        .code(discount.getCode())
+        .description(discount.getDescription())
+        .discountRate(discount.getDiscountRate())
+        .startDate(localDateToString(discount.getStartDate()))
+        .endDate(localDateToString(discount.getEndDate()))
+        .build();
+  }
 }

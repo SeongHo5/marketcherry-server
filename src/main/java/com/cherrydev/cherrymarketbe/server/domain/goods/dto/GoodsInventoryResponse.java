@@ -7,9 +7,9 @@ import lombok.Value;
 @Builder
 public class GoodsInventoryResponse {
 
-    Long goodsId;
+  Long goodsId;
 
-    String salesStatus;
+  String salesStatus;
 
-    int inventory;
+  int inventory;
 }

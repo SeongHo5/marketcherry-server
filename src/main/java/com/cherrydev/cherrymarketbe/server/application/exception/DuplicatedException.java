@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class DuplicatedException extends ApplicationException {
 
-    public DuplicatedException(ExceptionStatus status) {
-        super(status);
-    }
+  public DuplicatedException(ExceptionStatus status) {
+    super(status);
+  }
 }

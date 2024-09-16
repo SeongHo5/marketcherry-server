@@ -1,9 +1,11 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.enums;
 
 public enum SalesStatus {
-    ON_SALE, PAUSE, DISCONTINUANCE;
+  ON_SALE,
+  PAUSE,
+  DISCONTINUANCE;
 
-    public boolean isOnSale() {
-        return this == ON_SALE;
-    }
+  public boolean isOnSale() {
+    return this == ON_SALE;
+  }
 }

@@ -1,20 +1,17 @@
 package com.cherrydev.cherrymarketbe.server.application.admin.controller;
 
-import java.util.List;
-import jakarta.validation.Valid;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import lombok.RequiredArgsConstructor;
+import static org.springframework.http.HttpStatus.CREATED;
 
 import com.cherrydev.cherrymarketbe.server.application.admin.service.DiscountManagementService;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.RequestAddDiscount;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.request.RequestModifyDiscount;
 import com.cherrydev.cherrymarketbe.server.domain.admin.dto.response.DiscountInfo;
-
-import static org.springframework.http.HttpStatus.CREATED;
+import jakarta.validation.Valid;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,39 +19,30 @@ import static org.springframework.http.HttpStatus.CREATED;
 @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 public class DiscountManagementController {
 
-    private final DiscountManagementService discountManagementService;
+  private final DiscountManagementService discountManagementService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<DiscountInfo>> fetchAllDiscounts() {
-        return ResponseEntity.ok(
-                discountManagementService.fetchAllDiscounts()
-        );
-    }
+  @GetMapping("/")
+  public ResponseEntity<List<DiscountInfo>> fetchAllDiscounts() {
+    return ResponseEntity.ok(discountManagementService.fetchAllDiscounts());
+  }
 
-    @PostMapping("/")
-    public ResponseEntity<Void> addDiscount(
-            @RequestBody @Valid final RequestAddDiscount request
-    ) {
-        discountManagementService.addDiscount(request);
-        return ResponseEntity.status(CREATED).build();
-    }
+  @PostMapping("/")
+  public ResponseEntity<Void> addDiscount(@RequestBody @Valid final RequestAddDiscount request) {
+    discountManagementService.addDiscount(request);
+    return ResponseEntity.status(CREATED).build();
+  }
 
-    @PatchMapping("/{discount_code}")
-    public ResponseEntity<DiscountInfo> updateDiscount(
-            @PathVariable("discount_code") final String discountCode,
-            @RequestBody @Valid final RequestModifyDiscount request
-    ) {
-        return ResponseEntity.ok(
-                discountManagementService.modifyDiscountDetail(discountCode, request)
-        );
-    }
+  @PatchMapping("/{discount_code}")
+  public ResponseEntity<DiscountInfo> updateDiscount(
+      @PathVariable("discount_code") final String discountCode,
+      @RequestBody @Valid final RequestModifyDiscount request) {
+    return ResponseEntity.ok(discountManagementService.modifyDiscountDetail(discountCode, request));
+  }
 
-    @DeleteMapping("/{discount_code}")
-    public ResponseEntity<Void> deleteDiscount(
-            @PathVariable("discount_code") final String discountCode
-    ) {
-        discountManagementService.deleteDiscount(discountCode);
-        return ResponseEntity.ok().build();
-    }
-
+  @DeleteMapping("/{discount_code}")
+  public ResponseEntity<Void> deleteDiscount(
+      @PathVariable("discount_code") final String discountCode) {
+    discountManagementService.deleteDiscount(discountCode);
+    return ResponseEntity.ok().build();
+  }
 }

@@ -1,7 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.security;
 
 import java.util.Optional;
-
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,13 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuditorAware implements AuditorAware<String> {
 
-    @Override
-    public Optional<String> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isNotAuthenticated = authentication == null || !authentication.isAuthenticated();
-        if (isNotAuthenticated) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(authentication.getName());
+  @Override
+  public Optional<String> getCurrentAuditor() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    boolean isNotAuthenticated = authentication == null || !authentication.isAuthenticated();
+    if (isNotAuthenticated) {
+      return Optional.empty();
     }
+    return Optional.ofNullable(authentication.getName());
+  }
 }

@@ -1,36 +1,44 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.dto;
 
-import lombok.Builder;
-
 import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
+import lombok.Builder;
 
 @Builder
 public record GoodsDetailInfo(
-        Long goodsId, String goodsCode, String goodsName, String description, Integer price,
-        Integer inventory, String storageType, String capacity, String expDate, String allergyInfo,
-        String originPlace, String salesStatus, Integer discountRate, Integer discountedPrice,
-        String makerName
-) {
+    Long goodsId,
+    String goodsCode,
+    String goodsName,
+    String description,
+    Integer price,
+    Integer inventory,
+    String storageType,
+    String capacity,
+    String expDate,
+    String allergyInfo,
+    String originPlace,
+    String salesStatus,
+    Integer discountRate,
+    Integer discountedPrice,
+    String makerName) {
 
-    public static GoodsDetailInfo of(Goods goods) {
+  public static GoodsDetailInfo of(Goods goods) {
 
-        return GoodsDetailInfo.builder()
-                .goodsId(goods.getId())
-                .goodsCode(goods.getCode())
-                .goodsName(goods.getName())
-                .description(goods.getDescription())
-                .price(goods.getPrice())
-                .inventory(goods.getInventory())
-                .storageType(goods.getStorageType().toString())
-                .capacity(goods.getVolumeType().toString())
-                .expDate(goods.getExpireAt())
-                .allergyInfo(goods.getAllergyInfo())
-                .originPlace(goods.getOriginPlace())
-                .salesStatus(goods.getSalesStatus().toString())
-                .discountRate(goods.getDiscountRate())
-                .discountedPrice(goods.getDiscountedPrice())
-                .makerName(goods.getMaker().getName())
-                .build();
-    }
-
+    return GoodsDetailInfo.builder()
+        .goodsId(goods.getId())
+        .goodsCode(goods.getCode())
+        .goodsName(goods.getName())
+        .description(goods.getDescription())
+        .price(goods.getPrice())
+        .inventory(goods.getInventory())
+        .storageType(goods.getStorageType().toString())
+        .capacity(goods.getVolumeType().toString())
+        .expDate(goods.getExpireAt())
+        .allergyInfo(goods.getAllergyInfo())
+        .originPlace(goods.getOriginPlace())
+        .salesStatus(goods.getSalesStatus().toString())
+        .discountRate(goods.getDiscountRate())
+        .discountedPrice(goods.getDiscountedPrice())
+        .makerName(goods.getMaker().getName())
+        .build();
+  }
 }

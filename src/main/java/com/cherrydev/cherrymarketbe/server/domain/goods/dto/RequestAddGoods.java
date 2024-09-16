@@ -1,9 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.domain.goods.dto;
 
-import java.sql.Date;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-
+import java.sql.Date;
 import lombok.Builder;
 import lombok.Value;
 
@@ -11,40 +10,40 @@ import lombok.Value;
 @Builder
 public class RequestAddGoods {
 
-    @NotNull Long makerId;
+  @NotNull Long makerId;
 
-    @NotNull Long categoryId;
+  @NotNull Long categoryId;
 
-    @Pattern(regexp = "\\d{7}", message = "상품 코드는 7자리 정수여야 합니다.")
-    String code;
+  @Pattern(regexp = "\\d{7}", message = "상품 코드는 7자리 정수여야 합니다.")
+  String code;
 
-    @NotNull String name;
+  @NotNull String name;
 
-    @NotNull String description;
+  @NotNull String description;
 
-    Long discountId;
+  Long discountId;
 
-    @NotNull int price;
+  @NotNull int price;
 
-    @NotNull int retailPrice;
+  @NotNull int retailPrice;
 
-    @NotNull int inventory;
+  @NotNull int inventory;
 
-    @Pattern(regexp = "^(REFRIGERATION|FROZEN|ROOM_TEMPERATURE)$", message = "보관 타입 형식에 맞지 않습니다")
-    @NotNull String storageType;
+  @Pattern(regexp = "^(REFRIGERATION|FROZEN|ROOM_TEMPERATURE)$", message = "보관 타입 형식에 맞지 않습니다")
+  @NotNull String storageType;
 
-    @NotNull String capacity;
+  @NotNull String capacity;
 
-    @NotNull String expDate;
+  @NotNull String expDate;
 
-    String allergyInfo;
+  String allergyInfo;
 
-    @NotNull String originPlace;
+  @NotNull String originPlace;
 
-    @Pattern(regexp = "^(ON_SALE|PAUSE|DISCONTINUANCE)$", message = "상품 판매 상태 형식에 맞지 않습니다")
-    @NotNull String salesStatus;
+  @Pattern(regexp = "^(ON_SALE|PAUSE|DISCONTINUANCE)$", message = "상품 판매 상태 형식에 맞지 않습니다")
+  @NotNull String salesStatus;
 
-    Date createDate;
+  Date createDate;
 
-    Date updateDate;
+  Date updateDate;
 }

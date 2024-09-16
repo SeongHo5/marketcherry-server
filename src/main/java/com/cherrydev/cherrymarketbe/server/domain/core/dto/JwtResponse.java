@@ -4,10 +4,4 @@ import lombok.Builder;
 
 @Builder
 public record JwtResponse(
-        String grantType,
-        String accessToken,
-        String refreshToken,
-        Long accessTokenExpiresIn
-) {
-
-}
+    String grantType, String accessToken, String refreshToken, Long accessTokenExpiresIn) {}

@@ -1,12 +1,8 @@
 package com.cherrydev.cherrymarketbe.server.application.auth.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.GRANT_TYPE_AUTHORIZATION;
+import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.NAVER;
 
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.domain.account.dto.response.AccountDetails;
@@ -16,11 +12,12 @@ import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthA
 import com.cherrydev.cherrymarketbe.server.domain.auth.dto.response.oauth.OAuthTokenResponse;
 import com.cherrydev.cherrymarketbe.server.infrastructure.feign.NaverAuthFeignClient;
 import com.cherrydev.cherrymarketbe.server.infrastructure.feign.NaverUserFeignClient;
-
-import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.BEARER_PREFIX;
-import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.GRANT_TYPE_AUTHORIZATION;
-import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterType.NAVER;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -28,35 +25,35 @@ import static com.cherrydev.cherrymarketbe.server.domain.account.enums.RegisterT
 @RequiredArgsConstructor
 public class NaverOAuthService {
 
-    @Value("${oauth.naver.clientId}")
-    private String naverClientId;
+  @Value("${oauth.naver.clientId}")
+  private String naverClientId;
 
-    @Value("${oauth.naver.clientSecret}")
-    private String naverClientSecret;
+  @Value("${oauth.naver.clientSecret}")
+  private String naverClientSecret;
 
-    private final NaverAuthFeignClient naverAuthFeignClient;
-    private final NaverUserFeignClient naverUserFeignClient;
-    private final CommonOAuthService commonOAuthService;
-    private final RedisService redisService;
-    @Transactional
-    public SignInResponse signIn(final OAuthRequestDto oAuthRequestDto) {
-        String authCode = oAuthRequestDto.getAuthCode();
-        String state = oAuthRequestDto.getState();
+  private final NaverAuthFeignClient naverAuthFeignClient;
+  private final NaverUserFeignClient naverUserFeignClient;
+  private final CommonOAuthService commonOAuthService;
+  private final RedisService redisService;
 
-        OAuthTokenResponse tokenResponse = naverAuthFeignClient.getOAuthToken(
-                GRANT_TYPE_AUTHORIZATION, naverClientId, naverClientSecret, authCode, state
-        );
+  @Transactional
+  public SignInResponse signIn(final OAuthRequestDto oAuthRequestDto) {
+    String authCode = oAuthRequestDto.getAuthCode();
+    String state = oAuthRequestDto.getState();
 
-        String accessToken = commonOAuthService.getAcessTokenIfExist(tokenResponse);
-        OAuthAccountInfo accountInfo = naverUserFeignClient.getAccountInfo(BEARER_PREFIX + accessToken);
+    OAuthTokenResponse tokenResponse =
+        naverAuthFeignClient.getOAuthToken(
+            GRANT_TYPE_AUTHORIZATION, naverClientId, naverClientSecret, authCode, state);
 
-        redisService.saveNaverTokenToRedis(tokenResponse, accountInfo.getEmail());
-        return commonOAuthService.processSignIn(accountInfo, NAVER.name());
-    }
+    String accessToken = commonOAuthService.getAcessTokenIfExist(tokenResponse);
+    OAuthAccountInfo accountInfo = naverUserFeignClient.getAccountInfo(BEARER_PREFIX + accessToken);
 
-    public ResponseEntity<Void> signOut(AccountDetails accountDetails) {
-        redisService.deleteNaverTokenFromRedis(accountDetails.getUsername());
-        return ResponseEntity.ok().build();
-    }
+    redisService.saveNaverTokenToRedis(tokenResponse, accountInfo.getEmail());
+    return commonOAuthService.processSignIn(accountInfo, NAVER.name());
+  }
 
+  public ResponseEntity<Void> signOut(AccountDetails accountDetails) {
+    redisService.deleteNaverTokenFromRedis(accountDetails.getUsername());
+    return ResponseEntity.ok().build();
+  }
 }

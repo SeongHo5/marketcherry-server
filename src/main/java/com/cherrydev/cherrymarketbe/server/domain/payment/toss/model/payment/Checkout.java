@@ -5,5 +5,4 @@ package com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.payment;
  *
  * @param url 결제창이 열리는 주소
  */
-public record Checkout(String url) {
-}
+public record Checkout(String url) {}

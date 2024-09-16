@@ -1,35 +1,34 @@
 package com.cherrydev.cherrymarketbe.server.domain.admin.dto.response;
 
-import lombok.Builder;
-import lombok.Value;
-
 import com.cherrydev.cherrymarketbe.server.domain.admin.entity.Coupon;
 import com.cherrydev.cherrymarketbe.server.domain.admin.enums.CouponType;
+import lombok.Builder;
+import lombok.Value;
 
 @Value
 @Builder
 public class CouponInfo {
 
-    String code;
+  String code;
 
-    CouponType type;
+  CouponType type;
 
-    Integer minimumOrderAmount;
+  Integer minimumOrderAmount;
 
-    Integer discountRate;
+  Integer discountRate;
 
-    String startDate;
+  String startDate;
 
-    String endDate;
+  String endDate;
 
-    public static CouponInfo of(Coupon coupon) {
-        return CouponInfo.builder()
-                .code(coupon.getCode())
-                .type(coupon.getType())
-                .minimumOrderAmount(coupon.getMinimumAmount())
-                .discountRate(coupon.getDiscountRate())
-                .startDate(coupon.getStartDate().toString())
-                .endDate(coupon.getEndDate().toString())
-                .build();
-    }
+  public static CouponInfo of(Coupon coupon) {
+    return CouponInfo.builder()
+        .code(coupon.getCode())
+        .type(coupon.getType())
+        .minimumOrderAmount(coupon.getMinimumAmount())
+        .discountRate(coupon.getDiscountRate())
+        .startDate(coupon.getStartDate().toString())
+        .endDate(coupon.getEndDate().toString())
+        .build();
+  }
 }
