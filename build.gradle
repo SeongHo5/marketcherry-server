@@ -16,7 +16,8 @@ group = 'com.cherrydev'
 version = '1.0.0'
 
 java {
-    sourceCompatibility = '17'
+    targetCompatibility(JavaVersion.VERSION_17)
+    sourceCompatibility(JavaVersion.VERSION_17)
 }
 
 jacoco {
@@ -26,26 +27,15 @@ jacoco {
 spotless {
     format 'misc', {
         target '*.gradle', '.gitignore'
-
         trimTrailingWhitespace()
         indentWithTabs()
         indentWithSpaces(4)
         endWithNewline()
     }
     java {
-        importOrder(
-                'java|javax|jakarta',
-                'org.springframework',
-                'lombok',
-                'com.cherrydev',
-                '',
-                'org.junit|org.mockito',
-                '\\#',
-                '\\#org.junit'
-        )
-
+        googleJavaFormat()
+        .formatJavadoc(true)
         formatAnnotations()
-        indentWithSpaces(4)
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()
@@ -102,9 +92,6 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-
-    // JSON
-    implementation group: 'org.json', name: 'json', version: '20230227'
 
     // JWT
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
