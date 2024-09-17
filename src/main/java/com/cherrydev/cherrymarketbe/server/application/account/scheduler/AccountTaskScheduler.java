@@ -17,7 +17,7 @@ public class AccountTaskScheduler {
   private final AccountRepository accountRepository;
 
   @Transactional
-  @Scheduled(cron = "0 0 1 * * ?") // 매일 01시 00분 00초
+  @Scheduled(cron = "0 0 1 * * ?")
   @Retryable(retryFor = {GenericJDBCException.class})
   public void releaseRestrictedAccounts() {
     log.info("===== 정지 계정 해제 시작 =====");
@@ -26,7 +26,7 @@ public class AccountTaskScheduler {
   }
 
   @Transactional
-  @Scheduled(cron = "0 0 2 * * ?") // 매일 02시 00분 00초
+  @Scheduled(cron = "0 0 2 * * ?")
   @Retryable(retryFor = {GenericJDBCException.class})
   public void deleteInactiveAccounts() {
     log.info("===== 보관 계정 삭제 시작 =====");
