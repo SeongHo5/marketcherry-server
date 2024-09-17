@@ -1,26 +1,33 @@
 package com.cherrydev.cherrymarketbe.server.application.payments.service;
 
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
-import lombok.Getter;
+import java.util.concurrent.atomic.AtomicLong;
 
-@Getter
 class PaymentCalculator {
 
-  protected long totalAmount = 0;
-  protected long discountAmount = 0;
+  private final AtomicLong totalAmount = new AtomicLong(0);
+  private final AtomicLong discountAmount = new AtomicLong(0);
 
-  void accumulate(Cart cart) {
+  void addCartToTotal(Cart cart) {
     long price = cart.getGoods().getPrice();
     long quantity = cart.getQuantity();
     long discountRate = cart.getGoods().getDiscountRate();
 
-    totalAmount += price * quantity;
-    discountAmount += price * quantity * discountRate / 100;
+    this.totalAmount.addAndGet(price * quantity);
+    this.discountAmount.addAndGet(price * quantity * discountRate / 100);
   }
 
-  PaymentCalculator combine(PaymentCalculator other) {
-    totalAmount += other.totalAmount;
-    discountAmount += other.discountAmount;
+  PaymentCalculator mergeWith(PaymentCalculator other) {
+    this.totalAmount.addAndGet(other.totalAmount.get());
+    this.discountAmount.addAndGet(other.discountAmount.get());
     return this;
+  }
+
+  public long getTotalAmount() {
+    return this.totalAmount.get();
+  }
+
+  public long getDiscountAmount() {
+    return this.discountAmount.get();
   }
 }
