@@ -8,18 +8,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j(topic = "cherryLogger")
 public final class CherryLogger {
 
-    public static void logServerStart() {
-        log.info("============================================================================");
-        log.info("*********************** SERVER SUCCESSFULLY STARTED ***********************");
-        log.info("============================================================================");
-    }
+  public static void logServerStart() {
+    log.info("============================================================================");
+    log.info("*********************** SERVER SUCCESSFULLY STARTED ***********************");
+    log.info("============================================================================");
+  }
 
-    public static void logWarmUpStart() {
-        log.info("*********************** WARM UP START ***********************");
-    }
+  public static void logWarmUpStart() {
+    log.info("*********************** WARM UP START ***********************");
+  }
 
-    public static void logWarmUpEnd() {
-        log.info("*********************** WARM UP END ***********************");
-    }
-
+  public static void logWarmUpEnd() {
+    log.info("*********************** WARM UP END ***********************");
+  }
 }

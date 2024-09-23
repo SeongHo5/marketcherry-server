@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class InsufficientRewardException extends ApplicationException {
 
-    public InsufficientRewardException(ExceptionStatus status) {
-        super(status);
-    }
+  public InsufficientRewardException(ExceptionStatus status) {
+    super(status);
+  }
 }

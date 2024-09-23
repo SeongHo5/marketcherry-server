@@ -6,6 +6,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CommonConstant {
 
-    public static final String PAGE_TOTAL_HEADER = "X-Total-Count";
-
+  public static final String PAGE_TOTAL_HEADER = "X-Total-Count";
 }

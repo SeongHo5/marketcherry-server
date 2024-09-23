@@ -12,7 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 public abstract class AbstractIntegrationTest {
 
-    @Autowired
-    protected TestHelper testHelper;
-
+  @Autowired protected TestHelper testHelper;
 }

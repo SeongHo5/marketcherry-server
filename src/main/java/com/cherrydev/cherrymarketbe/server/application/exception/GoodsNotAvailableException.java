@@ -5,8 +5,7 @@ import lombok.Getter;
 @Getter
 public class GoodsNotAvailableException extends ApplicationException {
 
-
-    public GoodsNotAvailableException(ExceptionStatus status) {
-        super(status);
-    }
+  public GoodsNotAvailableException(ExceptionStatus status) {
+    super(status);
+  }
 }

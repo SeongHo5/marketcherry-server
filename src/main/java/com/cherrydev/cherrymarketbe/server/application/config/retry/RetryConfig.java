@@ -9,9 +9,8 @@ import org.springframework.retry.annotation.EnableRetry;
 @Configuration
 public class RetryConfig {
 
-    @Bean
-    public RetryListener customRetryListener() {
-        return new CustomRetryListener();
-    }
-
+  @Bean
+  public RetryListener customRetryListener() {
+    return new CustomRetryListener();
+  }
 }
