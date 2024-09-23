@@ -1,13 +1,14 @@
 package com.cherrydev.cherrymarketbe.server.application.common.jwt;
 
-import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.stream.Collectors;
-import jakarta.annotation.PostConstruct;
+import com.cherrydev.cherrymarketbe.server.application.account.service.AccountDetailsServiceImpl;
+import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
+import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
+import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,17 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-
-import com.cherrydev.cherrymarketbe.server.application.account.service.AccountDetailsServiceImpl;
-import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
-import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
-import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
-
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Base64;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.BLACKLISTED_TOKEN;
