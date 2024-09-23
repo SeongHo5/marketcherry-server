@@ -8,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,22 +36,23 @@ import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 @Setter
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class JwtProvider {
 
+    private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+    private final Key key;
     private final RedisService redisService;
     private final AccountDetailsServiceImpl accountDetailsServiceImpl;
 
-    @Value("${spring.jwt.secretKey}")
-    private String secretKey;
-    private Key key;
-    private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-    // secretKey를 Base64로 인코딩
-    @PostConstruct
-    private void init() {
-        byte[] bytes = Base64.getDecoder().decode(secretKey);
+    public JwtProvider(
+            RedisService redisService,
+            AccountDetailsServiceImpl accountDetailsServiceImpl,
+            Environment environment) {
+        this.redisService = redisService;
+        this.accountDetailsServiceImpl = accountDetailsServiceImpl;
+        byte[] bytes = Base64.getDecoder().decode(environment.getProperty("spring.jwt.secretKey"));
         this.key = Keys.hmacShaKeyFor(bytes);
     }
 
