@@ -127,13 +127,13 @@ public class OrderService {
     boolean areAllGoodsAvailable = availableCartItems.size() == cartItems.size();
     if (areAllGoodsAvailable) {
       Orders orders = Orders.from(accountDetails.getAccount(), request.orderName());
-      goodsService.updateGoodsInventory(availableCartItems);
-      applyRewardUsageIfUsed(accountDetails.getAccount(), request.usedReward());
-      orders.setDeliveryDetail(deliveryService.buildDeliveryDetail(orders, request));
+      this.goodsService.updateGoodsInventory(availableCartItems);
+      this.applyRewardUsageIfUsed(accountDetails.getAccount(), request.usedReward());
+      orders.setDeliveryDetail(this.deliveryService.buildDeliveryDetail(orders, request));
       orders.setOrderDetails(
           availableCartItems.stream().map(cart -> OrderDetail.from(orders, cart)).toList());
       orders.setPaymentDetail(
-          paymentService.buildPaymentDetail(orders, availableCartItems, request.usedReward()));
+          this.paymentService.buildPaymentDetail(orders, availableCartItems, request.usedReward()));
       return orders;
     } else {
       throw new ServiceFailedException(GOODS_NOT_AVAILABLE);
