@@ -1,26 +1,15 @@
 package com.cherrydev.cherrymarketbe.server.application.common.jwt;
 
-import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
-import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.BLACKLISTED_TOKEN;
-import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_AUTH_ERROR;
-import static org.apache.http.HttpHeaders.AUTHORIZATION;
-
 import com.cherrydev.cherrymarketbe.server.application.account.service.AccountDetailsServiceImpl;
 import com.cherrydev.cherrymarketbe.server.application.common.service.RedisService;
 import com.cherrydev.cherrymarketbe.server.application.exception.AuthException;
 import com.cherrydev.cherrymarketbe.server.domain.core.dto.JwtResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,27 +17,38 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.security.Key;
+import java.util.Base64;
+import java.util.Date;
+import java.util.stream.Collectors;
+
+import static com.cherrydev.cherrymarketbe.server.application.auth.constant.AuthConstant.*;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.BLACKLISTED_TOKEN;
+import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.INVALID_AUTH_ERROR;
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
+
+
 @Setter
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class JwtProvider {
 
-  private final RedisService redisService;
-  private final AccountDetailsServiceImpl accountDetailsServiceImpl;
+    private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-  @Value("${spring.jwt.secretKey}")
-  private String secretKey;
+    private final Key key;
+    private final RedisService redisService;
+    private final AccountDetailsServiceImpl accountDetailsServiceImpl;
 
-  private Key key;
-  private static final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
-  // secretKey를 Base64로 인코딩
-  @PostConstruct
-  private void init() {
-    byte[] bytes = Base64.getDecoder().decode(secretKey);
-    this.key = Keys.hmacShaKeyFor(bytes);
-  }
+    public JwtProvider(
+            RedisService redisService,
+            AccountDetailsServiceImpl accountDetailsServiceImpl,
+            Environment environment) {
+        this.redisService = redisService;
+        this.accountDetailsServiceImpl = accountDetailsServiceImpl;
+        byte[] bytes = Base64.getDecoder().decode(environment.getProperty("spring.jwt.secretKey"));
+        this.key = Keys.hmacShaKeyFor(bytes);
+    }
 
   /** 토큰을 검증하기 위해 Request Header에서 "Bearer "를 제거한다. */
   public String resolveToken(HttpServletRequest request) {
@@ -148,10 +148,12 @@ public class JwtProvider {
     return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
   }
 
-  // =============== PRIVATE METHODS =============== //
-  private String extractAuthorities(Authentication authentication) {
-    return authentication.getAuthorities().stream()
-        .map(GrantedAuthority::getAuthority)
-        .collect(Collectors.joining(","));
-  }
+    // =============== PRIVATE METHODS =============== //
+    private String extractAuthorities(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+    }
+
 }
