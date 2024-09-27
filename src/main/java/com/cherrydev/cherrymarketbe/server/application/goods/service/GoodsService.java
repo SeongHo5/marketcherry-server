@@ -1,7 +1,6 @@
 package com.cherrydev.cherrymarketbe.server.application.goods.service;
 
 import static com.cherrydev.cherrymarketbe.server.application.exception.ExceptionStatus.NOT_FOUND_GOODS;
-import static com.cherrydev.cherrymarketbe.server.domain.goods.enums.SalesStatus.ON_SALE;
 
 import com.cherrydev.cherrymarketbe.server.application.exception.NotFoundException;
 import com.cherrydev.cherrymarketbe.server.domain.goods.dto.GoodsInfo;
@@ -44,7 +43,7 @@ public class GoodsService {
   public void deleteById(Long goodsId) {
     Goods goods =
         goodsRepository.findById(goodsId).orElseThrow(() -> new NotFoundException(NOT_FOUND_GOODS));
-    goodsValidator.validateGoodsSalesStatus(goods, ON_SALE);
+    goodsValidator.validateGoodsSalesStatus(goods);
     goodsRepository.delete(goods);
   }
 

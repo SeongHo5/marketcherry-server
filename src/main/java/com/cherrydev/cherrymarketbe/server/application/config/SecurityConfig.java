@@ -51,20 +51,20 @@ public class SecurityConfig {
         .formLogin(AbstractHttpConfigurer::disable)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .cors(cors -> cors.configurationSource(this.corsConfigurationSource()))
         .authorizeHttpRequests(
             authorize ->
                 authorize
                     .requestMatchers(("/api/**"))
                     .permitAll()
                     .requestMatchers("/prometheus")
-                    .access(localHostOnly)
+                    .access(this.localHostOnly)
                     .anyRequest()
                     .denyAll())
         .addFilterBefore(
-            new JwtAuthFilter(jwtProvider, redisService),
+            new JwtAuthFilter(this.jwtProvider, this.redisService),
             UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(new RateLimitFilter(redisService), JwtAuthFilter.class)
+        .addFilterBefore(new RateLimitFilter(this.redisService), JwtAuthFilter.class)
         .build();
   }
 

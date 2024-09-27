@@ -1,6 +1,5 @@
 package com.cherrydev.cherrymarketbe.server.domain.payment.toss.model;
 
-import com.cherrydev.cherrymarketbe.server.domain.payment.toss.enums.PaymentMethod;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.payment.*;
 import jakarta.annotation.Nullable;
 import java.util.List;
@@ -43,19 +42,6 @@ import java.util.List;
  * @param failure 결제 실패 정보
  * @param cashReceipt 현금영수증 정보
  * @param tossDiscount 토스 할인 정보
- * @see PaymentMethod
- * @see Cancel
- * @see Card
- * @see VirtualAccount
- * @see MobilePhone
- * @see GiftCertificate
- * @see Transfer
- * @see Receipt
- * @see Checkout
- * @see EasyPay
- * @see Failure
- * @see CashReceipt
- * @see TossDiscount
  */
 public record TossPayment(
     String version,

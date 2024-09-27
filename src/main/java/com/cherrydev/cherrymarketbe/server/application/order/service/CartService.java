@@ -11,7 +11,6 @@ import com.cherrydev.cherrymarketbe.server.domain.goods.entity.Goods;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 import com.cherrydev.cherrymarketbe.server.infrastructure.repository.order.CartRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,22 +26,21 @@ public class CartService {
 
   @Transactional
   public List<Cart> fetchCartItems(final AccountDetails accountDetails) {
-    return cartRepository.findAllByAccount(accountDetails.getAccount());
+    return this.cartRepository.findAllByAccount(accountDetails.getAccount());
   }
 
   @Transactional
   public void addToCart(final AccountDetails accountDetails, final String goodsCode) {
     Account account = accountDetails.getAccount();
     Goods goods = goodsService.fetchGoodsEntity(goodsCode);
-    Optional<Cart> cart = cartRepository.findByAccountAndGoods(account, goods);
-    // 장바구니에 상품이 존재하는 경우, 수량을 증가시킨다.
-    if (cart.isPresent()) {
-      cart.get().increaseQuantity();
-      return;
-    }
-    // 장바구니에 상품이 없으면, 새로 추가한다.
-    goodsValidator.validateGoodsBeforeAddToCart(goods);
-    cartRepository.save(Cart.from(account, goods));
+    this.cartRepository
+        .findByAccountAndGoods(account, goods)
+        .ifPresentOrElse(
+            Cart::increaseQuantity,
+            () -> {
+              this.goodsValidator.validateGoodsBeforeAddToCart(goods);
+              this.cartRepository.save(Cart.from(account, goods));
+            });
   }
 
   @Transactional
@@ -53,13 +51,13 @@ public class CartService {
     if (quantity > 1) {
       cart.decreaseQuantity();
     } else {
-      cartRepository.delete(cart);
+      this.cartRepository.delete(cart);
     }
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
   public void clearCartItems(final List<Long> cartIds) {
-    cartRepository.deleteAllByIdIn(cartIds);
+    this.cartRepository.deleteAllByIdIn(cartIds);
   }
 
   protected List<Cart> filterAvailableCartItems(final List<Cart> cartItems) {
@@ -72,7 +70,7 @@ public class CartService {
   }
 
   private Cart fetchCartEntity(final Long cartId, final Account account) {
-    return cartRepository
+    return this.cartRepository
         .findByIdAndAccount(cartId, account)
         .orElseThrow(() -> new NotFoundException(NOT_FOUND_CART));
   }

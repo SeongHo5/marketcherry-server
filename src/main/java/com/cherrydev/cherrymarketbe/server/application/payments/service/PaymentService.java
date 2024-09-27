@@ -1,8 +1,5 @@
 package com.cherrydev.cherrymarketbe.server.application.payments.service;
 
-import static com.cherrydev.cherrymarketbe.server.application.order.service.DeliveryService.DEFAULT_DELIVERY_COST;
-import static com.cherrydev.cherrymarketbe.server.application.order.service.DeliveryService.MINIMUM_AMOUNT_FOR_FREE_DELIVERY;
-
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Cart;
 import com.cherrydev.cherrymarketbe.server.domain.order.entity.Orders;
 import com.cherrydev.cherrymarketbe.server.domain.payment.entity.PaymentDetail;
@@ -10,90 +7,73 @@ import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentApprov
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.cardpromotion.CardPromotion;
-import com.cherrydev.cherrymarketbe.server.infrastructure.feign.TossFeignClient;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@RequiredArgsConstructor
-public class PaymentService {
-
-  private final TossFeignClient tossFeignClient;
-
-  @Transactional
-  public PaymentDetail buildPaymentDetail(Orders orders, List<Cart> cartItems, Long rewardUsed) {
-    PaymentCalculator calculation =
-        cartItems.stream()
-            .reduce(
-                new PaymentCalculator(),
-                (acc, cart) -> {
-                  acc.accumulate(cart);
-                  return acc;
-                },
-                PaymentCalculator::combine);
-
-    long totalAmount = calculation.getTotalAmount();
-    long discountAmount = calculation.getDiscountAmount();
-    long deliveryCost =
-        calculation.getTotalAmount() < MINIMUM_AMOUNT_FOR_FREE_DELIVERY
-            ? DEFAULT_DELIVERY_COST
-            : 0L;
-    long paymentAmount = totalAmount - discountAmount + deliveryCost;
-
-    return PaymentDetail.from(orders, totalAmount, discountAmount, paymentAmount, rewardUsed);
-  }
-
-  @Transactional
-  public void applyApprovalInfoToDetail(PaymentDetail paymentDetail, TossPayment tossPayment) {
-    paymentDetail.applyApprovalInfo(tossPayment);
-  }
-
-  public Long caculatePaymentAmount(PaymentDetail paymentDetail) {
-    return paymentDetail.getTotalAmount()
-        - paymentDetail.getDiscountedAmount()
-        + paymentDetail.getDeliveryCost();
-  }
+public interface PaymentService {
 
   /**
-   * 주문 번호로 결제 조회
+   * 결제 상세정보 생성
    *
-   * @param orderCode 주문 번호
+   * @param orders 주문 정보
+   * @param cartItems 장바구니 정보
+   * @param rewardUsed 사용한 리워드
+   * @return 결제 상세정보
    */
-  public TossPayment findPaymentByOrderId(String orderCode) {
-    return tossFeignClient.findPaymentByOrderId(orderCode);
-  }
+  PaymentDetail buildPaymentDetail(Orders orders, List<Cart> cartItems, Long rewardUsed);
 
   /**
-   * 결제 고유 번호로 결제 조회
+   * 결제 승인 정보를 결제 상세정보에 반영
    *
-   * @param paymentKey 결제 고유 번호
+   * @param paymentDetail 결제 상세정보
+   * @param tossPayment 결제 정보
    */
-  public TossPayment findPaymentByPaymentKey(String paymentKey) {
-    return tossFeignClient.findPaymentByPaymentKey(paymentKey);
-  }
-
-  /** 결제 승인 */
-  @Transactional
-  public TossPayment processPaymentApproval(PaymentApproveForm form) {
-    return tossFeignClient.approvePayment(form);
-  }
+  void applyApprovalInfoToDetail(PaymentDetail paymentDetail, TossPayment tossPayment);
 
   /**
-   * 결제 취소
+   * 결제 금액 계산
    *
-   * @param paymentKey 결제 고유 번호
-   * @param form 취소 정보
-   * @return Payment
+   * @param paymentDetail 결제 상세정보
+   * @retur 결제 금액
    */
-  @Transactional
-  public TossPayment cancelPayment(String paymentKey, PaymentCancelForm form) {
-    return tossFeignClient.cancelPayment(paymentKey, form);
-  }
+  Long caculatePaymentAmount(PaymentDetail paymentDetail);
 
-  /** 카드 혜택 조회 */
-  public CardPromotion getCardPromotionInfo() {
-    return tossFeignClient.getCardPromotionInfo();
-  }
+  /**
+   * 주문번호로 결제 정보 조회
+   *
+   * @param orderCode 주문번호
+   * @return 결제 정보
+   */
+  TossPayment findPaymentByOrderId(String orderCode);
+
+  /**
+   * 결제키로 결제 정보 조회
+   *
+   * @param paymentKey 결제키
+   * @return 결제 정보
+   */
+  TossPayment findPaymentByPaymentKey(String paymentKey);
+
+  /**
+   * 결제 승인 처리
+   *
+   * @param form 결제 승인 폼
+   * @return 결제 정보
+   */
+  TossPayment processPaymentApproval(PaymentApproveForm form);
+
+  /**
+   * 결제 취소 처리
+   *
+   * @param paymentKey 결제키
+   * @param form 결제 취소 폼
+   * @return 결제 정보
+   */
+  TossPayment cancelPayment(String paymentKey, PaymentCancelForm form);
+
+  /**
+   * 카드사 할인 정보 조회
+   *
+   * @return 카드사 할인 정보
+   */
+  CardPromotion getCardPromotionInfo();
 }
