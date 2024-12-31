@@ -120,15 +120,29 @@ public class Goods extends BaseEntity {
         .build();
   }
 
-  public void updateInventory(int requestedQuantity) {
+  public boolean isOnSale() {
+    return this.salesStatus == SalesStatus.ON_SALE;
+  }
+
+  public boolean isOutOfStock() {
+    return this.inventory <= 0;
+  }
+
+  public boolean isInventoryAvailable(final int requestedQuantity) {
+    return this.inventory >= requestedQuantity;
+  }
+
+  public void updateInventory(final int requestedQuantity) {
     this.inventory -= requestedQuantity;
   }
 
   public int getDiscountedPrice() {
-    return discount == null ? price : (int) (price * (1 - discount.getDiscountRate() / 100.0));
+    return this.discount == null
+        ? this.price
+        : (int) (this.price * (1 - this.discount.getDiscountRate() / 100.0));
   }
 
   public int getDiscountRate() {
-    return discount == null ? 0 : discount.getDiscountRate();
+    return this.discount == null ? 0 : this.discount.getDiscountRate();
   }
 }
