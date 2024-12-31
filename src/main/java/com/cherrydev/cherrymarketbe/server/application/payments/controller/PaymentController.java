@@ -1,43 +1,45 @@
 package com.cherrydev.cherrymarketbe.server.application.payments.controller;
 
-import com.cherrydev.cherrymarketbe.server.application.payments.service.PaymentService;
+import com.cherrydev.cherrymarketbe.server.application.payments.service.impl.PaymentServiceImpl;
+import com.cherrydev.cherrymarketbe.server.domain.BaseResponse;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.dto.PaymentCancelForm;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.TossPayment;
 import com.cherrydev.cherrymarketbe.server.domain.payment.toss.model.cardpromotion.CardPromotion;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/payments")
+@RequestMapping("/api/v1/payments")
 public class PaymentController {
 
-  private final PaymentService paymentService;
+  private final PaymentServiceImpl paymentService;
 
-  @GetMapping("/{order_code}")
-  public TossPayment getPaymentByOrderId(@PathVariable("order_code") final String orderCode) {
-    return paymentService.findPaymentByOrderId(orderCode);
+  @GetMapping("/{orderCode}")
+  public ResponseEntity<BaseResponse<TossPayment>> getPaymentByOrderId(
+      @PathVariable final String orderCode) {
+    TossPayment payment = this.paymentService.findPaymentByOrderId(orderCode);
+    return ResponseEntity.ok(BaseResponse.of(payment));
   }
 
-  @GetMapping("/{payment_key}")
-  @ResponseStatus(HttpStatus.OK)
-  public TossPayment getPaymentByPaymentKey(@PathVariable("payment_key") final String paymentKey) {
-    return paymentService.findPaymentByPaymentKey(paymentKey);
+  @GetMapping("/{paymentKey}")
+  public ResponseEntity<BaseResponse<TossPayment>> getPaymentByPaymentKey(
+      @PathVariable final String paymentKey) {
+    TossPayment payment = this.paymentService.findPaymentByPaymentKey(paymentKey);
+    return ResponseEntity.ok(BaseResponse.of(payment));
   }
 
   @PostMapping("/cancel")
-  @ResponseStatus(HttpStatus.OK)
-  public TossPayment cancelPayment(
+  public ResponseEntity<BaseResponse<TossPayment>> cancelPayment(
       final @RequestParam String paymentKey, final @RequestBody PaymentCancelForm form) {
-    return paymentService.cancelPayment(paymentKey, form);
+    TossPayment payment = this.paymentService.cancelPayment(paymentKey, form);
+    return ResponseEntity.ok(BaseResponse.of(payment));
   }
 
   @GetMapping("/card-promotion")
-  @ResponseStatus(HttpStatus.OK)
-  public CardPromotion getCardPromotion() {
-    return paymentService.getCardPromotionInfo();
+  public ResponseEntity<BaseResponse<CardPromotion>> getCardPromotion() {
+    CardPromotion cardPromotion = this.paymentService.getCardPromotionInfo();
+    return ResponseEntity.ok(BaseResponse.of(cardPromotion));
   }
 }
